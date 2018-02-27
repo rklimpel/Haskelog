@@ -5,12 +5,15 @@ import Type
 class Pretty a where 
     pretty :: a -> String
 
+
+data VarTerm = VarTerm Char Term
+
 instance Pretty Term where
 
     pretty (Var x)               = "Var " ++ (show x)
     pretty (Comb s [])           = s
     pretty (Comb "." terms)      = dot terms
-    pretty (Comb "append" terms) = append terms
+    pretty (Comb s terms)        = s ++ "(" ++ listToString(map pretty terms) ++ ")"
     pretty (Comb s [t])          = pretty t
     pretty (Comb s (t:ts))       = listToString (map pretty (t:ts))
 
@@ -20,10 +23,6 @@ listToString :: [String] -> String
 listToString [x]    = x
 listToString (x:xs) = x ++ "," ++ (listToString xs)
 
-
-append :: [Term] -> String 
-append t = "append(" ++ listToString(map pretty t) ++ ")"
-
 dot :: [Term] -> String
 dot [t] = pretty t
 dot (t:ts) = let a = (pretty t)
@@ -31,7 +30,6 @@ dot (t:ts) = let a = (pretty t)
              in if (isEmpty b) then "[" ++ a ++ "]"
                 else if (isList b) then  "[" ++ a ++ "," ++ (removeBrackets b) ++ "]"
                 else "[" ++ a ++ "," ++ b ++ "]"
-
 
 isEmpty :: String -> Bool 
 isEmpty s
