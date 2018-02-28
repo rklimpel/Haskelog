@@ -5,6 +5,9 @@ module Type
 -- Alias type for variables
 type VarIndex = Int
 
+--Commentar
+
+
 -- Data type for terms
 data Term = Var VarIndex | Comb String [Term]
   deriving Show
@@ -20,4 +23,3 @@ data Prog = Prog [Rule]
 -- Data type for goals
 data Goal = Goal [Term]
   deriving Show
-
