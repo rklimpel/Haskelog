@@ -9,9 +9,15 @@ type VarIndex = Int
 data Term = Var VarIndex | Comb String [Term]
   deriving Show
 
--- Data type for subsitutions
-data Subst = Qwer VarIndex | Asdf String [Term]
-    deriving Show
+-- Data type for varibale replacements in substitutions 
+--(Replace VarIndex -> Term)
+data Replace = Replace VarIndex Term
+  deriving Show
+
+-- Data type for subsitutions 
+-- (as List of single Replacements)
+data Subst = Subst [Replace]
+  deriving Show
 
 -- Data type for program rules
 data Rule = Term :- [Term]
