@@ -17,5 +17,5 @@ sample3 = (compose (single 1 (Var 2))(single 0 (Comb "f" [Var 1, Comb "true" []]
 -- Pretty Result: "{A -> f(C, true), B -> C}"
 
 sample4 :: Subst
-sample4 = single 0 (Comb "f" [Var 1, Comb "true" []])
+sample4 = Subst [Replace 0 (Comb "f" [Var 1, Comb "true" []]), Replace 1 (Var 25), Replace 2 (Var 10)]
 -- 

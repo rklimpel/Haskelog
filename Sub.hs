@@ -6,19 +6,27 @@ import Type
 empty :: Subst
 empty = Subst []
 
--- Erstellt eine Substitution die eine einzelne Variable auf einen Term abbildet
+-- Erstellt eine Substitution die eine einzelne Variable 
+-- auf einen Term abbildet
 single :: VarIndex -> Term -> Subst
 single var term = Subst [(Replace var term)]
 
 -- wendet Substitution auf einen Term an
 apply :: Subst -> Term -> Term
-apply (Subst [r]) (Comb c [])= (Comb c [])
-apply (Subst (r:rs)) (Comb c []) = (Comb c [])
-apply (Subst [r]) t = applySingle r t
-apply (Subst (r:rs)) t = apply (Subst rs) (applySingle r t)
 
-applySingle :: Replace -> Term -> Term
-applySingle (Replace i r) t = (Var 0)
+-- Subst leer
+apply (Subst []) t                            = t
+
+-- Term ist konstante
+apply _ (Comb c [])                           = (Comb c [])
+
+-- Term ist eine Variable
+-- apply (Subst [(Replace i t)]) (Var v)         = if v == i then t else (Var v)
+apply (Subst ((Replace i t):rs)) (Var v)      = if v == i then t else apply (Subst rs) (Var v)
+
+-- Term ist 'noch' komplizierter
+apply sub (Comb s terms)                      = (Comb s (map (apply sub) terms))
+
 
 -- komponiert zwei Substitutionen
 -- Remember: apply(compse s2 s1) t == apply s2 (apply s1 t)
