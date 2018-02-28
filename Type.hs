@@ -1,5 +1,5 @@
 module Type
-  ( VarIndex, Term(..), Rule(..), Prog(..), Goal(..), Subst(..)
+  ( VarIndex, Term(..), Rule(..), Prog(..), Goal(..), Subst(..), Replace(..)
   ) where
 
 -- Alias type for variables

@@ -5,8 +5,8 @@ import Type
 class Pretty a where 
     pretty :: a -> String
 
-    -- macht Substitutionen lesbar 
-instance Pretty Subst where
+-- macht Substitutionen lesbar 
+-- instance Pretty Subst where
 
 -- Macht Terme lesbar (gültige Prolog darstellung)
 instance Pretty Term where
