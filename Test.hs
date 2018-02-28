@@ -5,8 +5,8 @@ import Pretty
 import Sub
 import Unify
 
-sample :: Term
-sample = Comb "append" [ Var 0, Comb "." [ Var 1, Var 2 ], Comb "." [ Comb "1" [], Comb "." [ Comb "2" [], Comb "[]" [] ]]]
+sample1 :: Term
+sample1 = Comb "append" [ Var 0, Comb "." [ Var 1, Var 2 ], Comb "." [ Comb "1" [], Comb "." [ Comb "2" [], Comb "[]" [] ]]]
 -- Pretty Result: "append(A, [B|C], [1,2])""
 
 sample2 :: Term
@@ -19,3 +19,6 @@ sample3 = compose (single 1 (Var 2))(single 0 (Comb "f" [Var 1, Comb "true" []])
 
 sample4 :: Subst
 sample4 = Subst [Replace 0 (Comb "f" [Var 1, Comb "true" []]), Replace 1 (Var 25), Replace 2 (Var 10)]
+
+sample5 :: Term
+sample5 = Comb "append" [Var 0, Comb "." [Var 1, Var 3], Var 6]
