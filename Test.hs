@@ -5,8 +5,12 @@ import Pretty
 
 sample :: Term
 sample = Comb "append" [ Var 0, Comb "." [ Var 1, Var 2 ], Comb "." [ Comb "1" [], Comb "." [ Comb "2" [], Comb "[]" [] ]]]
--- "append(A, [B|C], [1,2])""
+-- Pretty Result: "append(A, [B|C], [1,2])""
 
 sample2 :: Term
 sample2 = Comb "." [Var 0,Var 1,Var 2, Var 3]
--- "[A,B]"
+-- Pretty Result: "[A,B]"
+
+--sample3 :: Subst
+--sample3 = (compose (single 1 (Var 2))(single 0 (Comb "f" [Var 1, Comb "true" []])))
+-- Pretty Result: "{A -> f(C, true), B -> C}"

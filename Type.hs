@@ -1,5 +1,5 @@
 module Type
-  ( VarIndex, Term(..), Rule(..), Prog(..), Goal(..)
+  ( VarIndex, Term(..), Rule(..), Prog(..), Goal(..), Subst(..)
   ) where
 
 -- Alias type for variables
@@ -8,6 +8,10 @@ type VarIndex = Int
 -- Data type for terms
 data Term = Var VarIndex | Comb String [Term]
   deriving Show
+
+-- Data type for subsitutions
+data Subst = Qwer VarIndex | Asdf String [Term]
+    deriving Show
 
 -- Data type for program rules
 data Rule = Term :- [Term]
