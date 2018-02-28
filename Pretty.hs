@@ -6,7 +6,11 @@ class Pretty a where
     pretty :: a -> String
 
 -- macht Substitutionen lesbar 
--- instance Pretty Subst where
+instance Pretty Subst where
+    pretty (Subst r) = "{" ++ (listToString (map pretReplace r)) ++ "}"
+
+pretReplace :: Replace -> String
+pretReplace (Replace i t) = (pretty (Var i)) ++ " -> " ++ (pretty t)
 
 -- Macht Terme lesbar (gültige Prolog darstellung)
 instance Pretty Term where
