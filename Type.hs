@@ -5,9 +5,6 @@ module Type
 -- Alias type for variables
 type VarIndex = Int
 
---Commentar
-
-
 -- Data type for terms
 data Term = Var VarIndex | Comb String [Term]
   deriving Show
