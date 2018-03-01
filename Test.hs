@@ -6,44 +6,57 @@ import Sub
 import Unify
 import Utils.TermUtils
 
-sample1 :: Term
-sample1 = Comb "append" [ Var 0, Comb "." [ Var 1, Var 2 ], Comb "." [ Comb "1" [], Comb "." [ Comb "2" [], Comb "[]" [] ]],Var 3]
--- Pretty Result: "append(A, [B|C], [1,2])""
 
-sample1sub ::Term
-sample1sub = Comb "." [ Comb "1" [], Comb "." [ Comb "2" [], Comb "[]" [] ]]
+-- TERMS
 
-sample2 :: Term
-sample2 = Comb "." [Var 0,Var 1]
--- Pretty Result: "[A,B]"
+-- "append(A, [B|C], [1,2])"
+term1 :: Term
+term1 = Comb "append" [ Var 0, Comb "." [ Var 1, Var 2 ], Comb "." [ Comb "1" [], Comb "." [ Comb "2" [], Comb "[]" [] ]],Var 3]
 
-sample3 :: Subst
-sample3 = compose (single 1 (Var 2))(single 0 (Comb "f" [Var 1, Comb "true" []]))
--- Pretty Result: "{A -> f(C, true), B -> C}"
+-- "[1,2]"
+term2 ::Term
+term2 = Comb "." [ Comb "1" [], Comb "." [ Comb "2" [], Comb "[]" [] ]]
 
-sample4 :: Subst
-sample4 = Subst [Replace 0 (Comb "f" [Var 1, Comb "true" []]), Replace 1 (Var 25), Replace 2 (Var 10)]
+-- "[A,B]"
+term3 :: Term
+term3 = Comb "." [Var 0,Var 1]
 
-sample5 :: Term
-sample5 = Comb "append" [Var 0, Comb "." [Var 1, Var 2], Comb "." [ Comb "1" [], Comb "." [ Comb "3" [], Comb "[]" [] ]]]
+-- "append(A,[B|C],[1,3])"
+term4 :: Term
+term4 = Comb "append" [Var 0, Comb "." [Var 1, Var 2], Comb "." [ Comb "1" [], Comb "." [ Comb "3" [], Comb "[]" [] ]]]
 
-sample6 :: Term
-sample6 = Comb "append" [Var 0, Comb "." [Var 1, Var 4], Comb "." [ Comb "1" [], Comb "." [ Comb "2" [], Comb "[]" [] ]],Var 4]
+-- "append(A,[B|E],[1,3])"
+term5 :: Term
+term5 = Comb "append" [Var 0, Comb "." [Var 1, Var 4], Comb "." [ Comb "1" [], Comb "." [ Comb "3" [], Comb "[]" [] ]],Var 4]
+
+
+-- SUBSTITUTIONS
+
+-- "{A -> f(C, true), B -> C}"
+sub1 :: Subst
+sub1 = compose (single 1 (Var 2))(single 0 (Comb "f" [Var 1, Comb "true" []]))
+
+-- "{A -> f(B,true),B -> Z,C -> K}"
+sub2 :: Subst
+sub2 = Subst [Replace 0 (Comb "f" [Var 1, Comb "true" []]), Replace 1 (Var 25), Replace 2 (Var 10)]
+
+
+-- EXERCISE 4
 
 -- SLD Test 1
 goalA = [Comb "mutter" [Comb "Olaf" [],Var 0]]
 ruleA1 = Comb "mutter" [Comb "Olaf" [],Comb "Mathilda" []] :- []
 ruleA2 = Comb "mutter" [Comb "hugo" [],Comb "Mathilda" []] :- []
-progA = [rulea1,rulea2]
+progA = [ruleA1,ruleA2]
 
 -- SLD Test 2
 goalB = [Comb "append" [Var 0,Var 1,Comb "." [Comb "1" [],Comb "." [Comb "2" [],Comb "[]" []]]]]
 ruleB1 = Comb "append" [Comb "[]" [],Var 0,Var 0] :- []
-ruleB2 = Comb "append" [Comb "." [Var 0,Var 1],Var 2,Comb "." [Var 0, Var 3]]
+ruleB2 = Comb "append" [Comb "." [Var 0,Var 1],Var 2,Comb "." [Var 0, Var 3]] :- []
 progB = [ruleB1,ruleB2]
 
 --SLD Test 3
-goalC = [Comb "vater" [Comb "Olaf" []],Var 0]]
+goalC = [Comb "vater" [Comb "Olaf" []],Var 0]
 ruleC1 = Comb "mutter" [Comb "Olaf" [],Comb "Matilda" []] :- []
 ruleC2 = Comb "ehemann" [Comb "Mathilda" [],Comb "Heiner" []] :- []
 ruleC3 = Comb "vater" [Var 0,Var 1] :- [Comb "mutter" [Var 0,Var 2],Comb "ehemann" [Var 2,Var 1]]
