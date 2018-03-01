@@ -10,7 +10,7 @@ ds :: Term -> Term -> Maybe (Term, Term)
 ds (Var i) t                                       = Just (Var i,t)
 ds t (Var i)                                       = Just (t, Var i)
 ds (Comb s1 t1s) (Comb s2 t2s)
-    | pretty (Comb s1 t1s) == pretty (Comb s2 t2s) = Nothing
+    | isTermEq (Comb s1 t1s) (Comb s2 t2s)         = Nothing
     | length t1s /= length t2s || s1 /= s2         = Just ((Comb s1 t1s),(Comb s2 t2s))
     | length t1s == length t2s && s1 == s2         = getDiffTermList t1s t2s
 
@@ -18,7 +18,7 @@ ds (Comb s1 t1s) (Comb s2 t2s)
 getDiffTermList :: [Term] -> [Term] -> Maybe (Term,Term)
 getDiffTermList [t1] [t2] = ds t1 t2
 getDiffTermList (t1:t1s) (t2:t2s)
-    | pretty t1 == pretty t2 = getDiffTermList t1s t2s
+    | isTermEq t1 t2         = getDiffTermList t1s t2s
     | otherwise              = ds t1 t2
 
 -- bestimmt den allgemeinsten Unifikator für∫ zwei Terme, 
@@ -28,4 +28,11 @@ unify t1 t2 = unifySub t1 t2 (Subst [])
 
 unifySub ::Term -> Term -> Subst -> Maybe Subst
 unifySub t1 t2 o
-    | pretty (apply o t1) == pretty (apply o t2) = Just o
+    | isTermEq (apply o t1) (apply o t2) = Just o
+    | otherwise                          = unifyHelper t1 t2 (ds (apply o t1) (apply o t2)) o
+
+unifyHelper :: Term -> Term -> Maybe (Term,Term) -> Subst -> Maybe Subst
+unifyHelper t1 t2 (Just ((Var x),ds2)) o 
+    | containsSubterm t2 t1 == False       = unifySub t1 t2 (compose (single x ds2) o)
+    | otherwise                            = Nothing
+unifyHelper _ _ (Just ((Comb s t),ds2)) _  = Nothing

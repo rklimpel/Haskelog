@@ -29,9 +29,6 @@ isTermListEq (t1:t1s) (t2:t2s)
     | isTermEq t1 t2 == True   = isTermListEq t1s t2s
     | otherwise                   = False
 
-
-
-
 -- check if Term1 contains Term2 (Term 2 is a subterm of Term1)
 containsSubterm :: Term -> Term -> Bool
 containsSubterm (Var x) (Var y)

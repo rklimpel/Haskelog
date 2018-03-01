@@ -7,8 +7,11 @@ import Unify
 import Utils.TermUtils
 
 sample1 :: Term
-sample1 = Comb "append" [ Var 0, Comb "." [ Var 1, Var 2 ], Comb "." [ Comb "1" [], Comb "." [ Comb "2" [], Comb "[]" [] ]]]
+sample1 = Comb "append" [ Var 0, Comb "." [ Var 1, Var 2 ], Comb "." [ Comb "1" [], Comb "." [ Comb "2" [], Comb "[]" [] ]],Var 3]
 -- Pretty Result: "append(A, [B|C], [1,2])""
+
+sample1sub ::Term
+sample1sub = Comb "." [ Comb "1" [], Comb "." [ Comb "2" [], Comb "[]" [] ]]
 
 sample2 :: Term
 sample2 = Comb "." [Var 0,Var 1]
@@ -25,4 +28,4 @@ sample5 :: Term
 sample5 = Comb "append" [Var 0, Comb "." [Var 1, Var 2], Comb "." [ Comb "1" [], Comb "." [ Comb "3" [], Comb "[]" [] ]]]
 
 sample6 :: Term
-sample6 = Comb "append" [Var 0, Comb "." [Var 1, Var 4], Comb "." [ Comb "1" [], Comb "." [ Comb "3" [], Comb "[]" [] ]]]
+sample6 = Comb "append" [Var 0, Comb "." [Var 1, Var 4], Comb "." [ Comb "1" [], Comb "." [ Comb "2" [], Comb "[]" [] ]],Var 4]
