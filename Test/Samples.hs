@@ -1,4 +1,4 @@
-module Test where
+module Test.Samples where
 
 import Type
 import Pretty
