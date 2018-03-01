@@ -16,22 +16,10 @@ ds (Comb s1 t1s) (Comb s2 t2s)
 
 -- gibt das erste nicht übereinstimmende Tupel zurück
 getDiffTermList :: [Term] -> [Term] -> Maybe (Term,Term)
-getDiffTermList [t1] [t2]
-    | pretty t1 == pretty t2 = Nothing
-    | otherwise              = Just (t1,t2)
+getDiffTermList [t1] [t2] = ds t1 t2
 getDiffTermList (t1:t1s) (t2:t2s)
     | pretty t1 == pretty t2 = getDiffTermList t1s t2s
-    | otherwise              = getDiffTerm t1 t2
-
--- quick info -> geht bei den Termen in die tiefe...
-getDiffTerm :: Term -> Term -> Maybe (Term,Term)
-getDiffTerm (Comb s1 [t1]) (Comb s2 [t2])
-    | s1 == s2    = getDiffTerm t1 t2
-    | otherwise   = Just ((Comb s1 [t1]),(Comb s2 [t2]))
-
-getDiffTerm (Comb s1 (t1:t1s)) (Comb s2 (t2:t2s))
-    | s1 == s2    = getDiffTermList (t1:t1s) (t2:t2s)
-    | otherwise   = Just ((Comb s1 (t1:t1s)),(Comb s2 (t2:t2s)))
+    | otherwise              = ds t1 t2
 
 -- bestimmt den allgemeinsten Unifikator für∫ zwei Terme, 
 -- sofern die beiden Terme unifizierbar sind
