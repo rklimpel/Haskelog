@@ -4,6 +4,7 @@ import Type
 import Pretty
 import Sub
 import Unify
+import Utils.TermUtils
 
 sample1 :: Term
 sample1 = Comb "append" [ Var 0, Comb "." [ Var 1, Var 2 ], Comb "." [ Comb "1" [], Comb "." [ Comb "2" [], Comb "[]" [] ]]]

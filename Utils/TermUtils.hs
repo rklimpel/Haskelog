@@ -8,6 +8,30 @@ isVar :: Term -> Bool
 isVar (Var i)    = True
 isVar (Comb s t) = False
 
+-- Gibt True zurück wenn zwei Terme genau gleich sein
+isTermEq :: Term -> Term -> Bool
+isTermEq (Var x) (Var y) 
+    | x == y                    = True
+    | otherwise                 = False
+isTermEq (Var x) (Comb s ts) = False
+isTermEq (Comb s ts) (Var x) = False
+isTermEq (Comb s1 t1s) (Comb s2 t2s)
+    | s1 == s2                  = isTermListEq t1s t2s
+    | otherwise                 = False
+
+-- Gibt True zurück wenn alle Terme einer Liste genau gleich sind
+isTermListEq :: [Term] -> [Term] -> Bool
+isTermListEq [] []             = True
+isTermListEq [t1] [t2]         = isTermEq t1 t2
+isTermListEq [t1] (t2:t2s)     = False
+isTermListEq (t1:t1s) [t2]     = False
+isTermListEq (t1:t1s) (t2:t2s)
+    | isTermEq t1 t2 == True   = isTermListEq t1s t2s
+    | otherwise                   = False
+
+
+
+
 -- check if Term1 contains Term2 (Term 2 is a subterm of Term1)
 containsSubterm :: Term -> Term -> Bool
 containsSubterm (Var x) (Var y)
