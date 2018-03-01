@@ -21,4 +21,4 @@ sample4 :: Subst
 sample4 = Subst [Replace 0 (Comb "f" [Var 1, Comb "true" []]), Replace 1 (Var 25), Replace 2 (Var 10)]
 
 sample5 :: Term
-sample5 = Comb "append" [Var 0, Comb "." [Var 1, Var 3], Var 6]
+sample5 = Comb "append" [Var 0, Comb "." [Var 1, Var 2], Comb "." [ Comb "1" [], Comb "." [ Comb "3" [], Comb "[]" [] ]]]

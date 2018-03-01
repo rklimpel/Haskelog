@@ -20,7 +20,9 @@ containsSubterm (Comb s []) t
 containsSubterm (Comb s [t1]) t2
     | pretty (Comb s [t1]) == pretty t2 = True
     | otherwise                         = containsSubterm t1 t2
-containsSubterm (Comb s (t1:t1s)) t2s   = containsSubtermL
+containsSubterm (Comb s (t1:t1s)) t2
+    | pretty (Comb s (t1:t1s)) == pretty t2 = True
+    | otherwise                             = containsSubtermL t1s t2
 
 -- check if a list of Terms contains a subterm
 containsSubtermL :: [Term] -> Term -> Bool

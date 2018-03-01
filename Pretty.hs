@@ -28,10 +28,3 @@ dot (Var x) (Var y)                = "[" ++ (charToString (alphabet !! x)) ++ "|
 dot (Comb c []) (Comb "[]" [])     = "[" ++ c ++ "]"
 dot (Comb c1 []) (Comb c2 [])      = "[" ++ c1 ++ "," ++ c2 ++ "]"
 dot (Comb c []) (Comb "." (t1:t2)) = "[" ++ c ++ "," ++ (removeBrackets (dot t1 (head t2))) ++ "]"
-
--- hält das Gesamte Alphabet von A-Z als liste von chars
-alphabet :: String
-alphabet = ['A'..'Z']
-
-
-
