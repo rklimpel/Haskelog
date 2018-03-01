@@ -33,3 +33,6 @@ isList (x:xs)
     -- hält das Gesamte Alphabet von A-Z als liste von chars
 alphabet :: String
 alphabet = ['A'..'Z']
+
+seperator :: String
+seperator = "\n-----\n"

@@ -33,6 +33,6 @@ unifySub t1 t2 o
 
 unifyHelper :: Term -> Term -> Maybe (Term,Term) -> Subst -> Maybe Subst
 unifyHelper t1 t2 (Just ((Var x),ds2)) o 
-    | containsSubterm t2 t1 == False       = unifySub t1 t2 (compose (single x ds2) o)
+    | termHasSubterm t2 t1 == False       = unifySub t1 t2 (compose (single x ds2) o)
     | otherwise                            = Nothing
 unifyHelper _ _ (Just ((Comb s t),ds2)) _  = Nothing
