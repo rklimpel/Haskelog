@@ -29,3 +29,20 @@ sample5 = Comb "append" [Var 0, Comb "." [Var 1, Var 2], Comb "." [ Comb "1" [],
 
 sample6 :: Term
 sample6 = Comb "append" [Var 0, Comb "." [Var 1, Var 4], Comb "." [ Comb "1" [], Comb "." [ Comb "2" [], Comb "[]" [] ]],Var 4]
+
+-- SLD Test 1
+goalA = [Comb "mutter" [Comb "Olaf" [],Var 0]]
+ruleA1 = Comb "mutter" [Comb "Olaf" [],Comb "Mathilda" []] :- []
+ruleA2 = Comb "mutter" [Comb "hugo" [],Comb "Mathilda" []] :- []
+progA = [rulea1,rulea2]
+
+-- SLD Test 2
+goalB = [Comb "append" [Var 0,Var 1,Comb "." [Comb "1" [],Comb "." [Comb "2" [],Comb "[]" []]]]]
+ruleB1 = Comb "append" [Comb "[]" [],Var 0,Var 0] :- []
+ruleB2 = Comb "append" [Comb "." [Var 0,Var 1],Var 2,Comb "." [Var 0, Var 3]]
+progB = [ruleB1,ruleB2]
+
+--SLD Test 3
+goalC = [Comb "vater" [Comb "Olaf" []],Var 0]]
+ruleC1 = Comb "mutter" [Comb "Olaf" [],Comb "Matilda" []] :- []
+ruleC2 = Comb "ehemann" [Comb "Mathilda"] 

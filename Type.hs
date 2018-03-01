@@ -1,5 +1,5 @@
 module Type
-  ( VarIndex, Term(..), Rule(..), Prog(..), Goal(..), Subst(..), Replace(..)
+  ( VarIndex, Term(..), Rule(..), Prog(..), Goal(..), Subst(..), Replace(..), SLDTree(..)
   ) where
 
 -- Alias type for variables
@@ -17,6 +17,10 @@ data Replace = Replace VarIndex Term
 -- Data type for subsitutions 
 -- (as List of single Replacements)
 data Subst = Subst [Replace]
+  deriving Show
+
+-- Data type for SLDTrees 
+data SLDTree = SLDTree Goal [(Subst,SLDTree)]
   deriving Show
 
 -- Data type for program rules
