@@ -45,4 +45,6 @@ progB = [ruleB1,ruleB2]
 --SLD Test 3
 goalC = [Comb "vater" [Comb "Olaf" []],Var 0]]
 ruleC1 = Comb "mutter" [Comb "Olaf" [],Comb "Matilda" []] :- []
-ruleC2 = Comb "ehemann" [Comb "Mathilda"] 
+ruleC2 = Comb "ehemann" [Comb "Mathilda" [],Comb "Heiner" []] :- []
+ruleC3 = Comb "vater" [Var 0,Var 1] :- [Comb "mutter" [Var 0,Var 2],Comb "ehemann" [Var 2,Var 1]]
+progC = [ruleC1,ruleC2,ruleC3]
