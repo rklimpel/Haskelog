@@ -65,19 +65,19 @@ sub4 = Subst [(Replace 1 (Comb "p" [Var 0, Var 2])), ( Replace 23 (Var 25))]
 -- EXERCISE 4
 
 -- SLD Test 1
-goalA = [Comb "mutter" [Comb "Olaf" [],Var 0]]
+goalA = Goal [Comb "mutter" [Comb "Olaf" [],Var 0]]
 ruleA1 = Comb "mutter" [Comb "Olaf" [],Comb "Mathilda" []] :- []
 ruleA2 = Comb "mutter" [Comb "hugo" [],Comb "Mathilda" []] :- []
 progA = Prog [ruleA1,ruleA2]
 
 -- SLD Test 2
-goalB = [Comb "append" [Var 0,Var 1,Comb "." [Comb "1" [],Comb "." [Comb "2" [],Comb "[]" []]]]]
+goalB = Goal [Comb "append" [Var 0,Var 1,Comb "." [Comb "1" [],Comb "." [Comb "2" [],Comb "[]" []]]]]
 ruleB1 = Comb "append" [Comb "[]" [],Var 0,Var 0] :- []
 ruleB2 = (Comb "append" [Comb "." [Var 0,Var 1],Var 2,Comb "." [Var 0, Var 3]]) :- []
 progB = Prog [ruleB1,ruleB2]
 
 --SLD Test 3
-goalC = [Comb "vater" [Comb "Olaf" []],Var 0]
+goalC = Goal [Comb "vater" [Comb "Olaf" []],Var 0]
 ruleC1 = Comb "mutter" [Comb "Olaf" [],Comb "Matilda" []] :- []
 ruleC2 = Comb "ehemann" [Comb "Mathilda" [],Comb "Heiner" []] :- []
 ruleC3 = Comb "vater" [Var 0,Var 1] :- [Comb "mutter" [Var 0,Var 2],Comb "ehemann" [Var 2,Var 1]]

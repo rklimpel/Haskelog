@@ -10,10 +10,11 @@ class Pretty a where
 instance Pretty Subst where
     pretty (Subst r) = "{" ++ (listToString (map pretReplace r)) ++ "}"
 
+-- kümmert sich um einzelne Replace Statements
 pretReplace :: Replace -> String
 pretReplace (Replace i t) = (pretty (Var i)) ++ " -> " ++ (pretty t)
 
--- Macht Terme lesbar (gültige Prolog darstellung)
+-- macht Terme lesbar (gültige Prolog darstellung)
 instance Pretty Term where
     pretty (Var x)               = charToString (alphabet !! x)
     pretty (Comb s [])           = s
