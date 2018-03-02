@@ -3,7 +3,7 @@ module Test.Test where
 import Test.Samples
 import Test.TestViews
 import Utils.StringUtils
-
+import SLDTree
 
 
 runAllTests :: IO()

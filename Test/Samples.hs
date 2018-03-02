@@ -5,6 +5,7 @@ import Pretty
 import Sub
 import Unify
 import Utils.TermUtils
+import SLDTree
 
 
 -- VARIABLES
@@ -72,7 +73,7 @@ progA = [ruleA1,ruleA2]
 -- SLD Test 2
 goalB = [Comb "append" [Var 0,Var 1,Comb "." [Comb "1" [],Comb "." [Comb "2" [],Comb "[]" []]]]]
 ruleB1 = Comb "append" [Comb "[]" [],Var 0,Var 0] :- []
-ruleB2 = Comb "append" [Comb "." [Var 0,Var 1],Var 2,Comb "." [Var 0, Var 3]] :- []
+ruleB2 = (Comb "append" [Comb "." [Var 0,Var 1],Var 2,Comb "." [Var 0, Var 3]]) :- []
 progB = [ruleB1,ruleB2]
 
 --SLD Test 3
