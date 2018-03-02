@@ -2,11 +2,15 @@ module SLDTree where
 
 import Type
 import Utils.TermUtils
+import Sub
 
 -- konstruiert den SLD-Baum zu einem Programm und einer Anfrage
 -- Selektionsstrategie FIRST (es wird immer das linkeste Literal zum Beweisen ausgewählt)
 sld :: Prog -> Goal -> SLDTree
-sld p g = SLDTree (Goal []) []
+sld p (Goal ts) = sldHelper (incVarsProg (maxVarInTermlist ts) p) (Goal ts) empty
+    where
+        sldHelper :: Prog -> Goal -> Subst -> SLDTree
+        sldHelper p (Goal []) s = SLDTree (Goal []) []
 
 
 -- Gibt die größte Variable in einer Regel zurück

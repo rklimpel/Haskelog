@@ -68,17 +68,17 @@ sub4 = Subst [(Replace 1 (Comb "p" [Var 0, Var 2])), ( Replace 23 (Var 25))]
 goalA = [Comb "mutter" [Comb "Olaf" [],Var 0]]
 ruleA1 = Comb "mutter" [Comb "Olaf" [],Comb "Mathilda" []] :- []
 ruleA2 = Comb "mutter" [Comb "hugo" [],Comb "Mathilda" []] :- []
-progA = [ruleA1,ruleA2]
+progA = Prog [ruleA1,ruleA2]
 
 -- SLD Test 2
 goalB = [Comb "append" [Var 0,Var 1,Comb "." [Comb "1" [],Comb "." [Comb "2" [],Comb "[]" []]]]]
 ruleB1 = Comb "append" [Comb "[]" [],Var 0,Var 0] :- []
 ruleB2 = (Comb "append" [Comb "." [Var 0,Var 1],Var 2,Comb "." [Var 0, Var 3]]) :- []
-progB = [ruleB1,ruleB2]
+progB = Prog [ruleB1,ruleB2]
 
 --SLD Test 3
 goalC = [Comb "vater" [Comb "Olaf" []],Var 0]
 ruleC1 = Comb "mutter" [Comb "Olaf" [],Comb "Matilda" []] :- []
 ruleC2 = Comb "ehemann" [Comb "Mathilda" [],Comb "Heiner" []] :- []
 ruleC3 = Comb "vater" [Var 0,Var 1] :- [Comb "mutter" [Var 0,Var 2],Comb "ehemann" [Var 2,Var 1]]
-progC = [ruleC1,ruleC2,ruleC3]
+progC = Prog [ruleC1,ruleC2,ruleC3]
