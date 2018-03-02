@@ -100,6 +100,7 @@ unifyTest = do
   showUnifyTest term1 term4
   showUnifyTest term1 term5
   showUnifyTest term8 term9
+  showUnifyTest term9 term8
 
 
 

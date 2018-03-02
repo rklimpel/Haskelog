@@ -26,8 +26,8 @@ sld p (Goal ts) = sldHelper (incVarsProg ((maxVarInTermlist ts)+1) p) (Goal ts) 
             -- wenn Unify eine Substitutuion gefunden hat dann steppe tiefer in den Boum rein
             -- Rückgabe: su : die von unify gefundene Unifizierung von dem head von goal und der Regel
             Just su -> let compSub    = compose s su
-                           progOffset = incVarsProg ((subGoalMaxVarIndex su (Goal (g:gs)))+1) p
-                           newGoal    = Goal (map (apply su) (rt ++ gs))
+                           progOffset = incVarsProg ((subGoalMaxVarIndex su (Goal (g:gs)))+1) p     -- ? hmmm
+                           newGoal    = Goal (map (apply su) (rt ++ gs))                            -- ? hmmm
                            newTree    = sldHelper progOffset newGoal compSub
                         in Just (su,newTree)
             -- wenn Unify Nothing zurückgibt ist bricht der SLDTree an dieser Stelle ab

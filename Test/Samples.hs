@@ -2,10 +2,8 @@ module Test.Samples where
 
 import Type
 import Pretty
-import Sub
-import Unify
 import Utils.TermUtils
-import SLDTree
+import Sub
 
 
 -- VARIABLES
@@ -50,7 +48,7 @@ term8 = (Comb "vater" [Comb "Olaf" [],Var 0])
 
 -- "vater(A,B)"
 term9 :: Term
-term9 = (Comb "vater" [Var 0,Var 1])
+term9 = (Comb "vater" [Var 5,Var 6])
 
 
 -- SUBSTITUTIONS

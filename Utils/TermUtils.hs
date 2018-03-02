@@ -8,6 +8,13 @@ isVar :: Term -> Bool
 isVar (Var i)    = True
 isVar (Comb s t) = False
 
+-- True wenn die eine Variable mit x im Term enthalten ist
+checkVarInTerm :: Int -> Term -> Bool
+checkVarInTerm x (Var y)
+    | x == y    = True
+    | otherwise = False
+checkVarInTerm x (Comb _ ts) = elem True (map (checkVarInTerm x) ts)
+
 -- Gibt True zurück wenn zwei Terme genau gleich sein
 isTermEq :: Term -> Term -> Bool
 isTermEq (Var x) (Var y) 
@@ -56,6 +63,7 @@ termHasVar (Comb _ []) = False
 termHasVar (Comb s t)  = termListHasVar t
 
 termListHasVar :: [Term] -> Bool
+termListHasVar []  = False
 termListHasVar [t] = termHasVar t
 termListHasVar (t:ts)
     | termHasVar t = True
