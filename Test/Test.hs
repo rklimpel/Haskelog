@@ -40,7 +40,7 @@ prettyTest = do
   showTermTest term9
   showTermTest term10
   showTermTest term105
-  showTermTest term11
+  -- showTermTest term11
 
   putStrLn seperator
 
@@ -104,12 +104,10 @@ unifyTest = do
   showUnifyTest term2 term3
   showUnifyTest term1 term4
   showUnifyTest term1 term5
-<<<<<<< HEAD
-=======
-  showUnifyTest term8 term9
-  showUnifyTest term9 term8
+
+  showUnifyTest term12 term13
+  showUnifyTest term13 term12
 
 
 
   
->>>>>>> 0831784caaedef6c01245172fbecdd2fc13ac00b

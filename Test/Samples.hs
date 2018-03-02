@@ -42,7 +42,6 @@ term6 = (Comb "f" [(Comb "p" [Var 0, Var 1]), Var 2])
 term7 :: Term
 term7 = (Comb "p" [(Comb "p" [Var 0, Var 1]), (Comb "." [Var 2, Var 3])])
 
-<<<<<<< HEAD
 term8 :: Term
 term8 = Comb "append"[Comb "." [ Comb "1" [], Comb "." [ Comb "2" [], Comb "." [Comb "3" [], Comb "[]" [] ]]]]
 --append([1,2])
@@ -66,15 +65,14 @@ term11 :: Term
 term11 =  Comb "append"[Comb "." [Var 0 , Comb "." [Comb "2" [],Comb "." [Comb "3" [],Comb "." [Var 1, Comb "." [Comb "4" [], Comb "[]" [] ] ] ] ] ],
                         Comb "[]" [],
                         Comb "." [Comb "." [Comb "1" [], Comb "[]" []] , Comb "2" [], Comb "3" [], Comb "." [Comb "4" [], Comb "[]" []], Comb "4" [] , Comb "[]" []] ]
-=======
+
 -- "vater(Olaf,A)"
-term8 :: Term
-term8 = (Comb "vater" [Comb "Olaf" [],Var 0])
+term12 :: Term
+term12 = (Comb "vater" [Comb "Olaf" [],Var 0])
 
 -- "vater(A,B)"
-term9 :: Term
-term9 = (Comb "vater" [Var 5,Var 6])
->>>>>>> 0831784caaedef6c01245172fbecdd2fc13ac00b
+term13 :: Term
+term13 = (Comb "vater" [Var 5,Var 6])
 
 
 -- SUBSTITUTIONS
@@ -113,8 +111,4 @@ goalC = Goal [Comb "vater" [Comb "Olaf" [],Var 0]]
 ruleC1 = Comb "mutter" [Comb "Olaf" [],Comb "Lara" []] :- []
 ruleC2 = Comb "ehemann" [Comb "Lara" [],Comb "Heiner" []] :- []
 ruleC3 = Comb "vater" [Var 0,Var 1] :- [Comb "mutter" [Var 0,Var 2],Comb "ehemann" [Var 2,Var 1]]
-<<<<<<< HEAD
-progC = [ruleC1,ruleC2,ruleC3]
-=======
 progC = Prog [ruleC1,ruleC2,ruleC3]
->>>>>>> 0831784caaedef6c01245172fbecdd2fc13ac00b

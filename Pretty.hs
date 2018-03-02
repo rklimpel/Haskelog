@@ -2,6 +2,7 @@ module Pretty where
 
 import Type
 import Utils.StringUtils
+import Data.List
 
 class Pretty a where
     pretty :: a -> String
@@ -29,24 +30,21 @@ dot (Var x) (Var y)                = "[" ++ (charToString (alphabet !! x)) ++ "|
 
 
 -- dot (Var x) (Comb c2 [])       ="[" ++  (charToString (alphabet !! x)) ++ "," ++ c2 ++ "]"
-
 --sonderfall hier kann man die brankets nicht entfernen das stimmt sonst nicht logisch
 --kann aber defininitiv besser gemacht werden siehe term9
-
 --was gemacht werden soll das
 dot (Var x) (Comb "." [Comb c [], Comb "[]" []] )         = "[" ++  (charToString (alphabet !! x)) ++ ","  ++ c ++ "]"
-
 dot (Var x) (Comb "." (t1:t2))     = "[" ++  (charToString (alphabet !! x)) ++ "|" ++ (dot t1 (head t2)) ++ "]"
-
 dot (Comb c []) (Comb "[]" [])     = "[" ++ c ++ "]"
-
-<<<<<<< HEAD
 --den Fall gibt es gar nicht
 -- dot (Comb c1 []) (Comb c2 [])      = "[" ++ c1 ++ "," ++ c2 ++ "]"
 dot (Comb c []) (Comb "." (t1:t2)) = "[" ++ c ++ "," ++ (removeBrackets (dot t1 (head t2))) ++ "]"
-=======
+
+
+
 instance Pretty Rule where
-    pretty r = (show r)
+    pretty (rh :- []) = pretty rh ++ "."
+    pretty (rh :- rt) = pretty rh ++ " :- " ++ (concat (intersperse "," (map pretty rt))) ++ "."
 
 instance Pretty Goal where
     pretty g = (show g)
@@ -56,4 +54,3 @@ instance Pretty Prog where
 
 instance Pretty SLDTree where
     pretty sld = (show sld)
->>>>>>> 0831784caaedef6c01245172fbecdd2fc13ac00b

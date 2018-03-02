@@ -31,8 +31,7 @@ compose :: Subst -> Subst -> Subst
 compose s1 (Subst [])           = s1
 compose (Subst []) s2           = s2
 -- Wende Subst1 auf Terme von Subst2 an
-compose (Subst r1s) (Subst r2s) = 
-    Subst ((buildReplace (map getIndex r2s) (map (apply (Subst r1s)) (map getTerm r2s))) ++ r1s)
+compose (Subst r1s) (Subst r2s) = Subst ((buildReplace (map getIndex r2s) (map (apply (Subst r1s)) (map getTerm r2s))) ++ r1s)
 
 
 -- get VarIndex from Replacement
