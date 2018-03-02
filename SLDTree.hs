@@ -10,7 +10,7 @@ import Unify
 -- konstruiert den SLD-Baum zu einem Programm und einer Anfrage
 -- Selektionsstrategie FIRST (es wird immer das linkeste Literal zum Beweisen ausgewählt)
 sld :: Prog -> Goal -> SLDTree
-sld p (Goal ts) = sldHelper (incVarsProg (maxVarInTermlist ts) p) (Goal ts) Sub.empty
+sld p (Goal ts) = sldHelper (incVarsProg ((maxVarInTermlist ts)+1) p) (Goal ts) Sub.empty
     where
         sldHelper :: Prog -> Goal -> Subst -> SLDTree
         -- Goal ist Empty -> gibt SLD Tree ohne "Blätter" zurück
@@ -21,11 +21,12 @@ sld p (Goal ts) = sldHelper (incVarsProg (maxVarInTermlist ts) p) (Goal ts) Sub.
 
         -- guckt nach ob 
         sldHelper' :: Prog -> Goal -> Subst -> Rule -> Maybe (Subst, SLDTree)
-        sldHelper' p (Goal (g:gs)) s (rh :- rt) = case (unify g rh) of
+        sldHelper' p (Goal (g:gs)) s (rh :- rt) = 
+            case (unify g rh) of
             -- wenn Unify eine Substitutuion gefunden hat dann steppe tiefer in den Boum rein
             -- Rückgabe: su : die von unify gefundene Unifizierung von dem head von goal und der Regel
             Just su -> let compSub    = compose s su
-                           progOffset = incVarsProg (subGoalMaxVarIndex su (Goal (g:gs))) p
+                           progOffset = incVarsProg ((subGoalMaxVarIndex su (Goal (g:gs)))+1) p
                            newGoal    = Goal (map (apply su) (rt ++ gs))
                            newTree    = sldHelper progOffset newGoal compSub
                         in Just (su,newTree)

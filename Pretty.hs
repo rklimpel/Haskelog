@@ -30,3 +30,14 @@ dot (Comb c []) (Comb "[]" [])     = "[" ++ c ++ "]"
 dot (Comb c1 []) (Comb c2 [])      = "[" ++ c1 ++ "," ++ c2 ++ "]"
 dot (Comb c []) (Comb "." (t1:t2)) = "[" ++ c ++ "," ++ (removeBrackets (dot t1 (head t2))) ++ "]"
 
+instance Pretty Rule where
+    pretty r = (show r)
+
+instance Pretty Goal where
+    pretty g = (show g)
+
+instance Pretty Prog where
+    pretty p = (show p)
+
+instance Pretty SLDTree where
+    pretty sld = (show sld)

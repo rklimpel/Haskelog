@@ -44,6 +44,14 @@ term6 = (Comb "f" [(Comb "p" [Var 0, Var 1]), Var 2])
 term7 :: Term
 term7 = (Comb "p" [(Comb "p" [Var 0, Var 1]), (Comb "." [Var 2, Var 3])])
 
+-- "vater(Olaf,A)"
+term8 :: Term
+term8 = (Comb "vater" [Comb "Olaf" [],Var 0])
+
+-- "vater(A,B)"
+term9 :: Term
+term9 = (Comb "vater" [Var 0,Var 1])
+
 
 -- SUBSTITUTIONS
 
@@ -77,8 +85,8 @@ ruleB2 = (Comb "append" [Comb "." [Var 0,Var 1],Var 2,Comb "." [Var 0, Var 3]]) 
 progB = Prog [ruleB1,ruleB2]
 
 --SLD Test 3
-goalC = Goal [Comb "vater" [Comb "Olaf" []],Var 0]
-ruleC1 = Comb "mutter" [Comb "Olaf" [],Comb "Matilda" []] :- []
-ruleC2 = Comb "ehemann" [Comb "Mathilda" [],Comb "Heiner" []] :- []
+goalC = Goal [Comb "vater" [Comb "Olaf" [],Var 0]]
+ruleC1 = Comb "mutter" [Comb "Olaf" [],Comb "Lara" []] :- []
+ruleC2 = Comb "ehemann" [Comb "Lara" [],Comb "Heiner" []] :- []
 ruleC3 = Comb "vater" [Var 0,Var 1] :- [Comb "mutter" [Var 0,Var 2],Comb "ehemann" [Var 2,Var 1]]
 progC = Prog [ruleC1,ruleC2,ruleC3]
