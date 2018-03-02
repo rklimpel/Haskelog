@@ -7,6 +7,14 @@ import Unify
 import Utils.TermUtils
 
 
+-- VARIABLES
+
+var1 :: Term
+var1 = (Var 1)
+
+var2 :: Term
+var2 = (Var 24)
+
 -- TERMS
 
 -- "append(A, [B|C], [1,2])"
@@ -23,11 +31,17 @@ term3 = Comb "." [Var 0,Var 1]
 
 -- "append(A,[B|C],[1,3])"
 term4 :: Term
-term4 = Comb "append" [Var 0, Comb "." [Var 1, Var 2], Comb "." [ Comb "1" [], Comb "." [ Comb "3" [], Comb "[]" [] ]]]
+term4 = Comb "append" [Var 0, Comb "." [Var 1, Var 2], Comb "." [ Comb "1" [], Comb "." [ Comb "2" [], Comb "[]" [] ]],Var 17]
 
 -- "append(A,[B|E],[1,3])"
 term5 :: Term
-term5 = Comb "append" [Var 0, Comb "." [Var 1, Var 4], Comb "." [ Comb "1" [], Comb "." [ Comb "3" [], Comb "[]" [] ]],Var 4]
+term5 = Comb "append" [Var 0, Comb "." [Var 1, Var 4], Comb "." [ Comb "1" [], Comb "." [ Comb "2" [], Comb "[]" [] ]],Var 4]
+
+term6 :: Term
+term6 = (Comb "f" [(Comb "p" [Var 0, Var 1]), Var 2])
+
+term7 :: Term
+term7 = (Comb "p" [(Comb "p" [Var 0, Var 1]), (Comb "." [Var 2, Var 3])])
 
 
 -- SUBSTITUTIONS
@@ -39,6 +53,12 @@ sub1 = compose (single 1 (Var 2))(single 0 (Comb "f" [Var 1, Comb "true" []]))
 -- "{A -> f(B,true),B -> Z,C -> K}"
 sub2 :: Subst
 sub2 = Subst [Replace 0 (Comb "f" [Var 1, Comb "true" []]), Replace 1 (Var 25), Replace 2 (Var 10)]
+
+sub3 :: Subst
+sub3 = Subst [(Replace 1 (Comb "p" [Var 0, Var 2]))]
+
+sub4 :: Subst
+sub4 = Subst [(Replace 1 (Comb "p" [Var 0, Var 2])), ( Replace 23 (Var 25))]
 
 
 -- EXERCISE 4
