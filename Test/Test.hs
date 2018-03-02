@@ -23,23 +23,23 @@ prettyTest = do
   -- pretty Test Variable
   putStr "\n::Variables\n"
 
-  showVarTest var1
-  showVarTest var2
+  showPrettyTest var1
+  showPrettyTest var2
 
   putStrLn seperator
 
   -- pretty Test Term
   putStr "\n::Terms\n"
 
-  showTermTest term1
-  showTermTest term2
-  showTermTest term3
-  showTermTest term6
-  showTermTest term7
-  showTermTest term8
-  showTermTest term9
-  showTermTest term10
-  showTermTest term105
+  showPrettyTest term1
+  showPrettyTest term2
+  showPrettyTest term3
+  showPrettyTest term6
+  showPrettyTest term7
+  showPrettyTest term8
+  showPrettyTest term9
+  showPrettyTest term10
+  showPrettyTest term105
   -- showTermTest term11
 
   putStrLn seperator
@@ -47,21 +47,39 @@ prettyTest = do
    -- pretty Test Subst
   putStr "\n::Substitutions\n"
 
-  showSubstTest sub1
-  showSubstTest sub3
-  showSubstTest sub4
+  showPrettyTest sub1
+  showPrettyTest sub3
+  showPrettyTest sub4
 
   putStrLn seperator
 
   -- pretty Test Rule
-  -- ...
+  putStr "\n::Rules\n"
 
-  -- pretty Test Program
-  -- ...
+  showPrettyTest ruleA1
+  showPrettyTest ruleB2
+  showPrettyTest ruleC2
+  showPrettyTest ruleC3
+
+  putStrLn seperator
 
   -- pretty Test Goal
-  -- ...
+  putStr "\n::Goals\n"
 
+  showPrettyTest goalA
+  showPrettyTest goalB
+  showPrettyTest goalC
+
+  putStrLn seperator
+
+   -- pretty Test Program
+  putStr "\n::Progs"
+
+  showPrettyTest progA
+  showPrettyTest progB
+  showPrettyTest progC
+
+  putStrLn seperator
 
 
 substTest :: IO()

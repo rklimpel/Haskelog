@@ -8,20 +8,10 @@ import SLDTree
 
 -- Test Show Helper:
 
-showVarTest :: Term -> IO()
-showVarTest var = do
-  putStr ("\npretty (" ++ (show var) ++ ") \n--> ")
-  putStrLn (pretty var)
-
-showTermTest :: Term -> IO()
-showTermTest term = do
-  putStr ("\npretty (" ++ (show term) ++ ") \n--> ")
-  putStrLn (pretty term)
-
-showSubstTest :: Subst -> IO()
-showSubstTest subst = do
-  putStr ("\npretty (" ++ (show subst) ++ ") \n--> ")
-  putStrLn (pretty subst)
+showPrettyTest :: Show a => Pretty a => a -> IO()
+showPrettyTest a = do
+  putStr ("\npretty (" ++ (show a) ++ ") \n--> ")
+  putStrLn (pretty a)
 
 showApplySubstTest :: Subst -> Term -> IO()
 showApplySubstTest s t = do

@@ -9,7 +9,7 @@ class Pretty a where
 
 -- macht Substitutionen lesbar
 instance Pretty Subst where
-    pretty (Subst r) = "{" ++ (listToString (map pretReplace r)) ++ "}"
+    pretty (Subst r) = "sigma = {" ++ (listToString (map pretReplace r)) ++ "}"
 
 -- kümmert sich um einzelne Replace Statements
 pretReplace :: Replace -> String
@@ -42,15 +42,16 @@ dot (Comb c []) (Comb "." (t1:t2)) = "[" ++ c ++ "," ++ (removeBrackets (dot t1 
 
 
 
+-- macht Rules lesbar
 instance Pretty Rule where
     pretty (rh :- []) = pretty rh ++ "."
     pretty (rh :- rt) = pretty rh ++ " :- " ++ (concat (intersperse "," (map pretty rt))) ++ "."
 
 instance Pretty Goal where
-    pretty g = (show g)
+    pretty (Goal ts) = "?- " ++ (concat (intersperse ", " (map pretty ts))) ++ "."
 
 instance Pretty Prog where
-    pretty p = (show p)
+    pretty (Prog rs) = concat (intersperse "\n\n" (map pretty rs))
 
 instance Pretty SLDTree where
-    pretty sld = (show sld)
+    pretty (SLDTree (Goal ts) []) = "ASDF"

@@ -35,4 +35,7 @@ alphabet :: String
 alphabet = ['A'..'Z']
 
 seperator :: String
-seperator = "\n-----\n"
+seperator = "\n" ++ (take 40 endlessMinus) ++ "\n"
+
+endlessMinus :: String
+endlessMinus = '-':endlessMinus
