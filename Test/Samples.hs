@@ -2,10 +2,8 @@ module Test.Samples where
 
 import Type
 import Pretty
-import Sub
-import Unify
 import Utils.TermUtils
-import SLDTree
+import Sub
 
 
 -- VARIABLES
@@ -44,6 +42,7 @@ term6 = (Comb "f" [(Comb "p" [Var 0, Var 1]), Var 2])
 term7 :: Term
 term7 = (Comb "p" [(Comb "p" [Var 0, Var 1]), (Comb "." [Var 2, Var 3])])
 
+<<<<<<< HEAD
 term8 :: Term
 term8 = Comb "append"[Comb "." [ Comb "1" [], Comb "." [ Comb "2" [], Comb "." [Comb "3" [], Comb "[]" [] ]]]]
 --append([1,2])
@@ -67,6 +66,15 @@ term11 :: Term
 term11 =  Comb "append"[Comb "." [Var 0 , Comb "." [Comb "2" [],Comb "." [Comb "3" [],Comb "." [Var 1, Comb "." [Comb "4" [], Comb "[]" [] ] ] ] ] ],
                         Comb "[]" [],
                         Comb "." [Comb "." [Comb "1" [], Comb "[]" []] , Comb "2" [], Comb "3" [], Comb "." [Comb "4" [], Comb "[]" []], Comb "4" [] , Comb "[]" []] ]
+=======
+-- "vater(Olaf,A)"
+term8 :: Term
+term8 = (Comb "vater" [Comb "Olaf" [],Var 0])
+
+-- "vater(A,B)"
+term9 :: Term
+term9 = (Comb "vater" [Var 5,Var 6])
+>>>>>>> 0831784caaedef6c01245172fbecdd2fc13ac00b
 
 
 -- SUBSTITUTIONS
@@ -89,20 +97,24 @@ sub4 = Subst [(Replace 1 (Comb "p" [Var 0, Var 2])), ( Replace 23 (Var 25))]
 -- EXERCISE 4
 
 -- SLD Test 1
-goalA = [Comb "mutter" [Comb "Olaf" [],Var 0]]
+goalA = Goal [Comb "mutter" [Comb "Olaf" [],Var 0]]
 ruleA1 = Comb "mutter" [Comb "Olaf" [],Comb "Mathilda" []] :- []
 ruleA2 = Comb "mutter" [Comb "hugo" [],Comb "Mathilda" []] :- []
-progA = [ruleA1,ruleA2]
+progA = Prog [ruleA1,ruleA2]
 
 -- SLD Test 2
-goalB = [Comb "append" [Var 0,Var 1,Comb "." [Comb "1" [],Comb "." [Comb "2" [],Comb "[]" []]]]]
+goalB = Goal [Comb "append" [Var 0,Var 1,Comb "." [Comb "1" [],Comb "." [Comb "2" [],Comb "[]" []]]]]
 ruleB1 = Comb "append" [Comb "[]" [],Var 0,Var 0] :- []
 ruleB2 = (Comb "append" [Comb "." [Var 0,Var 1],Var 2,Comb "." [Var 0, Var 3]]) :- []
-progB = [ruleB1,ruleB2]
+progB = Prog [ruleB1,ruleB2]
 
 --SLD Test 3
-goalC = [Comb "vater" [Comb "Olaf" []],Var 0]
-ruleC1 = Comb "mutter" [Comb "Olaf" [],Comb "Matilda" []] :- []
-ruleC2 = Comb "ehemann" [Comb "Mathilda" [],Comb "Heiner" []] :- []
+goalC = Goal [Comb "vater" [Comb "Olaf" [],Var 0]]
+ruleC1 = Comb "mutter" [Comb "Olaf" [],Comb "Lara" []] :- []
+ruleC2 = Comb "ehemann" [Comb "Lara" [],Comb "Heiner" []] :- []
 ruleC3 = Comb "vater" [Var 0,Var 1] :- [Comb "mutter" [Var 0,Var 2],Comb "ehemann" [Var 2,Var 1]]
+<<<<<<< HEAD
 progC = [ruleC1,ruleC2,ruleC3]
+=======
+progC = Prog [ruleC1,ruleC2,ruleC3]
+>>>>>>> 0831784caaedef6c01245172fbecdd2fc13ac00b

@@ -10,10 +10,11 @@ class Pretty a where
 instance Pretty Subst where
     pretty (Subst r) = "{" ++ (listToString (map pretReplace r)) ++ "}"
 
+-- kümmert sich um einzelne Replace Statements
 pretReplace :: Replace -> String
 pretReplace (Replace i t) = (pretty (Var i)) ++ " -> " ++ (pretty t)
 
--- Macht Terme lesbar (gültige Prolog darstellung)
+-- macht Terme lesbar (gültige Prolog darstellung)
 instance Pretty Term where
     pretty (Var x)               = charToString (alphabet !! x)
     pretty (Comb s [])           = s
@@ -39,6 +40,20 @@ dot (Var x) (Comb "." (t1:t2))     = "[" ++  (charToString (alphabet !! x)) ++ "
 
 dot (Comb c []) (Comb "[]" [])     = "[" ++ c ++ "]"
 
+<<<<<<< HEAD
 --den Fall gibt es gar nicht
 -- dot (Comb c1 []) (Comb c2 [])      = "[" ++ c1 ++ "," ++ c2 ++ "]"
 dot (Comb c []) (Comb "." (t1:t2)) = "[" ++ c ++ "," ++ (removeBrackets (dot t1 (head t2))) ++ "]"
+=======
+instance Pretty Rule where
+    pretty r = (show r)
+
+instance Pretty Goal where
+    pretty g = (show g)
+
+instance Pretty Prog where
+    pretty p = (show p)
+
+instance Pretty SLDTree where
+    pretty sld = (show sld)
+>>>>>>> 0831784caaedef6c01245172fbecdd2fc13ac00b

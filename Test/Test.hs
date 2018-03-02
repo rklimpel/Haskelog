@@ -4,6 +4,7 @@ import Test.Samples
 import Test.TestViews
 import Utils.StringUtils
 import SLDTree
+import Type
 
 
 runAllTests :: IO()
@@ -103,3 +104,12 @@ unifyTest = do
   showUnifyTest term2 term3
   showUnifyTest term1 term4
   showUnifyTest term1 term5
+<<<<<<< HEAD
+=======
+  showUnifyTest term8 term9
+  showUnifyTest term9 term8
+
+
+
+  
+>>>>>>> 0831784caaedef6c01245172fbecdd2fc13ac00b
