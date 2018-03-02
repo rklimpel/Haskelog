@@ -19,13 +19,13 @@ prettyTest = do
 
   showTitle "prettyTest"
 
-  -- pretty Test Variable	
+  -- pretty Test Variable
   putStr "\n::Variables\n"
 
   showVarTest var1
   showVarTest var2
 
-  putStrLn seperator 
+  putStrLn seperator
 
   -- pretty Test Term
   putStr "\n::Terms\n"
@@ -35,17 +35,22 @@ prettyTest = do
   showTermTest term3
   showTermTest term6
   showTermTest term7
+  showTermTest term8
+  showTermTest term9
+  showTermTest term10
+  showTermTest term105
+  showTermTest term11
 
   putStrLn seperator
 
    -- pretty Test Subst
   putStr "\n::Substitutions\n"
-  
+
   showSubstTest sub1
   showSubstTest sub3
   showSubstTest sub4
 
-  putStrLn seperator 
+  putStrLn seperator
 
   -- pretty Test Rule
   -- ...
@@ -98,7 +103,3 @@ unifyTest = do
   showUnifyTest term2 term3
   showUnifyTest term1 term4
   showUnifyTest term1 term5
-
-
-
-  

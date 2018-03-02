@@ -44,6 +44,30 @@ term6 = (Comb "f" [(Comb "p" [Var 0, Var 1]), Var 2])
 term7 :: Term
 term7 = (Comb "p" [(Comb "p" [Var 0, Var 1]), (Comb "." [Var 2, Var 3])])
 
+term8 :: Term
+term8 = Comb "append"[Comb "." [ Comb "1" [], Comb "." [ Comb "2" [], Comb "." [Comb "3" [], Comb "[]" [] ]]]]
+--append([1,2])
+
+-- was rauskommen soll: append(A|[2,3],[3,4,5],[1,2,3,4,5])
+term9 :: Term
+term9 = Comb "append" [Comb "." [Var 0 , Comb "." [Comb "2" [], Comb "." [Comb "3" [], Comb "[]" []]]],
+                       Comb "." [Comb "3" [], Comb "." [Comb "4" [], Comb "." [Comb "5" [], Comb "[]" []]]],
+                       Comb "." [Comb "1" [], Comb "." [Comb "2" [], Comb "." [Comb "3" [], Comb "." [Comb "4" [], Comb "." [Comb "5" [], Comb "[]" []]]]]]]
+--Das Kommt auch raus nice
+
+-- was rauskommen sollte: append([A,2,3,B,4], [], [[1],2,3,[4],4])
+term10 :: Term
+term10 = Comb "append"[Comb "." [Var 0 , Comb "." [Comb "2" [],Comb "." [Comb "3" [],Comb "." [Var 1, Comb "." [Comb "4" [], Comb "[]" [] ] ] ] ] ] ]
+                      -- [],
+                      -- [Comb "." [Comb "." [Comb "1" [], Comb "[]" []] , Comb "2" [], Comb "3" [], Comb "." [Comb "4" [], Comb "[]" []], Comb "4" [] ], Comb "[]" []]]
+term105 :: Term
+term105 = Comb "append" [Comb "." [Comb "1" [], Comb "[]" []] , Comb "2" [], Comb "3" [], Comb "." [Comb "4" [], Comb "[]" []], Comb "4" []]
+
+term11 :: Term
+term11 =  Comb "append"[Comb "." [Var 0 , Comb "." [Comb "2" [],Comb "." [Comb "3" [],Comb "." [Var 1, Comb "." [Comb "4" [], Comb "[]" [] ] ] ] ] ],
+                        Comb "[]" [],
+                        Comb "." [Comb "." [Comb "1" [], Comb "[]" []] , Comb "2" [], Comb "3" [], Comb "." [Comb "4" [], Comb "[]" []], Comb "4" [] , Comb "[]" []] ]
+
 
 -- SUBSTITUTIONS
 

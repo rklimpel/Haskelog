@@ -9,17 +9,17 @@ type VarIndex = Int
 data Term = Var VarIndex | Comb String [Term]
   deriving Show
 
--- Data type for varibale replacements in substitutions 
+-- Data type for varibale replacements in substitutions
 --(Replace VarIndex -> Term)
 data Replace = Replace VarIndex Term
   deriving Show
 
--- Data type for subsitutions 
+-- Data type for subsitutions
 -- (as List of single Replacements)
 data Subst = Subst [Replace]
   deriving Show
 
--- Data type for SLDTrees 
+-- Data type for SLDTrees
 data SLDTree = SLDTree Goal [(Subst,SLDTree)]
   deriving Show
 
