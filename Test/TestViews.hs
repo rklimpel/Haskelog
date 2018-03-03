@@ -47,7 +47,7 @@ showUnifyTest t1 t2 = do
       putStrLn ""
   else do
     let (Just s) = unify t1 t2
-    putStrLn (pretty s)
+    putStrLn (inGreen (pretty s))
     putStrLn ""
 
 showTitle :: String -> IO()

@@ -108,10 +108,10 @@ ruleB2 = (Comb "append" [Comb "." [Var 0,Var 1],Var 2,Comb "." [Var 0, Var 3]]) 
 progB = Prog [ruleB1,ruleB2]
 
 --SLD Test 3
-goalC = Goal [Comb "vater" [Comb "Olaf" [],Var 0]]
-ruleC1 = Comb "mutter" [Comb "Olaf" [],Comb "Lara" []] :- []
-ruleC2 = Comb "ehemann" [Comb "Lara" [],Comb "Heiner" []] :- []
-ruleC3 = Comb "vater" [Var 0,Var 1] :- [Comb "mutter" [Var 0,Var 2],Comb "ehemann" [Var 2,Var 1]]
+goalC = Goal [Comb "vater" [Comb "olaf" [],Var 0]]
+ruleC1 = Comb "mutter" [Comb "olaf" [],Comb "lara" []] :- []
+ruleC2 = Comb "ehemann" [Comb "lara" [],Comb "heiner" []] :- []
+ruleC3 = Comb "vater" [Var 5,Var 1] :- [Comb "mutter" [Var 5,Var 2],Comb "ehemann" [Var 2,Var 1]]
 progC = Prog [ruleC1,ruleC2,ruleC3]
 
 sld1 :: SLDTree
