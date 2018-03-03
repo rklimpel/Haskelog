@@ -30,7 +30,7 @@ isList (x:xs)
     | x == '[' = True
     | otherwise = False
 
-    -- hält das Gesamte Alphabet von A-Z als liste von chars
+-- hält das Gesamte Alphabet von A-Z als liste von chars
 alphabet :: String
 alphabet = ['A'..'Z']
 

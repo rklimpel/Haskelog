@@ -8,7 +8,8 @@ import SLDTree
 import Type
 import Sub
 import Unify
-import Pretty
+import Pretty 
+import Search
 
 
 

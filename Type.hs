@@ -1,9 +1,13 @@
 module Type
-  ( VarIndex, Term(..), Rule(..), Prog(..), Goal(..), Subst(..), Replace(..), SLDTree(..)
+  ( VarIndex, Strategy, 
+    Term(..), Rule(..), Prog(..), Goal(..), Subst(..), Replace(..), SLDTree(..)
   ) where
 
 -- Alias type for variables
 type VarIndex = Int
+
+-- Alias type for Search Strategys
+type Strategy = SLDTree -> [Subst]
 
 -- Data type for terms
 data Term = Var VarIndex | Comb String [Term]
