@@ -64,18 +64,3 @@ instance Pretty SLDTree where
                 | otherwise = vertLines (k+1) ++ "..." ++ "\n"
                 where
                     vertLines k = concat (take k (repeat "|   "))
-
-
- -- Pretty Error in Dot:
-{-
- SLDTree 
-(Goal [Comb "append" [Var 0,Var 1,Comb "." [Comb "1" [],Comb "." [Comb "2" [],Comb "[]" []]]]])
-[
-    (Subst [Replace 0 (Comb "[]" []),Replace 1 (Comb "." [Comb "1" [],Comb "." [Comb "2" [],Comb "[]" []]]),Replace 2 (Comb "." [Comb "1" [],Comb "." [Comb "2" [],Comb "[]" []]])],
-    SLDTree (Goal []) []),
-        (Subst [Replace 0 (Comb "." [Comb "1" [],Var 3]),Replace 1 (Var 4),Replace 2 (Comb "1" []),Replace 5 (Comb "." [Comb "2" [],Comb "[]" []])],SLDTree (Goal []) [])]
-
-        (Comb "." [Comb "1" [],Var 3])
-        (Comb "1" []),
-        (Comb "." [Comb "2" [],Comb "[]" []])
--}

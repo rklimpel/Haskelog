@@ -26,7 +26,7 @@ prettyTest = do
   showTitle "prettyTest"
 
   -- pretty Test Variable
-  putStr "\n::Variables\n"
+  showSubtitle "Variables"
 
   showPrettyTest var1
   showPrettyTest var2
@@ -34,7 +34,7 @@ prettyTest = do
   putStrLn seperator
 
   -- pretty Test Term
-  putStr "\n::Terms\n"
+  showSubtitle "Terms"
 
   showPrettyTest term1
   showPrettyTest term2
@@ -50,7 +50,7 @@ prettyTest = do
   putStrLn seperator
 
    -- pretty Test Subst
-  putStr "\n::Substitutions\n"
+  showSubtitle "Substitutions"
 
   showPrettyTest sub1
   showPrettyTest sub3
@@ -59,7 +59,7 @@ prettyTest = do
   putStrLn seperator
 
   -- pretty Test Rule
-  putStr "\n::Rules\n"
+  showSubtitle "Rules"
 
   showPrettyTest ruleA1
   showPrettyTest ruleB2
@@ -69,7 +69,7 @@ prettyTest = do
   putStrLn seperator
 
   -- pretty Test Goal
-  putStr "\n::Goals\n"
+  showSubtitle "Goals"
 
   showPrettyTest goalA
   showPrettyTest goalB
@@ -78,7 +78,7 @@ prettyTest = do
   putStrLn seperator
 
    -- pretty Test Program
-  putStr "\n::Progs\n"
+  showSubtitle "Programms"
 
   showPrettyTest progA
   showPrettyTest progB
@@ -87,7 +87,7 @@ prettyTest = do
   putStrLn seperator
 
   -- pretty Test SLDTrees
-  putStr "\n::SLDTrees\n"
+  showSubtitle "SLDTrees"
 
   showPrettyTest sld1
   showPrettyTest sld2
@@ -102,7 +102,7 @@ substTest = do
   showTitle "substTest"
 
   -- subst Test Apply
-  putStr "\n::Apply Substitution\n"
+  showSubtitle "apply Substitutions"
 
   showApplySubstTest sub1 term1
   showApplySubstTest sub1 term4
@@ -110,7 +110,7 @@ substTest = do
   putStrLn seperator
 
   -- Subst Test Compose
-  putStr "\n::Compose Substitutions\n"
+  showSubtitle "compose Substitutions"
 
   showComposeSubstTest sub1 sub2
   showComposeSubstTest sub1 sub3
@@ -126,7 +126,7 @@ unifyTest = do
   showTitle "unifyTest"
 
   -- unify Test ds
-  putStr "\n::ds Terms -> get disagreement set\n"
+  showSubtitle "ds Terms -> get disagreement set"
 
   showDsTest term1 term2
   showDsTest term2 term3
@@ -136,7 +136,7 @@ unifyTest = do
   putStrLn seperator
 
   -- unify Test unify
-  putStr "\n::unify Terms\n"
+  showSubtitle "unify Terms"
 
   showUnifyTest term1 term2
   showUnifyTest term2 term3
