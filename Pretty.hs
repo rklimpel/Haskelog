@@ -52,7 +52,7 @@ instance Pretty Goal where
     pretty (Goal ts) = "?- " ++ (concat (intersperse ", " (map pretty ts))) ++ "."
 
 instance Pretty Prog where
-    pretty (Prog rs) = concat (intersperse "\n\n" (map pretty rs))
+    pretty (Prog rs) = concat (intersperse "\n" (map pretty rs))
 
 instance Pretty SLDTree where
     pretty (SLDTree (Goal ts) ledges) = (pretty (Goal ts)) ++ "\n" ++ (concatMap (prettyLedges 0) ledges)

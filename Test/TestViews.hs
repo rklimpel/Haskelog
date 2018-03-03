@@ -52,8 +52,8 @@ showUnifyTest t1 t2 = do
 
 showSldTest :: Prog -> Goal -> IO()
 showSldTest p g = do
-    putStr ("\n" ++ (take 20 manyLines) ++ "\nRules:\n" ++ "\n" ++ (pretty p))
-    putStr ("\nGoal:\n" ++ (pretty g) ++ "\n" ++ (take 20 manyLines) ++ "\n         |  \n         V\n")
+    putStr ("\n" ++ (take 20 manyLines) ++ (buildSubtitle "Rules:") ++ "\n" ++ (pretty p))
+    putStr ("\n"++ (buildSubtitle "Goal:") ++ (pretty g) ++ "\n" ++ (take 20 manyLines) ++ "\n         |  \n         V\n")
     putStrLn (inGreen (pretty (sld p g)))
     putStr ""
 
@@ -66,6 +66,9 @@ showTitle s = do
 showSubtitle :: String -> IO()
 showSubtitle s = do
   putStr (inYellow ("\n::" ++ s ++ "\n"))
+
+buildSubtitle :: String -> String
+buildSubtitle s = (inYellow ("\n::" ++ s ++ "\n"))
 
 stars :: String
 stars = '*':stars
