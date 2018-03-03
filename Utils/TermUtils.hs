@@ -35,6 +35,8 @@ isTermListEq (t1:t1s) [t2]     = False
 isTermListEq (t1:t1s) (t2:t2s)
     | isTermEq t1 t2 == True   = isTermListEq t1s t2s
     | otherwise                   = False
+isTermListEq [] t              = False
+isTermListEq t []              = False
 
 -- check if Term1 contains Term2 (Term 2 is a subterm of Term1)
 termHasSubterm :: Term -> Term -> Bool
@@ -51,6 +53,7 @@ termHasSubterm (Comb s t1) t2
 
 -- check if a list of Terms contains a subterm
 termListHasSubterm :: [Term] -> Term -> Bool
+termListHasSubterm [] _             = False
 termListHasSubterm [t1] t2          = termHasSubterm t1 t2
 termListHasSubterm (t1:t1s) t2
     | termHasSubterm t1 t2 == True  = True

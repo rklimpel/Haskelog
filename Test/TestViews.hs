@@ -47,8 +47,15 @@ showUnifyTest t1 t2 = do
       putStrLn ""
   else do
     let (Just s) = unify t1 t2
-    putStrLn (pretty s)
+    putStrLn (inGreen (pretty s))
     putStrLn ""
+
+showSldTest :: Prog -> Goal -> IO()
+showSldTest p g = do
+    putStr ("\n" ++ (take 20 manyLines) ++ (buildSubtitle "Rules:") ++ "\n" ++ (pretty p))
+    putStr ("\n"++ (buildSubtitle "Goal:") ++ (pretty g) ++ "\n" ++ (take 20 manyLines) ++ "\n         |  \n         V\n")
+    putStrLn (inGreen (pretty (sld p g)))
+    putStr ""
 
 showTitle :: String -> IO()
 showTitle s = do
@@ -60,8 +67,14 @@ showSubtitle :: String -> IO()
 showSubtitle s = do
   putStr (inYellow ("\n::" ++ s ++ "\n"))
 
+buildSubtitle :: String -> String
+buildSubtitle s = (inYellow ("\n::" ++ s ++ "\n"))
+
 stars :: String
 stars = '*':stars
+
+manyLines :: String
+manyLines = '-':manyLines
 
 inGreen :: String -> String
 inGreen s = "\x1b[32m" ++ s ++ "\x1b[0m"
