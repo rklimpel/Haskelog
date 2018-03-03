@@ -59,12 +59,13 @@ termListHasSubterm (t1:t1s) t2
     | termHasSubterm t1 t2 == True  = True
     | otherwise                     = termListHasSubterm t1s t2
 
-
+-- True if Variable x ist im Term enthalten
 termHasVar :: Term -> Bool
 termHasVar (Var _)     = True
 termHasVar (Comb _ []) = False  
 termHasVar (Comb s t)  = termListHasVar t
 
+-- True if Variable x ist im [Term] enthalten
 termListHasVar :: [Term] -> Bool
 termListHasVar []  = False
 termListHasVar [t] = termHasVar t
@@ -72,7 +73,30 @@ termListHasVar (t:ts)
     | termHasVar t = True
     | otherwise    = termListHasVar ts
 
-termGetMaxVar :: Term -> Maybe VarIndex
-termGetMaxVar (Comb _ []) = Nothing
-termGetMaxVar (Var x)     = Just x
-termGetMaxVar (Comb _ t)  = Nothing
+-- gibt eine Liste an Variablen zurück die in einem Term Vorkommen                             
+getVarsInTerm :: Term -> [VarIndex]
+getVarsInTerm (Var a)     = [a]
+getVarsInTerm (Comb _ []) = []
+getVarsInTerm (Comb _ ts) = getVarsInTermList ts
+
+-- gibt die größte Variable in einer Liste von Termen zurück (0 wenn keine Variable enthalten ist)
+maxVarInTermlist :: [Term] -> VarIndex
+maxVarInTermlist []     = 0
+maxVarInTermlist ts 
+    | termListHasVar ts = maximum (map maxVarInTerm ts)
+    | otherwise         = 0
+
+-- gibt die größte Variable in einem Term zurück
+maxVarInTerm:: Term -> VarIndex
+maxVarInTerm (Var v)     = v
+maxVarInTerm (Comb s []) = 0
+maxVarInTerm (Comb s ts) 
+    | termListHasVar ts  = maximum (map maxVarInTerm ts)
+    | otherwise          = 0
+
+
+    -- gibt alle Variablen zurück die in einer Liste von Termn vorkommen
+getVarsInTermList :: [Term] -> [VarIndex]
+getVarsInTermList []                 = []
+getVarsInTermList ((Var x) : xs)     = [x] ++ (getVarsInTermList xs)
+getVarsInTermList ((Comb _ xs) : ts) = (getVarsInTermList xs) ++ (getVarsInTermList ts)
