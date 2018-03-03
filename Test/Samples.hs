@@ -75,6 +75,12 @@ term12 = (Comb "vater" [Comb "Olaf" [],Var 0])
 term13 :: Term
 term13 = (Comb "vater" [Var 5,Var 6])
 
+--Sonder flall append([A,B,c],[],[1,2,3])
+term14 :: Term
+term14 = Comb "append" [Comb "." [Var 0, Comb "." [Var 1, Var 2]],
+                      Comb "[]" [],
+                      Comb "." [Comb "1" [], Comb "." [Comb "2" [], Comb "." [Comb "3" [], Comb "[]" []]] ]]
+
 
 -- SUBSTITUTIONS
 
@@ -86,11 +92,17 @@ sub1 = compose (single 1 (Var 2))(single 0 (Comb "f" [Var 1, Comb "true" []]))
 sub2 :: Subst
 sub2 = Subst [Replace 0 (Comb "f" [Var 1, Comb "true" []]), Replace 1 (Var 25), Replace 2 (Var 10)]
 
+--"{B ->p(A,C)}"
 sub3 :: Subst
 sub3 = Subst [(Replace 1 (Comb "p" [Var 0, Var 2]))]
 
+--"{B ->p(A,C),X-> Z}"
 sub4 :: Subst
 sub4 = Subst [(Replace 1 (Comb "p" [Var 0, Var 2])), ( Replace 23 (Var 25))]
+
+--"{B->p([1,2]), [1,3] -> Z}"
+sub5 :: Subst
+sub5 = Subst[(Replace 1 (Comb "p" [Comb "." [Comb "1" [], Comb "." [Comb "2" [], Comb "[]" [] ] ]]) ) ]
 
 
 -- EXERCISE 4
@@ -113,6 +125,17 @@ ruleC1 = Comb "mutter" [Comb "Olaf" [],Comb "Lara" []] :- []
 ruleC2 = Comb "ehemann" [Comb "Lara" [],Comb "Heiner" []] :- []
 ruleC3 = Comb "vater" [Var 0,Var 1] :- [Comb "mutter" [Var 0,Var 2],Comb "ehemann" [Var 2,Var 1]]
 progC = Prog [ruleC1,ruleC2,ruleC3]
+
+--SLD Test XTream
+goalD = Goal [Comb "oma" [Comb "Olaf" [],Var 0]]
+ruleD1 = Comb "mutter" [Comb "Olaf" [],Comb "Lara" []] :- []
+ruleD2 = Comb "ehemann" [Comb "Lara" [],Comb "Heiner" []] :- []
+ruleD3 = Comb "mutter" [Comb "Lara" [], Comb "Chanti" []] :- []
+ruleD4 = Comb "vater" [Var 0,Var 1] :- [Comb "mutter" [Var 0,Var 2], Comb "ehemann" [Var 2,Var 1]]
+ruleD5 = Comb "oma" [Var 0, Var 1] :- [Comb "mutter" [Var 0,Var 2], Comb "mutter" [Var 2, Var 1]]
+ruleD6 = Comb "oma" [Var 0, Var 1] :- [Comb "vater" [Var 0,Var 2], Comb "mutter" [Var 2, Var 1]]
+progD = Prog [ruleD1,ruleD2,ruleD3]
+
 
 sld1 :: SLDTree
 sld1 = sld progA goalA

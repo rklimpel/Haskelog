@@ -8,7 +8,7 @@ import SLDTree
 import Type
 import Sub
 import Unify
-import Pretty 
+import Pretty
 
 
 
@@ -46,6 +46,7 @@ prettyTest = do
   showPrettyTest term10
   showPrettyTest term105
   -- showTermTest term11
+  showPrettyTest term14
 
   putStrLn seperator
 
@@ -55,6 +56,7 @@ prettyTest = do
   showPrettyTest sub1
   showPrettyTest sub3
   showPrettyTest sub4
+  showPrettyTest sub5
 
   putStrLn seperator
 
@@ -83,6 +85,7 @@ prettyTest = do
   showPrettyTest progA
   showPrettyTest progB
   showPrettyTest progC
+  showPrettyTest progD
 
   putStrLn seperator
 
@@ -147,6 +150,3 @@ unifyTest = do
   showUnifyTest term13 term12
 
   putStrLn seperator
-
-
-  
