@@ -152,6 +152,19 @@ ruleE11 = Comb "uropa" [Var 0, Var 1] :- [Comb "eltern" [Var 0, Var 2], Comb "va
 progE = Prog [ruleE1, ruleE2, ruleE3, ruleE4, ruleE4, ruleE5,ruleE6, ruleE7, ruleE8, ruleE9, ruleE10,ruleE11]
 
 
+--THis Sld tree with 2 fathers
+--Chantal donest remeber anything of the specail night
+goalF   = Goal [Comb "vater" [Comb "Lara" [],Var 0]]
+ruleF1  = Comb "mutter" [Comb "Olaf" [],Comb "Lara" []] :- []
+ruleF2  = Comb "ehemann" [Comb "Lara" [],Comb "Heiner" []] :- []
+ruleF3  = Comb "ehemann" [Comb "Chanti" [], Comb "ITS JOHN CENA"  []]:- []
+ruleF4  = Comb "mutter" [Comb "Lara" [], Comb "Chanti" []] :- []
+ruleF5  = Comb "vater" [Comb "Lara" [], Comb "Kevin" []]  :- []
+ruleF6  = Comb "vater" [Var 0,Var 1] :- [Comb "mutter" [Var 0,Var 2], Comb "ehemann" [Var 2,Var 1]]
+ruleF7  = Comb "oma" [Var 0, Var 1] :- [Comb "mutter" [Var 0,Var 2], Comb "mutter" [Var 2, Var 1]]
+ruleF8  = Comb "oma" [Var 0, Var 1] :- [Comb "vater" [Var 0,Var 2], Comb "mutter" [Var 2, Var 1]]
+progF   = Prog [ruleF1,ruleF2,ruleF3,ruleF4,ruleF5,ruleF6, ruleF7,ruleF8]
+
 
 sld1 :: SLDTree
 sld1 = sld progA goalA

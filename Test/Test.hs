@@ -161,4 +161,5 @@ sldTest = do
   showSldTest progB goalB
   showSldTest progC goalC
   showSldTest progD goalD
-  showSldTest progE goalE
+  -- showSldTest progE goalE
+  showSldTest progF goalF
