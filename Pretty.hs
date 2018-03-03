@@ -57,10 +57,9 @@ instance Pretty Prog where
 instance Pretty SLDTree where
     pretty (SLDTree (Goal ts) ledges) = (pretty (Goal ts)) ++ "\n" ++ (concatMap (prettyLedges 0) ledges)
         where 
-            prettyLedges k ((Subst rs),(SLDTree (Goal ts) ledges))
-                | k < 4     =   vertLines k ++ "+--" ++ pretty (Subst rs) ++ "\n"
+            prettyLedges k ((Subst rs),(SLDTree (Goal ts) ledges)) =   
+                                vertLines k ++ "+--" ++ pretty (Subst rs) ++ "\n"
                                 ++ vertLines (k+1) ++ pretty (Goal ts) ++ "\n"
                                 ++ concatMap (prettyLedges (k+1)) ledges
-                | otherwise = vertLines (k+1) ++ "..." ++ "\n"
                 where
                     vertLines k = concat (take k (repeat "|   "))
