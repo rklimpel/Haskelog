@@ -63,3 +63,8 @@ instance Pretty SLDTree where
                                 ++ concatMap (prettyLedges (k+1)) ledges
                 where
                     vertLines k = concat (take k (repeat "|   "))
+
+data Solution = Solution [Subst]
+
+instance Pretty Solution where
+    pretty (Solution subst) = concat ( intersperse "\n" (map pretty subst)) ++ "\n"
