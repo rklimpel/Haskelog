@@ -4,6 +4,7 @@ import Type
 import Pretty
 import Utils.TermUtils
 import Sub
+import SLDTree
 
 
 -- VARIABLES
@@ -112,3 +113,12 @@ ruleC1 = Comb "mutter" [Comb "Olaf" [],Comb "Lara" []] :- []
 ruleC2 = Comb "ehemann" [Comb "Lara" [],Comb "Heiner" []] :- []
 ruleC3 = Comb "vater" [Var 0,Var 1] :- [Comb "mutter" [Var 0,Var 2],Comb "ehemann" [Var 2,Var 1]]
 progC = Prog [ruleC1,ruleC2,ruleC3]
+
+sld1 :: SLDTree
+sld1 = sld progA goalA
+
+sld2 :: SLDTree
+sld2 = sld progB goalB
+
+sld3 :: SLDTree
+sld3 = sld progC goalC

@@ -35,9 +35,10 @@ dot (Var x) (Var y)                = "[" ++ (charToString (alphabet !! x)) ++ "|
 --was gemacht werden soll das
 dot (Var x) (Comb "." [Comb c [], Comb "[]" []] )         = "[" ++  (charToString (alphabet !! x)) ++ ","  ++ c ++ "]"
 dot (Var x) (Comb "." (t1:t2))     = "[" ++  (charToString (alphabet !! x)) ++ "|" ++ (dot t1 (head t2)) ++ "]"
+-- konstante & variable
+dot (Comb c []) (Var x)            = "[" ++ c ++ "|" ++ (charToString (alphabet !! x)) ++ "]" 
+-- konstante & leere list -> konstante wird alleine in Liste geschrieben 
 dot (Comb c []) (Comb "[]" [])     = "[" ++ c ++ "]"
---den Fall gibt es gar nicht
--- dot (Comb c1 []) (Comb c2 [])      = "[" ++ c1 ++ "," ++ c2 ++ "]"
 dot (Comb c []) (Comb "." (t1:t2)) = "[" ++ c ++ "," ++ (removeBrackets (dot t1 (head t2))) ++ "]"
 
 
@@ -57,14 +58,24 @@ instance Pretty SLDTree where
     pretty (SLDTree (Goal ts) ledges) = (pretty (Goal ts)) ++ "\n" ++ (concatMap (prettyLedges 0) ledges)
         where 
             prettyLedges k ((Subst rs),(SLDTree (Goal ts) ledges))
-                | k < 4     = vertLines k  
-                                ++ "+--"
-                                ++ pretty (Subst rs)
-                                ++ "\n"
-                                ++ vertLines (k+1)
-                                ++ pretty (Goal ts)
-                                ++ "\n"
+                | k < 4     =   vertLines k ++ "+--" ++ pretty (Subst rs) ++ "\n"
+                                ++ vertLines (k+1) ++ pretty (Goal ts) ++ "\n"
                                 ++ concatMap (prettyLedges (k+1)) ledges
                 | otherwise = vertLines (k+1) ++ "..." ++ "\n"
                 where
                     vertLines k = concat (take k (repeat "|   "))
+
+
+ -- Pretty Error in Dot:
+{-
+ SLDTree 
+(Goal [Comb "append" [Var 0,Var 1,Comb "." [Comb "1" [],Comb "." [Comb "2" [],Comb "[]" []]]]])
+[
+    (Subst [Replace 0 (Comb "[]" []),Replace 1 (Comb "." [Comb "1" [],Comb "." [Comb "2" [],Comb "[]" []]]),Replace 2 (Comb "." [Comb "1" [],Comb "." [Comb "2" [],Comb "[]" []]])],
+    SLDTree (Goal []) []),
+        (Subst [Replace 0 (Comb "." [Comb "1" [],Var 3]),Replace 1 (Var 4),Replace 2 (Comb "1" []),Replace 5 (Comb "." [Comb "2" [],Comb "[]" []])],SLDTree (Goal []) [])]
+
+        (Comb "." [Comb "1" [],Var 3])
+        (Comb "1" []),
+        (Comb "." [Comb "2" [],Comb "[]" []])
+-}

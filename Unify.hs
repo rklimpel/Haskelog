@@ -4,7 +4,6 @@ import Type
 import Pretty
 import Sub
 import Utils.TermUtils
-import Test.Samples
 
 -- berechnet die Unstimmigkeitsmenge zweier Terme 
 ds :: Term -> Term -> Maybe (Term, Term)

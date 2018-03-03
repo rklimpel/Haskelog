@@ -3,8 +3,13 @@ module Test.Test where
 import Test.Samples
 import Test.TestViews
 import Utils.StringUtils
+import Utils.TermUtils
 import SLDTree
 import Type
+import Sub
+import Unify
+import Pretty 
+
 
 
 runAllTests :: IO()
@@ -73,11 +78,20 @@ prettyTest = do
   putStrLn seperator
 
    -- pretty Test Program
-  putStr "\n::Progs"
+  putStr "\n::Progs\n"
 
   showPrettyTest progA
   showPrettyTest progB
   showPrettyTest progC
+
+  putStrLn seperator
+
+  -- pretty Test SLDTrees
+  putStr "\n::SLDTrees\n"
+
+  showPrettyTest sld1
+  showPrettyTest sld2
+  showPrettyTest sld3
 
   putStrLn seperator
 
@@ -93,12 +107,16 @@ substTest = do
   showApplySubstTest sub1 term1
   showApplySubstTest sub1 term4
 
+  putStrLn seperator
+
   -- Subst Test Compose
   putStr "\n::Compose Substitutions\n"
 
   showComposeSubstTest sub1 sub2
   showComposeSubstTest sub1 sub3
   showComposeSubstTest sub3 sub4
+
+  putStrLn seperator
 
 
 
@@ -115,6 +133,8 @@ unifyTest = do
   showDsTest term3 term3
   showDsTest term4 term5
 
+  putStrLn seperator
+
   -- unify Test unify
   putStr "\n::unify Terms\n"
 
@@ -126,6 +146,7 @@ unifyTest = do
   showUnifyTest term12 term13
   showUnifyTest term13 term12
 
+  putStrLn seperator
 
 
   
