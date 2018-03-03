@@ -1,4 +1,4 @@
-module SLDTree where
+module SLDTree (sld) where
 
 import Type
 import Utils.TermUtils
@@ -37,21 +37,6 @@ sld p (Goal ts) = sldHelper (incVarsProg ((maxVarInTermlist ts)+1) p) (Goal ts) 
 -- Gibt die größte Variable in einer Regel zurück
 maxVarInRule :: Rule -> VarIndex
 maxVarInRule  (l :- r) = maxVarInTermlist (l:r)
-
--- gibt die größte Variable in einer Liste von Termen zurück (0 wenn keine Variable enthalten ist)
-maxVarInTermlist :: [Term] -> VarIndex
-maxVarInTermlist []     = 0
-maxVarInTermlist ts 
-    | termListHasVar ts = maximum (map maxVarInTerm ts)
-    | otherwise         = 0
-
--- gibt die größte Variable in einem Term zurück
-maxVarInTerm:: Term -> VarIndex
-maxVarInTerm (Var v)     = v
-maxVarInTerm (Comb s []) = 0
-maxVarInTerm (Comb s ts) 
-    | termListHasVar ts  = maximum (map maxVarInTerm ts)
-    | otherwise          = 0
 
 -- gibt die größte Variable in einer Substitution zurück
 maxVarInSubst :: Subst -> VarIndex
@@ -96,12 +81,6 @@ incVarsTerm :: Int -> Term -> Term
 incVarsTerm i (Var x)    = Var (x+i)
 incVarsTerm i (Comb s t) = Comb s (map (incVarsTerm i) t)
 
--- gibt eine Liste an Variablen zurück die in einem Term Vorkommen                             
-getVarsInTerm :: Term -> [VarIndex]
-getVarsInTerm (Var a)     = [a]
-getVarsInTerm (Comb _ []) = []
-getVarsInTerm (Comb _ ts) = getVarsInTermList ts
-
 -- gibt alle Varibalen zurück die in einer Anfrage vorkommen
 getVarsInGoal :: Goal -> [VarIndex]
 getVarsInGoal (Goal ts) = getVarsInTermList ts
@@ -109,9 +88,3 @@ getVarsInGoal (Goal ts) = getVarsInTermList ts
 -- gibt alle Variablen zurück die in einer Regel vorkommen
 getVarsInRule :: Rule -> [VarIndex]
 getVarsInRule (rl :- rr) = getVarsInTermList ([rl] ++ rr)
-
--- gibt alle Variablen zurück die in einer Liste von Termn vorkommen
-getVarsInTermList :: [Term] -> [VarIndex]
-getVarsInTermList []                 = []
-getVarsInTermList ((Var x) : xs)     = [x] ++ (getVarsInTermList xs)
-getVarsInTermList ((Comb _ xs) : ts) = (getVarsInTermList xs) ++ (getVarsInTermList ts)
