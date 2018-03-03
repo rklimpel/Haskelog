@@ -17,7 +17,7 @@ runAllTests = do
   prettyTest
   substTest
   unifyTest
-
+  sldTest
 
 
 prettyTest :: IO()
@@ -147,6 +147,17 @@ unifyTest = do
   showUnifyTest term13 term12
 
   putStrLn seperator
+
+sldTest :: IO()
+sldTest = do
+
+  showTitle "sld Test"
+
+  showSldTest progA goalA
+  showSldTest progB goalB
+  showSldTest progC goalC
+
+
 
 
   
