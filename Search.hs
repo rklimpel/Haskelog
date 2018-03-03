@@ -5,6 +5,7 @@ import Type
 import Sub
 import Utils.TermUtils
 import Utils.SubUtils
+import Data.Maybe
 
 
 -- Alias type for Search Strategys
@@ -32,9 +33,21 @@ bfs' :: SLDTree -> Subst -> [(SLDTree,Subst)] -> [Subst]
 
 
 solve :: Strategy -> Prog -> Goal -> [Subst]
-solve searchStrategy p g = searchStrategy (sld p g)
+solve searchStrategy p g = map (filterForGoalVars g) (searchStrategy (sld p g))
 
---filterForGoalVars :: [VarIndex]
+filterForGoalVars :: Goal -> Subst -> Subst
+filterForGoalVars g s = filterForGoalVars' g s []
+
+filterForGoalVars' :: Goal -> Subst -> [Replace] -> Subst
+filterForGoalVars' g (Subst []) xs    = (Subst xs)
+filterForGoalVars' g (Subst ((Replace i t):rs)) xs 
+    = Subst (xs ++ (fromMaybe [] (isElement i t (getVarsInGoal g)) ++ (getReplacements (filterForGoalVars' g (Subst rs) xs))))
+
+isElement :: VarIndex -> Term -> [VarIndex] -> Maybe [Replace]
+isElement x t ys = if elem x ys then Just [(Replace x t)] else Nothing
+
+getReplacements :: Subst -> [Replace]
+getReplacements (Subst rs) = rs
 
 -- gibt alle Varibalen zurück die in einer Anfrage vorkommen
 getVarsInGoal :: Goal -> [VarIndex]
