@@ -5,6 +5,8 @@ import Type
 import Sub
 import Unify
 import SLDTree
+import Search
+import Data.List
 
 -- Test Show Helper:
 
@@ -56,6 +58,27 @@ showSldTest p g = do
     putStr ("\n"++ (buildSubtitle "Goal:") ++ (pretty g) ++ "\n" ++ (take 20 manyLines) ++ "\n         |  \n         V\n")
     putStrLn (inGreen (pretty (sld p g)))
     putStr ""
+
+showDFSSearchTest :: Prog -> Goal -> IO()
+showDFSSearchTest p g = do 
+  putStr ("\n" ++ (take 20 manyLines))
+  putStr ((buildSubtitle "Strategy:") ++ "DFS -> Tiefensuche")
+  putStr ("\n"++ (buildSubtitle "Rules") ++ (pretty p) ++ "\n")
+  putStr ("\n"++ (buildSubtitle "Goal:") ++ (pretty g) ++ "\n")
+  putStr ((take 20 manyLines) ++ "\n         |  \n         V\n")
+  putStrLn (inGreen (concat (intersperse "\n" (map pretty (solve dfs p g)))))
+  putStr ""
+
+{-
+showBFSSearchTest :: Prog -> Goal -> IO()
+showBFSSearchTest s p g = do 
+  putStr ("\n" ++ (take 20 manyLines))
+  putStr (buildSubtitle "Strategy:") ++ "\n" ++ "BFS -> Breitensuche")
+  putStr ("\n"++ (buildSubtitle "Rules") ++ (pretty p) ++ "\n")
+  putStr ("\n"++ (buildSubtitle "Goal:") ++ (pretty g) ++ "\n")
+  putStr (take 20 manyLines) ++ "\n         |  \n         V\n")
+  putStrLn (inGreen (map pretty (solve bfs p g)))
+-}
 
 showTitle :: String -> IO()
 showTitle s = do

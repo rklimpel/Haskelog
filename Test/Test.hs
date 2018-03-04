@@ -162,5 +162,15 @@ sldTest = do
   showSldTest progB goalB
   showSldTest progC goalC
   showSldTest progD goalD
-  -- showSldTest progE goalE
+  -- showSldTest progE goalE -- crashes
   showSldTest progF goalF
+
+searchStrategyTest :: IO()
+searchStrategyTest = do
+
+  showTitle "Search Strategy Test"
+
+  showSubtitle "dfs"
+
+  showDFSSearchTest progF goalF
+
