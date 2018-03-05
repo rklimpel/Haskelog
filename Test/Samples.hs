@@ -159,7 +159,7 @@ ruleE7  = Comb "eltern" [Var 0, Var 1] :- [Comb "mutter" [Var 0, Var 1]]
 ruleE8  = Comb "eltern" [Var 0, Var 1] :- [Comb "vater" [Var 0, Var 1]]
 ruleE9  = Comb "oma" [Var 0, Var 1] :- [Comb "eltern" [Var 0, Var 2],Comb "mutter" [Var 2, Var 1]]
 ruleE10 = Comb "opa" [Var 0, Var 1] :- [Comb "eltern" [Var 0, Var 2],Comb "vater" [Var 2, Var 1]]
-ruleE11 = Comb "uropa" [Var 0, Var 1] :- [Comb "eltern" [Var 0, Var 2], Comb "vater" [Var 2,Var 1]]
+ruleE11 = Comb "uropa" [Var 0, Var 1] :- [Comb "eltern" [Var 0, Var 2],Comb "eltern" [Var 2, Var 3], Comb "vater" [Var 3,Var 1]]
 progE   = Prog [ruleE1,ruleE2,ruleE3,ruleE4,ruleE4,ruleE5,ruleE6,ruleE7,ruleE8,ruleE9,ruleE10,
                 ruleE11,ruleE12,ruleE13,ruleE14,ruleE15]
 
