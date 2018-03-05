@@ -107,7 +107,9 @@ printResult (x:xs) = do
     input <- getLine
     case input of 
         "" -> printResult xs
-        otherwise -> return()
+        otherwise -> do
+            putStr "\n"
+            return()
 
 inRed :: String -> String
 inRed s = "\x1b[31m" ++ s ++ "\x1b[0m"
