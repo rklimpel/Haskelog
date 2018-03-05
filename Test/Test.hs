@@ -170,6 +170,7 @@ sldTest = do
   showSldTest progD goalD
   showSldTest progE goalE
   showSldTest progF goalF
+  showSldTest progB goalB2 -- Gives no Solutions... ?
 
 searchStrategyTest :: IO()
 searchStrategyTest = do
