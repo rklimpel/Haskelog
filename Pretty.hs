@@ -17,7 +17,7 @@ pretReplace (Replace i t) = (pretty (Var i)) ++ " -> " ++ (pretty t)
 
 -- macht Terme lesbar (gültige Prolog darstellung)
 instance Pretty Term where
-    pretty (Var x)               = charToString (alphabet !! x)
+    pretty (Var x)               = prettyVarNames !! x
     pretty (Comb s [])           = s
     pretty (Comb "." (t1:t2))    = dot t1 (head t2)
     pretty (Comb s terms)        = s ++ "(" ++ listToString(map pretty terms) ++ ")"
@@ -28,18 +28,14 @@ dot (Var x) (Comb "[]" [])         = "[" ++ (charToString (alphabet !! x)) ++ "]
 dot (Var x) (Var y)                = "[" ++ (charToString (alphabet !! x)) ++ "|"
                                          ++ (charToString (alphabet !! y)) ++ "]"
 
-
--- dot (Var x) (Comb c2 [])       ="[" ++  (charToString (alphabet !! x)) ++ "," ++ c2 ++ "]"
---sonderfall hier kann man die brankets nicht entfernen das stimmt sonst nicht logisch
---kann aber defininitiv besser gemacht werden siehe term9
---was gemacht werden soll das
-dot (Var x) (Comb "." [Comb c [], Comb "[]" []] )         = "[" ++  (charToString (alphabet !! x)) ++ ","  ++ c ++ "]"
-dot (Var x) (Comb "." (t1:t2))     = "[" ++  (charToString (alphabet !! x)) ++ "|" ++ (dot t1 (head t2)) ++ "]"
+-- TODO Gianmarco Comments...                                         
+dot (Var x) (Comb "." [Comb c [], Comb "[]" []] ) = "[" ++  (pretty (Var x)) ++ ","  ++ c ++ "]"
+dot (Var x) (Comb "." (t1:t2))                    = "[" ++  (pretty (Var x)) ++ "|" ++ (dot t1 (head t2)) ++ "]"
 -- konstante & variable
-dot (Comb c []) (Var x)            = "[" ++ c ++ "|" ++ (charToString (alphabet !! x)) ++ "]" 
+dot (Comb c []) (Var x)                           = "[" ++ c ++ "|" ++ (pretty (Var x)) ++ "]" 
 -- konstante & leere list -> konstante wird alleine in Liste geschrieben 
-dot (Comb c []) (Comb "[]" [])     = "[" ++ c ++ "]"
-dot (Comb c []) (Comb "." (t1:t2)) = "[" ++ c ++ "," ++ (removeBrackets (dot t1 (head t2))) ++ "]"
+dot (Comb c []) (Comb "[]" [])                    = "[" ++ c ++ "]"
+dot (Comb c []) (Comb "." (t1:t2))                = "[" ++ c ++ "," ++ (removeBrackets (dot t1 (head t2))) ++ "]"
 
 
 

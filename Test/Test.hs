@@ -19,6 +19,7 @@ runAllTests = do
   substTest
   unifyTest
   sldTest
+  searchStrategyTest
 
 
 prettyTest :: IO()
@@ -162,7 +163,7 @@ sldTest = do
   showSldTest progB goalB
   showSldTest progC goalC
   showSldTest progD goalD
-  -- showSldTest progE goalE -- crashes
+  showSldTest progE goalE
   showSldTest progF goalF
 
 searchStrategyTest :: IO()
