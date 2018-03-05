@@ -166,7 +166,7 @@ progE   = Prog [ruleE1,ruleE2,ruleE3,ruleE4,ruleE4,ruleE5,ruleE6,ruleE7,ruleE8,r
 
 --THis Sld tree with 2 fathers
 --Chantal donest remeber anything of the specail night
-goalF   = Goal [Comb "vater" [Comb "Lara" [],Var 0]]
+goalF   = Goal [Comb "vater" [Comb "Lara" [],Var 0],Comb "vater" [Comb "Olaf" [],Var 1]]
 ruleF1  = Comb "mutter" [Comb "Olaf" [],Comb "Lara" []] :- []
 ruleF2  = Comb "ehemann" [Comb "Lara" [],Comb "Heiner" []] :- []
 ruleF3  = Comb "ehemann" [Comb "Chanti" [], Comb "ITS JOHN CENA"  []]:- []
