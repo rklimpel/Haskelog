@@ -21,7 +21,11 @@ data Replace = Replace VarIndex Term
 -- Data type for subsitutions
 -- (as List of single Replacements)
 data Subst = Subst [Replace]
-  deriving Show
+  deriving (Show,Eq)
+
+-- instance of Eq for type Replace
+instance (Eq Replace) where
+  (==) r1 r2 = (show r1) == (show r2)
 
 -- Data type for SLDTrees
 data SLDTree = SLDTree Goal [(Subst,SLDTree)]

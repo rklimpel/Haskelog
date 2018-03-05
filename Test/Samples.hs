@@ -144,20 +144,24 @@ ruleD6 = Comb "oma" [Var 0, Var 1] :- [Comb "vater" [Var 0,Var 2], Comb "mutter"
 progD = Prog [ruleD1,ruleD2,ruleD3,ruleD4,ruleD5,ruleD6]
 
 --Der SDL rechent oma der SDL sehr schnell
-goalE = Goal [Comb "uropa" [Var 0,Var 1]]
+goalE   = Goal [Comb "uropa" [Var 0,Var 1]]
 ruleE1  = Comb "vater" [Comb "Laura" [], Comb "Justin" []] :- []
 ruleE2  = Comb "vater" [Comb "Justin" [], Comb "Kobe" []] :- []
 ruleE3  = Comb "mutter" [Comb "Olaf" [],Comb "Lara" []] :- []
 ruleE4  = Comb "ehemann" [Comb "Lara" [],Comb "Heiner" []] :- []
 ruleE5  = Comb "mutter" [Comb "Lara" [], Comb "Chanti" []] :- []
 ruleE12 = Comb "ehemann" [Comb "Chanti" [], Comb "Rainer" []] :- []
+ruleE13 = Comb "mutter" [Comb "Chanti" [],Comb "Anja" []] :- []
+ruleE14 = Comb "mutter" [Comb "Kobe" [],Comb "Anja" []] :- []
+ruleE15 = Comb "ehemann" [Comb "Anja" [],Comb "Franz-Josef" []] :- []
 ruleE6  = Comb "vater" [Var 0, Var 1] :- [Comb "mutter" [Var 0,Var 2], Comb "ehemann" [Var 2,Var 1]]
 ruleE7  = Comb "eltern" [Var 0, Var 1] :- [Comb "mutter" [Var 0, Var 1]]
 ruleE8  = Comb "eltern" [Var 0, Var 1] :- [Comb "vater" [Var 0, Var 1]]
 ruleE9  = Comb "oma" [Var 0, Var 1] :- [Comb "eltern" [Var 0, Var 2],Comb "mutter" [Var 2, Var 1]]
 ruleE10 = Comb "opa" [Var 0, Var 1] :- [Comb "eltern" [Var 0, Var 2],Comb "vater" [Var 2, Var 1]]
 ruleE11 = Comb "uropa" [Var 0, Var 1] :- [Comb "eltern" [Var 0, Var 2], Comb "vater" [Var 2,Var 1]]
-progE = Prog [ruleE1, ruleE2, ruleE3, ruleE4, ruleE4, ruleE5,ruleE6, ruleE7, ruleE8, ruleE9, ruleE10,ruleE11,ruleE12]
+progE   = Prog [ruleE1,ruleE2,ruleE3,ruleE4,ruleE4,ruleE5,ruleE6,ruleE7,ruleE8,ruleE9,ruleE10,
+                ruleE11,ruleE12,ruleE13,ruleE14,ruleE15]
 
 
 --THis Sld tree with 2 fathers

@@ -21,6 +21,8 @@ runAllTests = do
   sldTest
   searchStrategyTest
 
+  showSubtitle "ALL Tests done."
+
 
 prettyTest :: IO()
 prettyTest = do
