@@ -3,7 +3,8 @@ append([E|R],L,[E|RL]) :- append(R,L,RL).
 
 last(L,E) :- append(_,[E],L).
 
-member(E,L) :- append(_,[E|_],L).
+member(E,[E|_]).
+member(E,[_|R]) :- member(E,R).
 
 delete(E,L,R) :- append(L1,[E|L2],L), append(L1,L2,R).
 

@@ -126,9 +126,12 @@ goalB2 = Goal [Comb "member" [Var 0,Comb "." [Comb "1" [],Comb "." [Comb "2" [],
 ruleB1 = Comb "append" [Comb "[]" [],Var 0,Var 0] :- []
 ruleB2 = (Comb "append" [Comb "." [Var 0,Var 1],Var 2,Comb "." [Var 0, Var 3]]) :- []
 ruleB3 = (Comb "delete" [Var 0,Var 1,Var 2]) :- [Comb "append" [Var 3,Comb "." [Var 0,Var 4],Var 1],Comb "append" [Var 3,Var 4,Var 2]] 
-ruleB4 = (Comb "memeber" [Var 0,Var 1]) :- [Comb "append" [Var 10,Comb "." [Var 0,Var 11],Var 1]]
-ruleB5 = (Comb "member2" [Var 0,Var 1]) :- [Comb "delete" [Var 0,Var 1,Var 2],Comb "member" [Var 0,Var 2]]
-progB = Prog [ruleB1,ruleB2,ruleB3,ruleB4,ruleB5]
+ruleB4 = (Comb "member" [Var 0,Comb "." [Var 0,Var 10]]) :- []
+ruleB5 = (Comb "member" [Var 0,Comb "." [Var 10,Var 1]]) :- [Comb "member" [Var 0,Var 1]]
+ruleB6 = (Comb "member2" [Var 0,Var 1]) :- [Comb "delete" [Var 0,Var 1,Var 2],Comb "member" [Var 0,Var 2]]
+progB = Prog [ruleB1,ruleB2,ruleB3,ruleB4,ruleB5,ruleB6]
+
+
 
 --SLD Test 3
 goalC = Goal [Comb "vater" [Comb "olaf" [],Var 0]]

@@ -170,7 +170,7 @@ sldTest = do
   showSldTest progD goalD
   showSldTest progE goalE
   showSldTest progF goalF
-  showSldTest progB goalB2 -- Gives no Solutions... ?
+  showSldTest progB goalB2
 
 searchStrategyTest :: IO()
 searchStrategyTest = do
@@ -181,7 +181,11 @@ searchStrategyTest = do
 
   showDFSSearchTest progF goalF
   showDFSSearchTest progE goalE
+  showDFSSearchTest progB goalB2
+
+  showSubtitle "bgs"
 
   showBFSSearchTest progF goalF
   showBFSSearchTest progE goalE
+  showBFSSearchTest progB goalB2
 
