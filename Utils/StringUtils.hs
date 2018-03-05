@@ -10,6 +10,7 @@ charListToStringList (x:xs) = charToString x:charListToStringList xs
 
 -- wandelt eine Liste von Strings in einen einzelnen String um (& setzt Kommas)
 listToString :: [String] -> String
+listToString []     = []
 listToString [x]    = x
 listToString (x:xs) = x ++ "," ++ (listToString xs)
 

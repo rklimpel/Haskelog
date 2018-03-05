@@ -32,6 +32,9 @@ prettyTest = do
 
   showPrettyTest var1
   showPrettyTest var2
+  showPrettyTest var3
+  showPrettyTest var4
+  showPrettyTest var5
 
   putStrLn seperator
 
@@ -174,4 +177,8 @@ searchStrategyTest = do
   showSubtitle "dfs"
 
   showDFSSearchTest progF goalF
+  showDFSSearchTest progE goalE
+
+  showBFSSearchTest progF goalF
+  showBFSSearchTest progE goalE
 
