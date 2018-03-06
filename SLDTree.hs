@@ -1,10 +1,12 @@
 module SLDTree (sld) where
 
 import Type
-import Utils.TermUtils
 import Sub
-import Data.Maybe (catMaybes)
 import Unify
+
+import Utils.TermUtils
+
+import Data.Maybe (catMaybes)
 
 -- PUBLIC FUNCTIONS
 

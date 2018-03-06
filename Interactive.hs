@@ -1,12 +1,13 @@
 {-# LANGUAGE ViewPatterns #-}
 
-module Interarctive (main) where
+module Interactive (main) where
 
 import Pretty
 import Type
-import Data.List
 import Parser
 import Search
+
+import Data.List
 
 -- PUBLIC FUNCTIONS
 

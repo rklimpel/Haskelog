@@ -1,6 +1,7 @@
 module Sub (empty,single,apply,compose) where
 
 import Type
+
 import Utils.SubUtils
 
 -- PUBLIC FUNTCTIONS

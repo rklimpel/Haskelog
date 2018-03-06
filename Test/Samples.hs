@@ -2,9 +2,10 @@ module Test.Samples where
 
 import Type
 import Pretty
-import Utils.TermUtils
 import Sub
 import SLDTree
+
+import Utils.TermUtils
 
 
 -- VARIABLES

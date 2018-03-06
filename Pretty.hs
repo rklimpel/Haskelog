@@ -3,7 +3,9 @@
 module Pretty where
 
 import Type
+
 import Utils.StringUtils
+
 import Data.List
 
 class Pretty a where

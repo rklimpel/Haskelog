@@ -3,10 +3,12 @@ module Search (dfs,bfs,solve) where
 import SLDTree
 import Type
 import Sub
+
 import Utils.TermUtils
 import Utils.SubUtils
-import Data.Maybe
 import Utils.Queue
+
+import Data.Maybe
 import Data.List
 
 -- Remember: Alias type for Search Strategys

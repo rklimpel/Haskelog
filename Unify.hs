@@ -3,6 +3,7 @@ module Unify (ds,unify) where
 import Type
 import Pretty
 import Sub
+
 import Utils.TermUtils
 
 -- PUBLIC FUNTIONS

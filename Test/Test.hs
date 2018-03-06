@@ -2,15 +2,8 @@ module Test.Test where
 
 import Test.Samples
 import Test.TestViews
-import Utils.StringUtils
-import Utils.TermUtils
-import SLDTree
-import Type
-import Sub
-import Unify
-import Pretty 
-import Search
 
+import Utils.StringUtils
 
 
 runAllTests :: IO()
