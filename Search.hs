@@ -1,4 +1,4 @@
-module Search where
+module Search (dfs,bfs,solve) where
 
 import SLDTree
 import Type
@@ -9,10 +9,10 @@ import Data.Maybe
 import Utils.Queue
 import Data.List
 
-
 -- Remember: Alias type for Search Strategys
 -- type Strategy = SLDTree -> [Subst]
 
+-- PUBLIC FUNCTIONS
 
 -- searches for All Solution Substituations in a SLD Tree with deep search
 dfs :: Strategy
@@ -30,7 +30,6 @@ dfs sld = dfs' sld Sub.empty
         dfs'' :: Subst -> (Subst,SLDTree) -> [Subst]
         dfs'' sub2 (sub,tree) = dfs' tree (compose sub sub2)
 
-
 bfs :: Strategy
 bfs tree = bfs' [(Sub.empty,tree)] []
     where 
@@ -47,12 +46,6 @@ bfs tree = bfs' [(Sub.empty,tree)] []
         where 
         bfs'' :: Subst -> Queue -> (Subst,SLDTree) -> Queue
         bfs'' sub que (sub2,ts) = addElement que ((compose sub2 sub),ts)
- 
-
- --bfs' :: SLDTree -> Subst -> [(SLDTree,Subst)] -> [Subst]
--- bfs' _ _ _ = [Subst []]
-
-
 
 solve :: Strategy -> Prog -> Goal -> [Subst]
 solve searchStrategy p g = let result     = searchStrategy (sld p g)            -- Result from Search Strategy, List of Subst
@@ -60,6 +53,8 @@ solve searchStrategy p g = let result     = searchStrategy (sld p g)            
                                result''   = nub result'                         -- Result ohne Doppelte einträge
                                resultEnd  = mapMaybe (subTermVarsInGoal g) result''  -- Result ohne substitution auf nicht im Goal vorkommende Variablen
                            in resultEnd
+
+-- INTERNAL FUNCTIONS
 
 filterForGoalVars :: Goal -> Subst -> Subst
 filterForGoalVars g s = filterForGoalVars' g s []
@@ -72,18 +67,12 @@ filterForGoalVars g s = filterForGoalVars' g s []
               restList     = getReplacements (filterForGoalVars' g (Subst rs) xs)
         in Subst (listUntilNow ++ (checkHead ++ restList))
 
-
 subTermVarsInGoal :: Goal -> Subst -> Maybe Subst
 subTermVarsInGoal (Goal ts) (Subst rs) 
     = if elem True (map (termListHasSubterm ts) (map getTerm rs)) 
         || getVarsInTermList (map getTerm rs) == [] 
         then Just (Subst rs) 
       else Nothing
-
-              
-
-
-
 
 isElement :: VarIndex -> Term -> [VarIndex] -> Maybe [Replace]
 isElement x t ys = if elem x ys then Just [(Replace x t)] else Nothing

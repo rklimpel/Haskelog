@@ -1,7 +1,9 @@
-module Sub where
+module Sub (empty,single,apply,compose) where
 
 import Type
 import Utils.SubUtils
+
+-- PUBLIC FUNTCTIONS
 
 -- Erstellt eine leere Substitution
 empty :: Subst

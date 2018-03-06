@@ -6,6 +6,7 @@ import Sub
 import Data.Maybe (catMaybes)
 import Unify
 
+-- PUBLIC FUNCTIONS
 
 -- konstruiert den SLD-Baum zu einem Programm und einer Anfrage
 -- Selektionsstrategie FIRST (es wird immer das linkeste Literal zum Beweisen ausgewählt)
@@ -33,6 +34,7 @@ sld p (Goal ts) = sldHelper (incVarsProg ((maxVarInTermlist ts)+1) p) (Goal ts) 
         -- wenn Unify Nothing zurückgibt ist bricht der SLDTree an dieser Stelle ab
         Nothing -> Nothing
 
+-- INTERNAL FUNCTIONS
 
 -- Gibt die größte Variable in einer Regel zurück
 maxVarInRule :: Rule -> VarIndex

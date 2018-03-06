@@ -1,12 +1,14 @@
 {-# LANGUAGE ViewPatterns #-}
 
-module Interarctive where
+module Interarctive (main) where
 
 import Pretty
 import Type
 import Data.List
 import Parser
 import Search
+
+-- PUBLIC FUNCTIONS
 
 main :: IO()
 main = do
@@ -15,6 +17,7 @@ main = do
     putStr "Type \":help\" for help.\n"
     shell (Prog []) False dfs
 
+-- INTERNAL FUNCTIONS
 
 shell :: Prog -> Bool -> Strategy -> IO()
 shell p treeActivated searchStrategy = do
