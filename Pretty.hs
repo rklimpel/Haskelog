@@ -25,18 +25,19 @@ instance Pretty Term where
         where
         -- Verarbeitet die "." Operation
         dot :: [(VarIndex,String)] -> Term -> Term -> String
+        -- varx + [] -> [varx]
         dot realNames (Var x) (Comb "[]" [])                        = "[" ++ (prettyWithVars realNames x) ++ "]"
-        dot realNames (Var x) (Var y)                               = "[" ++ (prettyWithVars realNames x) ++ "|"
-                                                                            ++ (prettyWithVars realNames y) ++ "]"
-        -- TODO Gianmarco Comments...                                         
-        dot realNames (Var x) (Comb "." [Comb c [], Comb "[]" []] ) = "[" ++  (prettyWithVars realNames x) 
-                                                                            ++ ","  ++ c ++ "]"
-        dot realNames (Var x) (Comb "." (t1:t2))                    = "[" ++  (prettyWithVars realNames x)
-                                                                            ++ "|" ++ (dot realNames t1 (head t2)) ++ "]"
-        -- konstante & variable
+        -- varx + vary -> [varx|vary]
+        dot realNames (Var x) (Var y)                               = "[" ++ (prettyWithVars realNames x) ++ "|" ++ (prettyWithVars realNames y) ++ "]"          
+        -- varx + [c,[]] -> [varx,c]                        
+        dot realNames (Var x) (Comb "." [Comb c [], Comb "[]" []] ) = "[" ++ (prettyWithVars realNames x) ++ "," ++ c ++ "]"
+        -- varx + [t1,t2] -> [varx|[t1,t2]]
+        dot realNames (Var x) (Comb "." (t1:t2))                    = "[" ++ (prettyWithVars realNames x) ++ "|" ++ (dot realNames t1 (head t2)) ++ "]"
+        -- c + varx -> [c|varx]
         dot realNames (Comb c []) (Var x)                           = "[" ++ c ++ "|" ++ (prettyWithVars realNames x) ++ "]" 
-        -- konstante & leere list -> konstante wird alleine in Liste geschrieben 
+        -- c + [] -> [c]
         dot realNames (Comb c []) (Comb "[]" [])                    = "[" ++ c ++ "]"
+        -- c + [t1,t2] -> [c,t1,t2]
         dot realNames (Comb c []) (Comb "." (t1:t2))                = "[" ++ c ++ "," ++ (removeBrackets (dot realNames t1 (head t2))) ++ "]"
     prettyWithVars realNames (Comb s terms)        = s ++ "(" ++ listToString(map (prettyWithVars realNames) terms) ++ ")"
 
