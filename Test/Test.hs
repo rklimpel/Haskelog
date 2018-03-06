@@ -171,13 +171,13 @@ searchStrategyTest = do
 
   showTitle "Search Strategy Test"
 
-  showSubtitle "dfs"
+  showSubtitle "dfs - Tiefensuche"
 
   showDFSSearchTest progF goalF
   showDFSSearchTest progE goalE
   showDFSSearchTest progB goalB2
 
-  showSubtitle "bgs"
+  showSubtitle "bfs - Breitensuche"
 
   showBFSSearchTest progF goalF
   showBFSSearchTest progE goalE

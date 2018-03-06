@@ -94,7 +94,6 @@ maxVarInTerm (Comb s ts)
     | termListHasVar ts  = maximum (map maxVarInTerm ts)
     | otherwise          = 0
 
-
     -- gibt alle Variablen zurück die in einer Liste von Termn vorkommen
 getVarsInTermList :: [Term] -> [VarIndex]
 getVarsInTermList []                 = []

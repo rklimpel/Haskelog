@@ -4,6 +4,7 @@ module Utils.StringUtils where
 charToString :: Char -> String
 charToString c = [c]
 
+-- wandelt eine List von Chars in eine Liste von Strings um 
 charListToStringList :: [Char] -> [String]
 charListToStringList []     = []
 charListToStringList (x:xs) = charToString x:charListToStringList xs
@@ -53,8 +54,10 @@ prettyVarNames = (charListToStringList alphabet) ++ (concat (map (helper alphabe
         helper' :: [Char] -> Char -> String
         helper' number letter = letter:number
 
+-- baut einen 40 Zeichen langen Seperator aus der unendlichen Liste von '-'
 seperator :: String
 seperator = "\n" ++ (take 40 endlessMinus) ++ "\n"
 
+-- unendliche List von '-'
 endlessMinus :: String
 endlessMinus = '-':endlessMinus

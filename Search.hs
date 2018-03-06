@@ -11,8 +11,13 @@ import Utils.Queue
 import Data.Maybe
 import Data.List
 
--- Remember: Alias type for Search Strategys
--- type Strategy = SLDTree -> [Subst]
+{-
+
+Remember:
+Alias type for Search Strategys
+type Strategy = SLDTree -> [Subst]
+
+-}
 
 -- PUBLIC FUNCTIONS
 
@@ -32,6 +37,7 @@ dfs sld = dfs' sld Sub.empty
         dfs'' :: Subst -> (Subst,SLDTree) -> [Subst]
         dfs'' sub2 (sub,tree) = dfs' tree (compose sub sub2)
 
+-- searches for All Solution Substituations in a SLD Tree mit Breitensuche
 bfs :: Strategy
 bfs tree = bfs' [(Sub.empty,tree)] []
     where 
@@ -39,25 +45,23 @@ bfs tree = bfs' [(Sub.empty,tree)] []
     bfs' q subs = case getElement q of
         -- Baum ist Blatt, Warteschlange ist nicht leer
         Just (que,(sub,SLDTree g [])) -> bfs' que (subs ++ [sub])
-        -- Baum ist kein Blatt
+        -- Baum ist kein Blatt -> Alle weiteren Verzweigungen in die Warteschlange hinzufügen
         Just (que,(sub,SLDTree _ ts)) -> bfs' (foldl (\que (sub2,ts2) -> addElement que ((compose sub2 sub),ts2)) que ts) subs
-
-        -- Just (que,(sub,SLDTree _ ts)) -> bfs' (foldl (bfs'' sub que) que ts) subs
-        -- Warteschlange ist leer
+        -- Warteschlange ist leer -> List an bisherigen Substitutionen ist das Ergebnis
         Nothing -> subs
-        where 
-        bfs'' :: Subst -> Queue -> (Subst,SLDTree) -> Queue
-        bfs'' sub que (sub2,ts) = addElement que ((compose sub2 sub),ts)
+       
 
+-- Löst eine Anfrage + Programm. Gibt die mit einer bestimmten Suchstrategie gefundenen Ergebnisse als [Subst] zurück
 solve :: Strategy -> Prog -> Goal -> [Subst]
-solve searchStrategy p g = let result     = searchStrategy (sld p g)            -- Result from Search Strategy, List of Subst
-                               result'    = map (filterForGoalVars g) result    -- Result ohne Replaces deren Variable nicht im Goal Vorkommt
-                               result''   = nub result'                         -- Result ohne Doppelte einträge
+solve searchStrategy p g = let result     = searchStrategy (sld p g)                 -- Result from Search Strategy, List of Subst
+                               result'    = map (filterForGoalVars g) result         -- Result ohne Replaces deren Variable nicht im Goal Vorkommt
+                               result''   = nub result'                              -- Result ohne Doppelte einträge
                                resultEnd  = mapMaybe (subTermVarsInGoal g) result''  -- Result ohne substitution auf nicht im Goal vorkommende Variablen
                            in resultEnd
 
 -- INTERNAL FUNCTIONS
 
+-- löscht die Replacements aus der Substitutionen deren Variablen (links) nicht im Goal vorkommen
 filterForGoalVars :: Goal -> Subst -> Subst
 filterForGoalVars g s = filterForGoalVars' g s []
     where
@@ -67,8 +71,10 @@ filterForGoalVars g s = filterForGoalVars' g s []
         = let listUntilNow = xs
               checkHead    = fromMaybe [] (isElement i t (getVarsInGoal g))
               restList     = getReplacements (filterForGoalVars' g (Subst rs) xs)
-        in Subst (listUntilNow ++ (checkHead ++ restList))
+          in Subst (listUntilNow ++ (checkHead ++ restList))
 
+-- gibt eine Substitution nur dann zurück wenn auf der rechten seite nur Konstanten stehen 
+-- oder die Variablen auf der rechten seite im Goal Vorkommen
 subTermVarsInGoal :: Goal -> Subst -> Maybe Subst
 subTermVarsInGoal (Goal ts) (Subst rs) 
     = if elem True (map (termListHasSubterm ts) (map getTerm rs)) 
@@ -76,9 +82,12 @@ subTermVarsInGoal (Goal ts) (Subst rs)
         then Just (Subst rs) 
       else Nothing
 
+-- Schaut nach ob die Variable eines Replace's in einem Term enthalten ist
+-- gibt entweder den Replace zurück oder Nothing
 isElement :: VarIndex -> Term -> [VarIndex] -> Maybe [Replace]
 isElement x t ys = if elem x ys then Just [(Replace x t)] else Nothing
 
+-- gibt eine Liste aller Replace's in einer Substitution zurück
 getReplacements :: Subst -> [Replace]
 getReplacements (Subst rs) = rs
 

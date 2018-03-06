@@ -10,11 +10,10 @@ getIndex (Replace i t) = i
 getTerm ::  Replace -> Term
 getTerm (Replace i t) = t
 
--- Build [Replace] form [VarIndex] and [Term]
+-- Build [Replace] List form [VarIndex] and [Term] Lists
 buildReplace :: [VarIndex] -> [Term] -> [Replace]
 buildReplace is ts = buildReplaceH is ts []
-
--- Helper for buildReplace
-buildReplaceH :: [VarIndex] -> [Term] -> [Replace] -> [Replace]
-buildReplaceH [i] [t] r         = r ++ [(Replace i t)]
-buildReplaceH (i:is) (t:ts) r   =  [(Replace i t)] ++ (buildReplaceH is ts r)
+    where
+    buildReplaceH :: [VarIndex] -> [Term] -> [Replace] -> [Replace]
+    buildReplaceH [i] [t] r         = r ++ [(Replace i t)]
+    buildReplaceH (i:is) (t:ts) r   =  [(Replace i t)] ++ (buildReplaceH is ts r)

@@ -2,8 +2,6 @@ module Utils.Queue where
 
 import Type
 
--- DataType for a Que of (Subst,SLDTree); made for BFS Search
-
 type QueueType a = [a]
 type Queue = QueueType (Subst,SLDTree)
 

@@ -12,13 +12,14 @@ class Pretty a where
     pretty :: a -> String
     prettyWithVars :: [(VarIndex, String)] -> a -> String
 
+-- konvertiert interne Variablen zur Prolog Darstellung
 instance Pretty VarIndex where
     pretty i = prettyWithVars [] i
     prettyWithVars realNames i = case lookup i realNames of
                                     Just n  -> n
                                     Nothing -> prettyVarNames !! i
 
--- macht Terme lesbar (gültige Prolog darstellung)
+-- konvertiert interne Terme zur Prolog Darstellung
 instance Pretty Term where
     pretty t = prettyWithVars [] t
     prettyWithVars realNames (Var x)               = prettyWithVars realNames x
@@ -43,22 +44,24 @@ instance Pretty Term where
         dot realNames (Comb c []) (Comb "." (t1:t2))                = "[" ++ c ++ "," ++ (removeBrackets (dot realNames t1 (head t2))) ++ "]"
     prettyWithVars realNames (Comb s terms)        = s ++ "(" ++ listToString(map (prettyWithVars realNames) terms) ++ ")"
 
--- macht Rules lesbar
+-- konvertiert interne Regeln zur Prolog Darstellung
 instance Pretty Rule where
     pretty r = prettyWithVars [] r
     prettyWithVars realNames (rh :- []) = (prettyWithVars realNames rh) ++ "."
     prettyWithVars realNames (rh :- rt) = (prettyWithVars realNames rh) ++ " :- " 
                                           ++ (concat (intersperse "," (map (prettyWithVars realNames) rt))) ++ "."
 
+-- konvertiert interne Anfragen zur Prolog Darstellung
 instance Pretty Goal where
     pretty g = prettyWithVars [] g
     prettyWithVars realNames (Goal ts) = "?- " ++ (concat (intersperse ", " (map (prettyWithVars realNames) ts))) ++ "."
 
+-- konvertiert interne Programme zur Prolog Darstellung
 instance Pretty Prog where
     pretty p = prettyWithVars [] p
     prettyWithVars realNames (Prog rs) = concat (intersperse "\n" (map (prettyWithVars realNames) rs))
 
--- macht Substitutionen lesbar
+-- konvertiert interne Substitutionen zur Prolog Darstellung
 instance Pretty Subst where
     pretty s = prettyWithVars [] s
     prettyWithVars realNames (Subst r) = "sigma = {" ++ (listToString (map (pretReplace realNames) r)) ++ "}"
@@ -67,6 +70,7 @@ instance Pretty Subst where
         pretReplace :: [(VarIndex,String)] -> Replace -> String
         pretReplace realNames (Replace i t) = (prettyWithVars realNames i) ++ " -> " ++ (prettyWithVars realNames t)
 
+-- konvertiert interne SLD Bäume zur Prolog Darstellung
 instance Pretty SLDTree where
     pretty t = prettyWithVars [] t
     prettyWithVars realNames (SLDTree (Goal ts) ledges) = (prettyWithVars realNames (Goal ts)) ++ "\n" ++ (concatMap (prettyLedges 0) ledges)
