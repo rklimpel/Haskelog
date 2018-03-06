@@ -91,22 +91,22 @@ interpretStategy newStrat p treeActivated oldStrat
                 shell p treeActivated oldStrat
 
 processGoal :: String -> Prog -> Bool -> Strategy -> IO()
-processGoal goal p treeActivated searchStrategy = case (parse goal) of
+processGoal goal p treeActivated searchStrategy = case (parseWithVars goal) of
                                                     Left e -> do 
                                                         putStr (inRed ("ERROR: Undefined input: \"" ++ e ++ "\"\n"))
                                                         shell p treeActivated searchStrategy
-                                                    Right (Goal ts) -> do
+                                                    Right ((Goal ts),realNames) -> do
                                                         putStr "\n"
-                                                        printResult (solve searchStrategy p (Goal ts))
+                                                        printResult (solve searchStrategy p (Goal ts)) realNames
                                                         shell p treeActivated searchStrategy
 
-printResult :: [Subst] -> IO()
-printResult [] = putStr "\n"
-printResult (x:xs) = do
-    putStr ((pretty x))
+printResult :: [Subst] -> [(VarIndex,String)] -> IO()
+printResult [] realNames     = putStr "\n"
+printResult (x:xs) realNames = do
+    putStr ((prettyWithVars realNames x))
     input <- getLine
     case input of 
-        "" -> printResult xs
+        "" -> printResult xs realNames
         otherwise -> do
             putStr "\n"
             return()
