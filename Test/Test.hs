@@ -171,6 +171,7 @@ sldTest = do
   showSldTest progE goalE
   showSldTest progF goalF
   showSldTest progB goalB2
+  -- kommt nicht zum ende: showSldTest progVorstand goalVorstand
 
 searchStrategyTest :: IO()
 searchStrategyTest = do

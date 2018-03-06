@@ -33,6 +33,9 @@ shell p treeActivated searchStrategy = do
         ":info" -> do
             printInfo p
             shell p treeActivated searchStrategy
+        ":showProg" -> do
+            printProg p
+            shell p treeActivated searchStrategy
         (stripPrefix ":load " -> Just file) -> do
             interpretFile file p treeActivated searchStrategy
         (stripPrefix ":set " -> Just strat) -> do
@@ -110,6 +113,10 @@ printResult (x:xs) realNames = do
         otherwise -> do
             putStr "\n"
             return()
+
+printProg :: Prog -> IO()
+printProg p = do
+    putStr ((pretty p) ++ "\n")
 
 inRed :: String -> String
 inRed s = "\x1b[31m" ++ s ++ "\x1b[0m"
