@@ -64,7 +64,7 @@ instance Pretty Prog where
 -- konvertiert interne Substitutionen zur Prolog Darstellung
 instance Pretty Subst where
     pretty s = prettyWithVars [] s
-    prettyWithVars realNames (Subst r) = "sigma = {" ++ (listToString (map (pretReplace realNames) r)) ++ "}"
+    prettyWithVars realNames (Subst r) = "= {" ++ (listToString (map (pretReplace realNames) r)) ++ "}"
         where
         -- kümmert sich um einzelne Replace Statements
         pretReplace :: [(VarIndex,String)] -> Replace -> String
