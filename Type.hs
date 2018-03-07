@@ -1,6 +1,13 @@
 module Type
-  ( VarIndex, Strategy, 
-    Term(..), Rule(..), Prog(..), Goal(..), Subst(..), Replace(..), SLDTree(..)
+  ( VarIndex, 
+    Strategy, 
+    Term(..), 
+    Rule(..), 
+    Prog(..), 
+    Goal(..), 
+    Subst(..), 
+    Replace(..), 
+    SLDTree(..)
   ) where
 
 -- Alias type for variables

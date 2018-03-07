@@ -65,7 +65,6 @@ term9 = Comb "append" [Comb "." [Var 0 , Comb "." [Comb "2" [], Comb "." [Comb "
 -- append([A,2,3,B,4], [], [[1],2,3,[4],4])
 term10 :: Term
 term10 = Comb "append" [Comb "." [Var 0 , Comb "." [Comb "2" [],Comb "." [Comb "3" [],Comb "." [Var 1, Comb "." [Comb "4" [], Comb "[]" [] ] ] ] ] ] ]
-             --   Comb "." [Comb "1" [], Comb "[]" []], Comb "2" [], Comb "3" [], Comb "." [Comb "4" [], Comb "[]" []], Comb "4" [] ], Comb "[]" []]]
 
 term105 :: Term
 term105 = Comb "append" [Comb "." [Comb "1" [], Comb "[]" []] , Comb "2" [], Comb "3" [], Comb "." [Comb "4" [], Comb "[]" []], Comb "4" []]
@@ -113,7 +112,7 @@ sub5 :: Subst
 sub5 = Subst[(Replace 1 (Comb "p" [Comb "." [Comb "1" [], Comb "." [Comb "2" [], Comb "[]" [] ] ]]) ) ]
 
 
--- EXERCISE 4
+-- EXERCISE 4 -SLD Trees
 
 -- SLD Test 1
 goalA = Goal [Comb "mutter" [Comb "Olaf" [],Var 0]]
@@ -131,8 +130,6 @@ ruleB4 = (Comb "member" [Var 0,Comb "." [Var 0,Var 10]]) :- []
 ruleB5 = (Comb "member" [Var 0,Comb "." [Var 10,Var 1]]) :- [Comb "member" [Var 0,Var 1]]
 ruleB6 = (Comb "member2" [Var 0,Var 1]) :- [Comb "delete" [Var 0,Var 1,Var 2],Comb "member" [Var 0,Var 2]]
 progB = Prog [ruleB1,ruleB2,ruleB3,ruleB4,ruleB5,ruleB6]
-
-
 
 --SLD Test 3
 goalC = Goal [Comb "vater" [Comb "olaf" [],Var 0]]
@@ -198,9 +195,8 @@ sld3 = sld progC goalC
 sld4 :: SLDTree
 sld4 = sld progB goalB2
 
-
+-- From Vorstandsgerangel Homework
 goalVorstand :: Goal
 goalVorstand = Goal [Comb "problemEins" [Var 0,Var 1,Var 2]]
-
 progVorstand :: Prog
 progVorstand = Prog [Comb "kandidat" [Comb "meier" []] :- [],Comb "kandidat" [Comb "mueller" []] :- [],Comb "kandidat" [Comb "schroeder" []] :- [],Comb "kandidat" [Comb "schulz" []] :- [],Comb "verschieden" [Comb "meier" [],Comb "mueller" []] :- [],Comb "verschieden" [Comb "meier" [],Comb "schroeder" []] :- [],Comb "verschieden" [Comb "meier" [],Comb "schulz" []] :- [],Comb "verschieden" [Comb "mueller" [],Comb "schroeder" []] :- [],Comb "verschieden" [Comb "mueller" [],Comb "schulz" []] :- [],Comb "verschieden" [Comb "mueller" [],Comb "meier" []] :- [],Comb "verschieden" [Comb "schroeder" [],Comb "schulz" []] :- [],Comb "verschieden" [Comb "schroeder" [],Comb "meier" []] :- [],Comb "verschieden" [Comb "schroeder" [],Comb "mueller" []] :- [],Comb "verschieden" [Comb "schulz" [],Comb "meier" []] :- [],Comb "verschieden" [Comb "schulz" [],Comb "mueller" []] :- [],Comb "verschieden" [Comb "schulz" [],Comb "schroeder" []] :- [],Comb "keinedoppelten" [Var 0,Var 1,Var 2] :- [Comb "verschieden" [Var 0,Var 1],Comb "verschieden" [Var 0,Var 2],Comb "verschieden" [Var 1,Var 2]],Comb "nichtMeier" [Comb "mueller" []] :- [],Comb "nichtMeier" [Comb "schroeder" []] :- [],Comb "nichtMeier" [Comb "schulz" []] :- [],Comb "nichtMueller" [Comb "meier" []] :- [],Comb "nichtMueller" [Comb "schroeder" []] :- [],Comb "nichtMueller" [Comb "schulz" []] :- [],Comb "nichtSchroeder" [Comb "mueller" []] :- [],Comb "nichtSchroeder" [Comb "meier" []] :- [],Comb "nichtSchroeder" [Comb "schulz" []] :- [],Comb "nichtSchulz" [Comb "mueller" []] :- [],Comb "nichtSchulz" [Comb "meier" []] :- [],Comb "nichtSchulz" [Comb "schroeder" []] :- [],Comb "muellerimvorstand" [Var 0,Var 1,Var 2] :- [Comb "muellerimvorstand" [Comb "mueller" [],Comb "kandidat" [Var 1],Comb "kandidat" [Var 2]]],Comb "muellerimvorstand" [Var 0,Var 1,Var 2] :- [Comb "muellerimvorstand" [Comb "mueller" [],Comb "kandidat" [Var 0],Comb "kandidat" [Var 2]]],Comb "muellerimvorstand" [Var 0,Var 1,Var 2] :- [Comb "muellerimvorstand" [Comb "mueller" [],Comb "kandidat" [Var 0],Comb "kandidat" [Var 1]]],Comb "meierimvorstand" [Var 0,Var 1,Var 2] :- [Comb "meierimvorstand" [Comb "meier" [],Comb "kandidat" [Var 1],Comb "kandidat" [Var 2]]],Comb "meierimvorstand" [Var 0,Var 1,Var 2] :- [Comb "meierimvorstand" [Comb "meier" [],Comb "kandidat" [Var 0],Comb "kandidat" [Var 2]]],Comb "meierimvorstand" [Var 0,Var 1,Var 2] :- [Comb "meierimvorstand" [Comb "meier" [],Comb "kandidat" [Var 0],Comb "kandidat" [Var 1]]],Comb "meiernichtimvorstand" [Var 0,Var 1,Var 2] :- [Comb "nichtMeier" [Var 0],Comb "nichtMeier" [Var 1],Comb "nichtMeier" [Var 2]],Comb "problemEins" [Var 0,Var 1,Var 2] :- [Comb "muellerimvorstand" [Var 0,Var 1,Var 2],Comb "nichtMeier" [Var 0],Comb "nichtMeier" [Var 1],Comb "nichtMeier" [Var 2]],Comb "problemEins" [Var 0,Var 1,Var 2] :- [Comb "meierimvorstand" [Var 0,Var 1,Var 2],Comb "nichtMueller" [Var 0],Comb "nichtMueller" [Var 1],Comb "nichtMueller" [Var 2]],Comb "problemZwei" [Var 0,Var 1,Var 2] :- [Comb "problemZwei" [Comb "schulz" [],Comb "kandidat" [Var 1],Comb "kandidat" [Var 2]]],Comb "problemZwei" [Var 0,Var 1,Var 2] :- [Comb "nichtSchulz" [Var 0],Comb "nichtMueller" [Var 0],Comb "nichtMueller" [Var 1],Comb "nichtMueller" [Var 2]],Comb "problemDrei" [Var 0,Var 1,Var 2] :- [Comb "meierimvorstand" [Var 0,Var 1,Var 2],Comb "kandidat" [Var 0],Comb "kandidat" [Var 1],Comb "kandidat" [Var 2]],Comb "problemDrei" [Var 0,Var 1,Var 2] :- [Comb "meiernichtimvorstand" [Var 0,Var 1,Var 2],Comb "nichtSchroeder" [Var 0],Comb "nichtSchroeder" [Var 1],Comb "nichtSchroeder" [Var 2]],Comb "problemVier" [Var 0,Var 1,Var 2] :- [Comb "problemVier" [Var 0,Comb "schulz" [],Var 2],Comb "nichtMeier" [Var 0],Comb "nichtMeier" [Var 2]],Comb "problemVier" [Var 0,Var 1,Var 2] :- [Comb "nichtSchulz" [Var 1],Comb "kandidat" [Var 0],Comb "kandidat" [Var 2]],Comb "problemFunf" [Var 0,Var 1,Var 2] :- [Comb "nichtSchroeder" [Var 0],Comb "kandidat" [Var 1],Comb "kandidat" [Var 2]],Comb "problemFunf" [Var 0,Var 1,Var 2] :- [Comb "problemFunf" [Comb "schroeder" [],Var 1,Var 2],Comb "nichtSchulz" [Var 1],Comb "nichtSchulz" [Var 2]],Comb "vorsitzender" [Var 0] :- [Comb "kandidat" [Var 0]],Comb "schriftfuehrer" [Var 1] :- [Comb "kandidat" [Var 1]],Comb "kassenwart" [Var 2] :- [Comb "kandidat" [Var 2]],Comb "vorstand" [Var 0,Var 1,Var 2] :- [Comb "vorsitzender" [Var 0],Comb "schriftfuehrer" [Var 1],Comb "kassenwart" [Var 2],Comb "keinedoppelten" [Var 0,Var 1,Var 2],Comb "problemEins" [Var 0,Var 1,Var 2],Comb "problemZwei" [Var 0,Var 1,Var 2],Comb "problemDrei" [Var 0,Var 1,Var 2],Comb "problemVier" [Var 0,Var 1,Var 2],Comb "problemFunf" [Var 0,Var 1,Var 2]]]
