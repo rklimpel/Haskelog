@@ -6,6 +6,7 @@ import Pretty
 import Type
 import Parser
 import Search
+import SLDTree
 
 import Data.List
 
@@ -42,6 +43,14 @@ shell p treeActivated searchStrategy = do
         ":showProg" -> do
             printProg p
             shell p treeActivated searchStrategy
+        ":toggleTree" -> do
+            if treeActivated
+                then do
+                    putStr "show SLDTree turned OFF\n"
+                    shell p False searchStrategy
+                else do
+                    putStr "show SLDTree turned ON\n"
+                    shell p True searchStrategy
         (stripPrefix ":load " -> Just file) -> do
             interpretFile file p treeActivated searchStrategy
         (stripPrefix ":set " -> Just strat) -> do
@@ -60,6 +69,8 @@ printHelp = do
     putStrLn ":quit         Exits the interactive environment."
     putStrLn ":set <strat>  Sets the specified search strategy"
     putStrLn "              where <strat> is one of 'dfs' or 'bfs'."
+    putStrLn ":toggleTree   Toggles if SLDTree is shown when processing"
+    putStrLn "              goal or not."
     putStrLn ""
     putStrLn "To handle massive Solutions:"
     putStrLn "press <Enter> to show next possible Solution"
@@ -111,6 +122,8 @@ processGoal goal p treeActivated searchStrategy = case (parseWithVars goal) of
                                                         shell p treeActivated searchStrategy
                                                     Right ((Goal ts),realNames) -> do
                                                         putStr "\n"
+                                                        if treeActivated 
+                                                            then printSLDTree (sld p (Goal ts)) else putStr ""
                                                         printResult (solve searchStrategy p (Goal ts)) realNames
                                                         shell p treeActivated searchStrategy
 
@@ -125,6 +138,13 @@ printResult (x:xs) realNames = do
         otherwise -> do
             putStr "\n"
             return()
+
+printSLDTree :: SLDTree -> IO()
+printSLDTree tree = do
+    putStr "SLDTree:\n"
+    putStr ""
+    putStr (pretty tree)
+    putStr "\n"
 
 -- zeigt alle Regeln eines Programms in Prolog Syntax an
 printProg :: Prog -> IO()
