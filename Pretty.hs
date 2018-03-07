@@ -22,27 +22,14 @@ instance Pretty VarIndex where
 -- konvertiert interne Terme zur Prolog Darstellung
 instance Pretty Term where
     pretty t = prettyWithVars [] t
-    prettyWithVars realNames (Var x)               = prettyWithVars realNames x
-    prettyWithVars realNames (Comb s [])           = s
-    prettyWithVars realNames (Comb "." (t1:t2))    = dot realNames t1 (head t2)
-        where
-        -- Verarbeitet die "." Operation
-        dot :: [(VarIndex,String)] -> Term -> Term -> String
-        -- varx + [] -> [varx]
-        dot realNames (Var x) (Comb "[]" [])                        = "[" ++ (prettyWithVars realNames x) ++ "]"
-        -- varx + vary -> [varx|vary]
-        dot realNames (Var x) (Var y)                               = "[" ++ (prettyWithVars realNames x) ++ "|" ++ (prettyWithVars realNames y) ++ "]"          
-        -- varx + [c,[]] -> [varx,c]                        
-        dot realNames (Var x) (Comb "." [Comb c [], Comb "[]" []] ) = "[" ++ (prettyWithVars realNames x) ++ "," ++ c ++ "]"
-        -- varx + [t1,t2] -> [varx|[t1,t2]]
-        dot realNames (Var x) (Comb "." (t1:t2))                    = "[" ++ (prettyWithVars realNames x) ++ "|" ++ (dot realNames t1 (head t2)) ++ "]"
-        -- c + varx -> [c|varx]
-        dot realNames (Comb c []) (Var x)                           = "[" ++ c ++ "|" ++ (prettyWithVars realNames x) ++ "]" 
-        -- c + [] -> [c]
-        dot realNames (Comb c []) (Comb "[]" [])                    = "[" ++ c ++ "]"
-        -- c + [t1,t2] -> [c,t1,t2]
-        dot realNames (Comb c []) (Comb "." (t1:t2))                = "[" ++ c ++ "," ++ (removeBrackets (dot realNames t1 (head t2))) ++ "]"
-    prettyWithVars realNames (Comb s terms)        = s ++ "(" ++ listToString(map (prettyWithVars realNames) terms) ++ ")"
+    prettyWithVars realNames (Var x)                          = prettyWithVars realNames x
+    prettyWithVars realNames (Comb "." [head,Comb "[]" []])   = "[" ++ (prettyWithVars realNames head) ++ "]"
+    prettyWithVars realNames (Comb "." [head,Comb "." terms]) = "[" ++ (prettyWithVars realNames head) ++ "," 
+                                                                    ++ (removeBrackets (prettyWithVars realNames (Comb "." terms))) ++ "]"
+    prettyWithVars realNames (Comb "." [head,tail])           = "[" ++ (prettyWithVars realNames head) ++ "|"
+                                                                    ++ (prettyWithVars realNames tail) ++ "]"
+    prettyWithVars realNames (Comb s [])                      = s
+    prettyWithVars realNames (Comb s terms)                   = s ++ "(" ++ listToString(map (prettyWithVars realNames) terms) ++ ")"
 
 -- konvertiert interne Regeln zur Prolog Darstellung
 instance Pretty Rule where
