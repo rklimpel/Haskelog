@@ -48,12 +48,12 @@ bfs tree = bfs' [(Sub.empty,tree)] []
         -- tree is leaf, queue is not empty, goal is no result
         Just (que,(sub,SLDTree _ []))         -> bfs' que subs
         -- Tree is not a leaf -> Add all further branches to the queue
-        -- OLD STYLE :Just (que,(sub,SLDTree _ ts)) -> bfs' (foldl (\que (sub2,ts2) -> addElement que ((compose sub2 sub),ts2)) que ts) subs
         Just (que,(sub,SLDTree _ ts))         -> bfs' (addKidsToQueue que sub ts) subs
             where
             addKidsToQueue :: Queue -> Subst -> [(Subst,SLDTree)] -> Queue
             addKidsToQueue qu rootSub []                    = qu
-            addKidsToQueue qu rootSub ((newSub,newTree):xs) = addKidsToQueue (addElement qu ((compose newSub rootSub),newTree)) rootSub xs
+            addKidsToQueue qu rootSub ((newSub,newTree):xs) = let kid = ((compose newSub rootSub),newTree)
+                                                              in addKidsToQueue (addElement qu kid) rootSub xs
         -- Queue is empty -> List of previous written substitutions is the result
         Nothing -> subs  
 
@@ -86,12 +86,14 @@ subTermVarsInGoal (Goal ts) (Subst rs)
     = if elem True (map (termListHasSubterm ts) (map getTerm rs)) 
         || getVarsInTermList (map getTerm rs) == [] 
         then Just (Subst rs) 
-      else Nothing
+        else Nothing
 
 -- Check if the variable of a replace is contained in a term
 -- either returns Just the Replace or Nothing
 isElement :: VarIndex -> Term -> [VarIndex] -> Maybe [Replace]
-isElement x t ys = if elem x ys then Just [(Replace x t)] else Nothing
+isElement x t ys = if elem x ys 
+                    then Just [(Replace x t)] 
+                    else Nothing
 
 -- Returns a list of all the replacements in a substitution
 getReplacements :: Subst -> [Replace]

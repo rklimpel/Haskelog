@@ -227,11 +227,11 @@ ruleF1  = Comb "mutter" [Comb "Olaf" [],Comb "Lara" []] :- []
 ruleF2 :: Rule
 ruleF2  = Comb "ehemann" [Comb "Lara" [],Comb "Heiner" []] :- []
 ruleF3 :: Rule
-ruleF3  = Comb "ehemann" [Comb "Chanti" [], Comb "ITS JOHN CENA"  []]:- []
+ruleF3  = Comb "ehemann" [Comb "Chanti" [], Comb "detlef"  []]:- []
 ruleF4 :: Rule
 ruleF4  = Comb "mutter" [Comb "Lara" [], Comb "Chanti" []] :- []
 ruleF5 :: Rule
-ruleF5  = Comb "vater" [Comb "Lara" [], Comb "Kevin" []]  :- []
+ruleF5  = Comb "vater" [Comb "chanti" [], Comb "Kevin" []]  :- []
 ruleF6 :: Rule
 ruleF6  = Comb "vater" [Var 0,Var 1] :- [Comb "mutter" [Var 0,Var 2], Comb "ehemann" [Var 2,Var 1]]
 ruleF7 :: Rule

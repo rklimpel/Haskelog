@@ -63,10 +63,10 @@ showSldTest p g = do
 showDFSSearchTest :: Prog -> Goal -> IO()
 showDFSSearchTest p g = do 
   putStr ("\n" ++ (take 20 manyLines))
-  putStr ((buildSubtitle "Strategy:") ++ "DFS -> Tiefensuche")
-  putStr ("\n"++ (buildSubtitle "Rules") ++ (pretty p) ++ "\n")
-  putStr ("\n"++ (buildSubtitle "Goal:") ++ (pretty g) ++ "\n")
-  putStr ((take 20 manyLines) ++ "\n         |  \n         V\n")
+  putStr ((buildSubtitle "Strategy:") ++ "DFS -> Tiefensuche\n")
+  --putStr ("\n"++ (buildSubtitle "Rules") ++ (pretty p) ++ "\n")
+  --putStr ("\n"++ (buildSubtitle "Goal:") ++ (pretty g) ++ "\n")
+  showSldTest p g
   putStrLn (inGreen (concat (intersperse "\n" (map pretty (solve dfs p g)))))
   putStr ""
 
@@ -74,10 +74,10 @@ showDFSSearchTest p g = do
 showBFSSearchTest :: Prog -> Goal -> IO()
 showBFSSearchTest p g = do 
   putStr ("\n" ++ (take 20 manyLines))
-  putStr ((buildSubtitle "Strategy:") ++ "\n" ++ "BFS -> Breitensuche")
-  putStr ("\n"++ (buildSubtitle "Rules") ++ (pretty p) ++ "\n")
-  putStr ("\n"++ (buildSubtitle "Goal:") ++ (pretty g) ++ "\n")
-  putStr ((take 20 manyLines) ++ "\n         |  \n         V\n")
+  putStr ((buildSubtitle "Strategy:") ++ "\n" ++ "BFS -> Breitensuche\n")
+  --putStr ("\n"++ (buildSubtitle "Rules") ++ (pretty p) ++ "\n")
+  --putStr ("\n"++ (buildSubtitle "Goal:") ++ (pretty g) ++ "\n")
+  showSldTest p g
   putStrLn (inGreen (concat (intersperse "\n" (map pretty (solve bfs p g)))))
   putStr ""
 

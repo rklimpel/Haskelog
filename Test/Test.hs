@@ -181,12 +181,12 @@ searchStrategyTest = do
   showSubtitle "dfs - Tiefensuche"
 
   showDFSSearchTest progF goalF
-  showDFSSearchTest progE goalE
+  -- showDFSSearchTest progE goalE
   showDFSSearchTest progB goalB2
 
   showSubtitle "bfs - Breitensuche"
 
   showBFSSearchTest progF goalF
-  showBFSSearchTest progE goalE
+  -- showBFSSearchTest progE goalE
   showBFSSearchTest progB goalB2
 

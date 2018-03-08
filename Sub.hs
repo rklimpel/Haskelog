@@ -18,18 +18,18 @@ single var term = Subst [(Replace var term)]
 apply :: Subst -> Term -> Term
 -- substitution empty -> term stays as itself
 apply (Subst []) t                            = t
--- Term ist konstante
+-- term is a constant
 -- apply _ (Comb c [])                           = (Comb c []) -- durch anderen Fall schon abgedeckt
--- Term ist eine Variable
+-- term is a variable
 apply (Subst ((Replace i t):rs)) (Var v)      = if v == i then t else apply (Subst rs) (Var v)
--- Term ist 'noch' komplizierter
+-- Term is 'still' complex
 apply sub (Comb s terms)                      = (Comb s (map (apply sub) terms))
 
--- komponiert zwei Substitutionen
--- Remember: apply(compse s2 s1) t == apply s2 (apply s1 t)
+-- composes two substitutions
+-- Remember: apply(compse s2 s1) t == apply s2 (apply s1 t) 
 compose :: Subst -> Subst -> Subst
--- Eine der Substitutionen ist leer
+-- one of the substitutions is empty -> the other sub does not change
 compose s1 (Subst [])           = s1
 compose (Subst []) s2           = s2
--- Wende Subst1 auf Terme von Subst2 an
+-- Apply Subst1 to terms of Subst2
 compose (Subst r1s) (Subst r2s) = Subst ((buildReplace (map getIndex r2s) (map (apply (Subst r1s)) (map getTerm r2s))) ++ r1s)
