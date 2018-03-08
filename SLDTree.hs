@@ -10,8 +10,9 @@ import Data.Maybe (catMaybes)
 
 -- PUBLIC FUNCTIONS
 
--- konstruiert den SLD-Baum zu einem Programm und einer Anfrage
--- Selektionsstrategie FIRST (es wird immer das linkeste Literal zum Beweisen ausgewählt)
+-- constructs a SLD tree from a request and a program
+-- Selection strategy: First
+-- the left literal is always selected for proofing
 sld :: Prog -> Goal -> SLDTree
 sld p (Goal ts) = sldHelper (incVarsProg ((maxVarInTermlist ts)+1) p) (Goal ts) Sub.empty
     where
@@ -24,13 +25,13 @@ sld p (Goal ts) = sldHelper (incVarsProg ((maxVarInTermlist ts)+1) p) (Goal ts) 
 
     -- guckt nach ob 
     sldHelper' :: Prog -> Goal -> Subst -> Rule -> Maybe (Subst, SLDTree)
-    sldHelper' p (Goal (g:gs)) s (rh :- rt) = 
-        case (unify g rh) of
+    sldHelper' p (Goal ts) s (rh :- rt) = 
+        case (unify (head ts) rh) of
         -- wenn Unify eine Substitutuion gefunden hat dann steppe tiefer in den Boum rein
         -- Rückgabe: su : die von unify gefundene Unifizierung von dem head von goal und der Regel
         Just su -> let compSub    = compose s su
-                       progOffset = incVarsProg ((subGoalMaxVarIndex su (Goal (g:gs)))+1) p     -- ? hmmm
-                       newGoal    = Goal (map (apply su) (rt ++ gs))                            -- ? hmmm
+                       progOffset = incVarsProg ((subGoalMaxVarIndex su (Goal ts))+1) p     -- ? hmmm
+                       newGoal    = Goal (map (apply su) (rt ++ (tail ts)))                            -- ? hmmm
                        newTree    = sldHelper progOffset newGoal compSub
                     in Just (su,newTree)
         -- wenn Unify Nothing zurückgibt ist bricht der SLDTree an dieser Stelle ab
@@ -60,15 +61,15 @@ subGoalMaxVarIndex s (Goal ts) = maximum ((maxVarInSubst s):[(maxVarInTermlist t
 
 -- Gibt die Variable aus dem Replace Datentypen zurück
 getVarOfReplace :: Replace -> VarIndex
-getVarOfReplace (Replace v t) = v
+getVarOfReplace (Replace v _) = v
 
 -- Gibt den Term aus dem Replace Datentypen zurück
 getTermOfReplace :: Replace -> Term
-getTermOfReplace (Replace v t) = t
+getTermOfReplace (Replace _ t) = t
     
 -- erhöhe Variabelen in Programm um einen bestimmten Wert
 incVarsProg :: Int -> Prog -> Prog
-incVarsProg i (Prog [])     = Prog []
+incVarsProg _ (Prog [])     = Prog []
 incVarsProg i (Prog [r])    = Prog [incVarsRule i r]
 incVarsProg i (Prog (r:rs)) = Prog (incVarsRule i r:(getRuleListFromProg (incVarsProg i (Prog rs))))
 

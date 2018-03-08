@@ -129,15 +129,14 @@ processGoal goal p treeActivated searchStrategy = case (parseWithVars goal) of
 
 -- print solve results to user
 printResult :: [Subst] -> [(VarIndex,String)] -> IO()
-printResult [] realNames     = putStr "\n"
+printResult [] _     = putStr "\n"
 printResult (x:xs) realNames = do
     putStr ((prettyWithVars realNames x))
     input <- getLine
     case input of 
-        "" -> printResult xs realNames
-        otherwise -> do
-            putStr "\n"
-            return()
+        ""        -> printResult xs realNames
+        _         -> putStr "\n"
+
 
 printSLDTree :: SLDTree -> IO()
 printSLDTree tree = do

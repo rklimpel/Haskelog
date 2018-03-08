@@ -1,7 +1,9 @@
 module Main (main) where
 
 import qualified Interactive
-import Test.Test
+import Test.Test()
+
+
 {-
 
 Welcome to Haskelog - Simple Prolog Interpreter written in Haskell.

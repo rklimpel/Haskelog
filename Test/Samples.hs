@@ -1,11 +1,9 @@
 module Test.Samples where
 
 import Type
-import Pretty
+import Pretty()
 import Sub
 import SLDTree
-
-import Utils.TermUtils
 
 
 -- VARIABLES
@@ -121,6 +119,7 @@ ruleA1 :: Rule
 ruleA1 = Comb "mutter" [Comb "Olaf" [],Comb "Mathilda" []] :- []
 ruleA2 :: Rule
 ruleA2 = Comb "mutter" [Comb "hugo" [],Comb "Mathilda" []] :- []
+progA :: Prog
 progA = Prog [ruleA1,ruleA2]
 
 -- SLD Test 2
@@ -176,10 +175,11 @@ progD = Prog [ruleD1,ruleD2,ruleD3,ruleD4,ruleD5,ruleD6]
 --Der SDL rechent oma der SDL sehr schnell
 goalE :: Goal
 goalE   = Goal [Comb "uropa" [Var 0,Var 1]]
-ruleE1  = Comb "vater" [Comb "Laura" [], Comb "Justin" []] :- []
 ruleE1 :: Rule
-ruleE2  = Comb "vater" [Comb "Justin" [], Comb "Kobe" []] :- []
+ruleE1  = Comb "vater" [Comb "Laura" [], Comb "Justin" []] :- []
 ruleE2 :: Rule
+ruleE2  = Comb "vater" [Comb "Justin" [], Comb "Kobe" []] :- []
+ruleE3 :: Rule
 ruleE3  = Comb "mutter" [Comb "Olaf" [],Comb "Lara" []] :- []
 ruleE4 :: Rule
 ruleE4  = Comb "ehemann" [Comb "Lara" [],Comb "Heiner" []] :- []
