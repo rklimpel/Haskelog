@@ -33,7 +33,7 @@ dfs sld = dfs' sld Sub.empty
     -- Goal not Empty, more Ledges to go -> Step inside the trees leafes
     dfs' (SLDTree _ x) s          = concat (map (dfs'' s) x)
         where
-        -- helper to apply the substitution to the exisiting onekslksdflksdlkfjsdks
+        -- helper to apply the substitution to the exisiting one for every 'subtree' of the one you are looking at
         dfs'' :: Subst -> (Subst,SLDTree) -> [Subst]
         dfs'' sub2 (sub,tree) = dfs' tree (compose sub sub2)
 
@@ -43,26 +43,26 @@ bfs tree = bfs' [(Sub.empty,tree)] []
     where 
     bfs' :: Queue -> [Subst] -> [Subst]
     bfs' q subs = case getElement q of
-        -- Baum ist Blatt, Warteschlange ist nicht leer, Goal ist ein ergebnis
+        -- Tree is leaf, queue is not empty, goal is a result
         Just (que,(sub,SLDTree (Goal []) [])) -> bfs' que (subs ++ [sub])
-        -- Baum ist Blatt, Warteschlange ist nicht leer, Goal ist kein ergebnis
+        -- tree is leaf, queue is not empty, goal is no result
         Just (que,(sub,SLDTree _ []))         -> bfs' que subs
-        -- Baum ist kein Blatt -> Alle weiteren Verzweigungen in die Warteschlange hinzufügen
+        -- Tree is not a leaf -> Add all further branches to the queue
         Just (que,(sub,SLDTree _ ts)) -> bfs' (foldl (\que (sub2,ts2) -> addElement que ((compose sub2 sub),ts2)) que ts) subs
-        -- Warteschlange ist leer -> List an bisherigen Substitutionen ist das Ergebnis
+        -- Queue is empty -> List of previous written substitutions is the result
         Nothing -> subs  
 
--- Löst eine Anfrage + Programm. Gibt die mit einer bestimmten Suchstrategie gefundenen Ergebnisse als [Subst] zurück
+-- Solves a request + program. Returns found results as [noun]. Get the result list from a search strategy
 solve :: Strategy -> Prog -> Goal -> [Subst]
 solve searchStrategy p g = let result     = searchStrategy (sld p g)                 -- Result from Search Strategy, List of Subst
-                               result'    = map (filterForGoalVars g) result         -- Result ohne Replaces deren Variable nicht im Goal Vorkommt
-                               result''   = nub result'                              -- Result ohne Doppelte einträge
-                               resultEnd  = mapMaybe (subTermVarsInGoal g) result''  -- Result ohne substitution auf nicht im Goal vorkommende Variablen
+                               result'    = map (filterForGoalVars g) result         -- Result without replaces whose variable does not occur in the goal
+                               result''   = nub result'                              -- Result without duplicate entries
+                               resultEnd  = mapMaybe (subTermVarsInGoal g) result''  -- Result without substitution on non-goal variables
                            in resultEnd
 
 -- INTERNAL FUNCTIONS
 
--- löscht die Replacements aus der Substitutionen deren Variablen (links) nicht im Goal vorkommen
+-- deletes the replacements from the substitutions whose variables (left) are not in the goal
 filterForGoalVars :: Goal -> Subst -> Subst
 filterForGoalVars go s = filterForGoalVars' go s []
     where
@@ -74,8 +74,8 @@ filterForGoalVars go s = filterForGoalVars' go s []
               restList     = getReplacements (filterForGoalVars' g (Subst rs) xs)
           in Subst (listUntilNow ++ (checkHead ++ restList))
 
--- gibt eine Substitution nur dann zurück wenn auf der rechten seite nur Konstanten stehen 
--- oder die Variablen auf der rechten seite im Goal Vorkommen
+-- returns a substitution only if there are only constants on the right side
+-- or the variables on the right appear in the goal-terms
 subTermVarsInGoal :: Goal -> Subst -> Maybe Subst
 subTermVarsInGoal (Goal ts) (Subst rs) 
     = if elem True (map (termListHasSubterm ts) (map getTerm rs)) 
@@ -83,15 +83,15 @@ subTermVarsInGoal (Goal ts) (Subst rs)
         then Just (Subst rs) 
       else Nothing
 
--- Schaut nach ob die Variable eines Replace's in einem Term enthalten ist
--- gibt entweder den Replace zurück oder Nothing
+-- Check if the variable of a replace is contained in a term
+-- either returns Just the Replace or Nothing
 isElement :: VarIndex -> Term -> [VarIndex] -> Maybe [Replace]
 isElement x t ys = if elem x ys then Just [(Replace x t)] else Nothing
 
--- gibt eine Liste aller Replace's in einer Substitution zurück
+-- Returns a list of all the replacements in a substitution
 getReplacements :: Subst -> [Replace]
 getReplacements (Subst rs) = rs
 
--- gibt alle Varibalen zurück die in einer Anfrage vorkommen
+-- returns all variables that occur in a goal
 getVarsInGoal :: Goal -> [VarIndex]
 getVarsInGoal (Goal ts) = getVarsInTermList ts

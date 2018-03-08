@@ -93,7 +93,7 @@ maxVarInTermlist ts
     | otherwise         = 0
 
 -- returns the largest variable in a  term (0 if no variable is included)
-maxVarInTerm:: Term -> VarIndex
+maxVarInTerm :: Term -> VarIndex
 maxVarInTerm (Var v)     = v
 maxVarInTerm (Comb s []) = 0
 maxVarInTerm (Comb s ts) 

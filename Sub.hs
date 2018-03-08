@@ -6,18 +6,17 @@ import Utils.SubUtils
 
 -- PUBLIC FUNTCTIONS
 
--- Erstellt eine leere Substitution
+-- creates an empty substitution
 empty :: Subst
 empty = Subst []
 
--- Erstellt eine Substitution die eine einzelne Variable 
--- auf einen Term abbildet
+-- creates a substitution that maps a single variable to a term
 single :: VarIndex -> Term -> Subst
 single var term = Subst [(Replace var term)]
 
--- wendet Substitution auf einen Term an
+-- applies substitution to a term
 apply :: Subst -> Term -> Term
--- Subst leer
+-- substitution empty -> term stays as itself
 apply (Subst []) t                            = t
 -- Term ist konstante
 -- apply _ (Comb c [])                           = (Comb c []) -- durch anderen Fall schon abgedeckt
