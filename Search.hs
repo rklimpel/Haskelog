@@ -95,10 +95,6 @@ isElement x t ys = if elem x ys
                     then Just [(Replace x t)] 
                     else Nothing
 
--- Returns a list of all the replacements in a substitution
-getReplacements :: Subst -> [Replace]
-getReplacements (Subst rs) = rs
-
 -- returns all variables that occur in a goal
 getVarsInGoal :: Goal -> [VarIndex]
 getVarsInGoal (Goal ts) = getVarsInTermList ts

@@ -117,16 +117,29 @@ interpretStategy newStrat p treeActivated oldStrat
 
 -- processes all other user input (assumption: it is a Goal)
 processGoal :: String -> Prog -> Bool -> Strategy -> IO()
-processGoal goal p treeActivated searchStrategy = case (parseWithVars goal) of
-                                                    Left e -> do 
-                                                        putStr (inRed ("ERROR: Undefined input: \"" ++ e ++ "\"\n"))
-                                                        shell p treeActivated searchStrategy
-                                                    Right ((Goal ts),realNames) -> do
-                                                        putStr "\n"
-                                                        if treeActivated 
-                                                            then printSLDTree (sld p (Goal ts)) else putStr ""
-                                                        printResult (solve searchStrategy p (Goal ts)) realNames
-                                                        shell p treeActivated searchStrategy
+processGoal goal p treeActivated searchStrategy 
+    = case (parseWithVars goal) of
+        Left e -> do 
+            putStr (inRed ("ERROR: Undefined input: \"" ++ e ++ "\"\n"))
+            shell p treeActivated searchStrategy
+        Right ((Goal ts),realNames) -> do
+            putStr "\n"
+            if treeActivated 
+                then printSLDTree (sld p (Goal ts)) else putStr ""
+            printResult (removeAnonymous (solve searchStrategy p (Goal ts)) realNames) realNames
+            shell p treeActivated searchStrategy
+
+-- removes anonymous Variables from the result substitutions
+removeAnonymous :: [Subst] -> [(VarIndex,String)] -> [Subst]
+removeAnonymous [] realNames                = []
+removeAnonymous ((Subst rs):subs) realNames = [(removeAnonymous' rs realNames [])] ++ (removeAnonymous subs realNames)
+    where
+    removeAnonymous' :: [Replace] -> [(VarIndex,String)] -> [Replace] -> Subst
+    removeAnonymous' [] _ result = Subst result
+    removeAnonymous' ((Replace i t):rs) realNames result 
+        = case lookup i realNames of
+            Just "_" -> removeAnonymous' rs realNames result
+            _        -> removeAnonymous' rs realNames (result ++ [(Replace i t)])
 
 -- shows the results of a request to the user (next solution with enter)
 printResult :: [Subst] -> [(VarIndex,String)] -> IO()

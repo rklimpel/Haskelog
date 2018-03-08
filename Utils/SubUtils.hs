@@ -17,3 +17,7 @@ buildReplace is ts = buildReplaceH is ts []
     buildReplaceH :: [VarIndex] -> [Term] -> [Replace] -> [Replace]
     buildReplaceH [i] [t] r         = r ++ [(Replace i t)]
     buildReplaceH (i:is) (t:ts) r   =  [(Replace i t)] ++ (buildReplaceH is ts r)
+
+-- Returns a list of all the replacements in a substitution
+getReplacements :: Subst -> [Replace]
+getReplacements (Subst rs) = rs
