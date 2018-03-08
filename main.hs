@@ -1,7 +1,7 @@
 module Main (main) where
 
 import qualified Interactive
-import Test.Test()
+import Test.Test
 
 
 {-
@@ -9,7 +9,7 @@ import Test.Test()
 Welcome to Haskelog - Simple Prolog Interpreter written in Haskell.
 
 - Type main to Enter the Interactive Prolog Shell
-- Lookup Functions in /Test/Test.hs and use them to Test the Projekt
+- Lookup Functions in /Test/Test.hs and use them to Test the Projekt with our samples
 
 Rico & Gianmarco @2018
 

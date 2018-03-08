@@ -1,4 +1,10 @@
-module Test.Test where
+module Test.Test (
+  runAllTests,
+  prettyTest,
+  substTest,
+  unifyTest,
+  sldTest)
+  where
 
 import Test.Samples
 import Test.TestViews
@@ -164,7 +170,7 @@ sldTest = do
   showSldTest progE goalE
   showSldTest progF goalF
   showSldTest progB goalB2
-  -- kommt nicht zum ende: showSldTest progVorstand goalVorstand
+  -- endless tree building... : showSldTest progVorstand goalVorstand
 
 searchStrategyTest :: IO()
 searchStrategyTest = do

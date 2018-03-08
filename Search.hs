@@ -26,14 +26,14 @@ dfs :: Strategy
 dfs sld = dfs' sld Sub.empty
     where 
     dfs' :: SLDTree -> Subst -> [Subst]
-    -- Goal Empty -> Lösung gefunden
+    -- Goal Empty -> found a solution
     dfs' (SLDTree (Goal []) []) s = [s]
-    -- Goal not Emtpy, but no more Ledges -> kein Lösung auf diesem Weg
+    -- Goal not Emtpy, but no more Ledges -> no solution on this way
     dfs' (SLDTree _ []) _         = []
-    -- Goal note Empty, more Ledges to go -> Step in 
+    -- Goal not Empty, more Ledges to go -> Step inside the trees leafes
     dfs' (SLDTree _ x) s          = concat (map (dfs'' s) x)
         where
-        -- Step deeper inside the Tree....
+        -- helper to apply the substitution to the exisiting onekslksdflksdlkfjsdks
         dfs'' :: Subst -> (Subst,SLDTree) -> [Subst]
         dfs'' sub2 (sub,tree) = dfs' tree (compose sub sub2)
 

@@ -1,50 +1,50 @@
 module Utils.StringUtils where
 
--- wandelt einenen einzelnen char in eine einelementige liste von chars um (-> String)
+-- converts a single char into a single-element list of chars (-> String)
 charToString :: Char -> String
 charToString c = [c]
 
--- wandelt eine List von Chars in eine Liste von Strings um 
+-- converts a list of chars into a list of strings
 charListToStringList :: [Char] -> [String]
 charListToStringList []     = []
 charListToStringList (x:xs) = charToString x:charListToStringList xs
 
--- wandelt eine Liste von Strings in einen einzelnen String um (& setzt Kommas)
+-- converts a list of strings into a single string (and inserts commas in between)
 listToString :: [String] -> String
 listToString []     = []
 listToString [x]    = x
 listToString (x:xs) = x ++ "," ++ (listToString xs)
 
--- entfernt Ecke Klammern am anfang und Ende eines Strings
+-- removes the first and last element of a string (used to remove the square chambers)
 removeBrackets :: String -> String 
 removeBrackets (_:xs) = reverse (removeHead (reverse xs))
     where
-    -- entfernt das erste Element eines Strings
+    -- remove the first element of a string
     removeHead :: String -> String
     removeHead (_:xs) = xs
 
--- gibt True zurück wenn ein String folgende gestalt hat: "[]"
+-- returns true if a string has the form: "[]"
 isEmpty :: String -> Bool 
 isEmpty s
     | s == "[]" = True
     | otherwise = False
 
--- gibt True zrück wenn ein String mit "[" beginnt 
+-- returns true if a string starts with "["
 isList :: String -> Bool
 isList [x] = False
 isList (x:xs) 
     | x == '[' = True
     | otherwise = False
 
--- hält das Gesamte Alphabet von A-Z als liste von chars
+-- the entire alphabet of A-Z as a list of chars
 alphabet :: String
 alphabet = ['A'..'Z']
 
--- hät alle Zahlen von 1-9 in als List von Chars
+-- all numbers from 1-9 in as a list of Chars
 numbers :: [Int]
 numbers = [1..]
 
--- Variable pretty Index
+-- a list of variable names given to the variables from 0 - X, infinite
 prettyVarNames :: [String]
 prettyVarNames = (charListToStringList alphabet) ++ (concat (map (helper alphabet) (map show numbers)))
     where 
@@ -54,10 +54,10 @@ prettyVarNames = (charListToStringList alphabet) ++ (concat (map (helper alphabe
         helper' :: [Char] -> Char -> String
         helper' number letter = letter:number
 
--- baut einen 40 Zeichen langen Seperator aus der unendlichen Liste von '-'
+-- builds a 40-character separator from the infinite list of '-'
 seperator :: String
 seperator = "\n" ++ (take 40 endlessMinus) ++ "\n"
 
--- unendliche List von '-'
+-- infinite list of '-'
 endlessMinus :: String
 endlessMinus = '-':endlessMinus

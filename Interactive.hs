@@ -12,7 +12,7 @@ import Data.List
 
 -- PUBLIC FUNCTIONS
 
--- Startet die Interaktive Prolog Umgebung
+-- starts the Interactive Prolog environment
 main :: IO()
 main = do
     putStr "\nInteractive environment started...\n\n"
@@ -22,7 +22,7 @@ main = do
 
 -- INTERNAL FUNCTIONS
 
--- Verarbeitet einen einzlnen input in die Interaktive Prolog Umgebung
+-- processes a single input in the Interactive Prolog environment
 shell :: Prog -> Bool -> Strategy -> IO()
 shell p treeActivated searchStrategy = do
     putStr "?- "
@@ -58,7 +58,7 @@ shell p treeActivated searchStrategy = do
         goal -> do
             processGoal goal p treeActivated searchStrategy
 
--- Zeigt die Hilfe an
+-- displays the help
 printHelp :: IO()
 printHelp = do
     putStrLn "Commands available from the prompt:"
@@ -76,7 +76,7 @@ printHelp = do
     putStrLn "press <Enter> to show next possible Solution"
     putStrLn "type anything & press <Enter> to cancel Solution Output"
 
--- Zeigt alle Prädikate aus der geladenen Prolog datei und wie viele Argumente diese haben
+-- shows all predicates from the loaded Prolog file and how many arguments they have
 printInfo :: Prog -> IO()
 printInfo (Prog rs) = do 
     putStr "Available predicates:\n"
@@ -88,7 +88,7 @@ getPredicate :: Rule -> String
 getPredicate (Comb s ts :- _) = s ++ "/" ++ (show (length ts))
 getPredicate _                = ""
 
--- lädt ein Programm aus einer Prolog Datei
+-- extracts predicates and number of arguments from a rule
 interpretFile :: String -> Prog -> Bool -> Strategy -> IO()
 interpretFile file oldProg treeActivated searchStrategy = do
     fileContent <- parseFile file
@@ -100,7 +100,7 @@ interpretFile file oldProg treeActivated searchStrategy = do
             putStrLn (inGreen ("Loaded file '" ++ file ++ "'."))
             shell p treeActivated searchStrategy
 
--- Interpretiert die Nutzereingabe zur SearchStrategy Änderung
+-- Interprets the user input for the SearchStrategy change
 interpretStategy :: String -> Prog -> Bool -> Strategy -> IO()
 interpretStategy newStrat p treeActivated oldStrat 
             | newStrat == "bfs" = do
@@ -114,7 +114,7 @@ interpretStategy newStrat p treeActivated oldStrat
                 putStr "available strategys are: dfs,bfs\n"
                 shell p treeActivated oldStrat
 
--- verarbeitet sämtlich andere Nutzereingaben unter der annahme es sei ein Goal
+-- processes all other user input (assumption: it is a Goal)
 processGoal :: String -> Prog -> Bool -> Strategy -> IO()
 processGoal goal p treeActivated searchStrategy = case (parseWithVars goal) of
                                                     Left e -> do 
@@ -127,7 +127,7 @@ processGoal goal p treeActivated searchStrategy = case (parseWithVars goal) of
                                                         printResult (solve searchStrategy p (Goal ts)) realNames
                                                         shell p treeActivated searchStrategy
 
--- print solve results to user
+-- shows the results of a request to the user (next solution with enter)
 printResult :: [Subst] -> [(VarIndex,String)] -> IO()
 printResult [] _     = putStr "\n"
 printResult (x:xs) realNames = do
@@ -137,7 +137,7 @@ printResult (x:xs) realNames = do
         ""        -> printResult xs realNames
         _         -> putStr "\n"
 
-
+-- displays an sld tree
 printSLDTree :: SLDTree -> IO()
 printSLDTree tree = do
     putStr "SLDTree:\n"
@@ -145,15 +145,15 @@ printSLDTree tree = do
     putStr (pretty tree)
     putStr "\n"
 
--- zeigt alle Regeln eines Programms in Prolog Syntax an
+-- displays all rules of a program in Prolog Syntax
 printProg :: Prog -> IO()
 printProg p = do
     putStr ((pretty p) ++ "\n")
 
--- färbt Text in der Ausgabe Rot
+-- colors the text in the output red
 inRed :: String -> String
 inRed s = "\x1b[31m" ++ s ++ "\x1b[0m"
 
--- färbt Text in der Ausgabe Grün
+-- colors the text in the output grün
 inGreen :: String -> String
 inGreen s = "\x1b[32m" ++ s ++ "\x1b[0m"

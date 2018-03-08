@@ -3,19 +3,19 @@ module Utils.TermUtils where
 import Type
 import Pretty
 
--- True if given Term is Var
+-- True if given Term is a variable
 isVar :: Term -> Bool
 isVar (Var i)    = True
 isVar (Comb s t) = False
 
--- True wenn die eine Variable mit x im Term enthalten ist
+-- returns true if the one variable with index x is in the term
 checkVarInTerm :: Int -> Term -> Bool
 checkVarInTerm x (Var y)
     | x == y    = True
     | otherwise = False
 checkVarInTerm x (Comb _ ts) = elem True (map (checkVarInTerm x) ts)
 
--- Gibt True zurück wenn zwei Terme genau gleich sein
+-- returns true if two terms are exactly the same
 isTermEq :: Term -> Term -> Bool
 isTermEq (Var x) (Var y) 
     | x == y                    = True
@@ -26,7 +26,7 @@ isTermEq (Comb s1 t1s) (Comb s2 t2s)
     | s1 == s2                  = isTermListEq t1s t2s
     | otherwise                 = False
 
--- Gibt True zurück wenn alle Terme einer Liste genau gleich sind
+-- returns true if all terms of a list of terms are exactly the same
 isTermListEq :: [Term] -> [Term] -> Bool
 isTermListEq [] []             = True
 isTermListEq [t1] [t2]         = isTermEq t1 t2
@@ -59,13 +59,13 @@ termListHasSubterm (t1:t1s) t2
     | termHasSubterm t1 t2 == True  = True
     | otherwise                     = termListHasSubterm t1s t2
 
--- True if Variable x ist im Term enthalten
+-- returns true if there is a variable in the term
 termHasVar :: Term -> Bool
 termHasVar (Var _)     = True
 termHasVar (Comb _ []) = False  
 termHasVar (Comb s t)  = termListHasVar t
 
--- True if Variable x ist im [Term] enthalten
+-- returns true if there is a variable in a list of terms
 termListHasVar :: [Term] -> Bool
 termListHasVar []  = False
 termListHasVar [t] = termHasVar t
@@ -73,20 +73,26 @@ termListHasVar (t:ts)
     | termHasVar t = True
     | otherwise    = termListHasVar ts
 
--- gibt eine Liste an Variablen zurück die in einem Term Vorkommen                             
+-- returns all variables that occur in a term as a list of variable indexes                           
 getVarsInTerm :: Term -> [VarIndex]
 getVarsInTerm (Var a)     = [a]
 getVarsInTerm (Comb _ []) = []
 getVarsInTerm (Comb _ ts) = getVarsInTermList ts
 
--- gibt die größte Variable in einer Liste von Termen zurück (0 wenn keine Variable enthalten ist)
+-- returns all variables that appear in a list of terms as a list of variable indexes
+getVarsInTermList :: [Term] -> [VarIndex]
+getVarsInTermList []                 = []
+getVarsInTermList ((Var x) : xs)     = [x] ++ (getVarsInTermList xs)
+getVarsInTermList ((Comb _ xs) : ts) = (getVarsInTermList xs) ++ (getVarsInTermList ts)
+
+-- returns the largest variable in a list of terms (0 if no variable is included)
 maxVarInTermlist :: [Term] -> VarIndex
 maxVarInTermlist []     = 0
 maxVarInTermlist ts 
     | termListHasVar ts = maximum (map maxVarInTerm ts)
     | otherwise         = 0
 
--- gibt die größte Variable in einem Term zurück
+-- returns the largest variable in a  term (0 if no variable is included)
 maxVarInTerm:: Term -> VarIndex
 maxVarInTerm (Var v)     = v
 maxVarInTerm (Comb s []) = 0
@@ -94,8 +100,3 @@ maxVarInTerm (Comb s ts)
     | termListHasVar ts  = maximum (map maxVarInTerm ts)
     | otherwise          = 0
 
-    -- gibt alle Variablen zurück die in einer Liste von Termn vorkommen
-getVarsInTermList :: [Term] -> [VarIndex]
-getVarsInTermList []                 = []
-getVarsInTermList ((Var x) : xs)     = [x] ++ (getVarsInTermList xs)
-getVarsInTermList ((Comb _ xs) : ts) = (getVarsInTermList xs) ++ (getVarsInTermList ts)
