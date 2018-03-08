@@ -71,6 +71,7 @@ printHelp = do
     putStrLn "              where <strat> is one of 'dfs' or 'bfs'."
     putStrLn ":toggleTree   Toggles if SLDTree is shown when processing"
     putStrLn "              goal or not."
+    putStrLn ":printProg    print the whole loaded Programm in Prolog Syntax"
     putStrLn ""
     putStrLn "To handle massive Solutions:"
     putStrLn "press <Enter> to show next possible Solution"

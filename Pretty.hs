@@ -19,7 +19,7 @@ instance Pretty VarIndex where
                                     -- take real Var Name from list if there is one
                                     Just n  -> n
                                     -- take the PrettyVarName which stands at the position of the number of the variable
-                                    Nothing -> prettyVarNames !! i
+                                    Nothing -> prettyVarNames !! i -- TODO!
 
 -- converts a term to Prolog representation 
 instance Pretty Term where

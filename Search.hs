@@ -57,8 +57,8 @@ solve :: Strategy -> Prog -> Goal -> [Subst]
 solve searchStrategy p g = let result     = searchStrategy (sld p g)                 -- Result from Search Strategy, List of Subst
                                result'    = map (filterForGoalVars g) result         -- Result without replaces whose variable does not occur in the goal
                                result''   = nub result'                              -- Result without duplicate entries
-                               resultEnd  = mapMaybe (subTermVarsInGoal g) result''  -- Result without substitution on non-goal variables
-                           in resultEnd
+                               -- resultEnd  = mapMaybe (subTermVarsInGoal g) result''     -- Result without substitution on non-goal variables
+                            in result''
 
 -- INTERNAL FUNCTIONS
 

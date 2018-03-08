@@ -13,6 +13,11 @@ Welcome to Haskelog - Simple Prolog Interpreter written in Haskell.
 
 Rico & Gianmarco @2018
 
+TODO:
+
+- Anonyme Variablen nicht anzeigen
+- Variablennamen überschneidungen (Nutzereingabe aus prettyVarNames löschen)
+
 -}
 
 main :: IO()
