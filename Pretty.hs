@@ -19,7 +19,12 @@ instance Pretty VarIndex where
                                     -- take real Var Name from list if there is one
                                     Just n  -> n
                                     -- take the PrettyVarName which stands at the position of the number of the variable
-                                    Nothing -> prettyVarNames !! i -- TODO!
+                                    -- filter the prettyVarNames for names that may have already been chosen by the user -> no duplicate names
+                                    Nothing -> (filter (`notElem` (getRealNameStrings realNames)) prettyVarNames) !! i 
+                                        where
+                                        getRealNameStrings :: [(VarIndex, String)] -> [String]
+                                        getRealNameStrings [] = []
+                                        getRealNameStrings ((i,s):xs) = [s] ++ (getRealNameStrings xs)
 
 -- converts a term to Prolog representation 
 instance Pretty Term where
