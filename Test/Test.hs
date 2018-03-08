@@ -3,7 +3,8 @@ module Test.Test (
   prettyTest,
   substTest,
   unifyTest,
-  sldTest)
+  sldTest,
+  searchStrategyTest)
   where
 
 import Test.Samples

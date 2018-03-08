@@ -48,7 +48,12 @@ bfs tree = bfs' [(Sub.empty,tree)] []
         -- tree is leaf, queue is not empty, goal is no result
         Just (que,(sub,SLDTree _ []))         -> bfs' que subs
         -- Tree is not a leaf -> Add all further branches to the queue
-        Just (que,(sub,SLDTree _ ts)) -> bfs' (foldl (\que (sub2,ts2) -> addElement que ((compose sub2 sub),ts2)) que ts) subs
+        -- OLD STYLE :Just (que,(sub,SLDTree _ ts)) -> bfs' (foldl (\que (sub2,ts2) -> addElement que ((compose sub2 sub),ts2)) que ts) subs
+        Just (que,(sub,SLDTree _ ts))         -> bfs' (addKidsToQueue que sub ts) subs
+            where
+            addKidsToQueue :: Queue -> Subst -> [(Subst,SLDTree)] -> Queue
+            addKidsToQueue qu rootSub []                    = qu
+            addKidsToQueue qu rootSub ((newSub,newTree):xs) = addKidsToQueue (addElement qu ((compose newSub rootSub),newTree)) rootSub xs
         -- Queue is empty -> List of previous written substitutions is the result
         Nothing -> subs  
 
