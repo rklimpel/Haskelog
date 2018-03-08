@@ -43,13 +43,14 @@ bfs tree = bfs' [(Sub.empty,tree)] []
     where 
     bfs' :: Queue -> [Subst] -> [Subst]
     bfs' q subs = case getElement q of
-        -- Baum ist Blatt, Warteschlange ist nicht leer
-        Just (que,(sub,SLDTree g [])) -> bfs' que (subs ++ [sub])
+        -- Baum ist Blatt, Warteschlange ist nicht leer, Goal ist ein ergebnis
+        Just (que,(sub,SLDTree (Goal []) [])) -> bfs' que (subs ++ [sub])
+        -- Baum ist Blatt, Warteschlange ist nicht leer, Goal ist kein ergebnis
+        Just (que,(sub,SLDTree _ []))         -> bfs' que subs
         -- Baum ist kein Blatt -> Alle weiteren Verzweigungen in die Warteschlange hinzufügen
         Just (que,(sub,SLDTree _ ts)) -> bfs' (foldl (\que (sub2,ts2) -> addElement que ((compose sub2 sub),ts2)) que ts) subs
         -- Warteschlange ist leer -> List an bisherigen Substitutionen ist das Ergebnis
-        Nothing -> subs
-       
+        Nothing -> subs  
 
 -- Löst eine Anfrage + Programm. Gibt die mit einer bestimmten Suchstrategie gefundenen Ergebnisse als [Subst] zurück
 solve :: Strategy -> Prog -> Goal -> [Subst]
@@ -63,10 +64,10 @@ solve searchStrategy p g = let result     = searchStrategy (sld p g)            
 
 -- löscht die Replacements aus der Substitutionen deren Variablen (links) nicht im Goal vorkommen
 filterForGoalVars :: Goal -> Subst -> Subst
-filterForGoalVars g s = filterForGoalVars' g s []
+filterForGoalVars go s = filterForGoalVars' go s []
     where
     filterForGoalVars' :: Goal -> Subst -> [Replace] -> Subst
-    filterForGoalVars' g (Subst []) xs    = (Subst xs)
+    filterForGoalVars' _ (Subst []) xs    = (Subst xs)
     filterForGoalVars' g (Subst ((Replace i t):rs)) xs 
         = let listUntilNow = xs
               checkHead    = fromMaybe [] (isElement i t (getVarsInGoal g))
