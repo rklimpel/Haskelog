@@ -32,4 +32,7 @@ compose :: Subst -> Subst -> Subst
 compose s1 (Subst [])           = s1
 compose (Subst []) s2           = s2
 -- Apply Subst1 to terms of Subst2
-compose (Subst r1s) (Subst r2s) = Subst ((buildReplace (map getIndex r2s) (map (apply (Subst r1s)) (map getTerm r2s))) ++ r1s)
+compose (Subst r1s) (Subst r2s) = let replaceIndexs    = map getIndex r2s
+                                      replaceTerms     = map getTerm r2s
+                                      newReplaceTerms  = map (apply (Subst r1s)) replaceTerms
+                                  in  Subst ((buildReplace replaceIndexs newReplaceTerms) ++ r1s)
