@@ -134,6 +134,7 @@ removeAnonymous :: [Subst] -> [(VarIndex,String)] -> [Subst]
 removeAnonymous [] realNames                = []
 removeAnonymous ((Subst rs):subs) realNames = [(removeAnonymous' rs realNames [])] ++ (removeAnonymous subs realNames)
     where
+    -- removes all Replace's with anonymous Variables from a list of Replace's
     removeAnonymous' :: [Replace] -> [(VarIndex,String)] -> [Replace] -> Subst
     removeAnonymous' [] _ result = Subst result
     removeAnonymous' ((Replace i t):rs) realNames result 

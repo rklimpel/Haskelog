@@ -17,11 +17,7 @@ listToString (x:xs) = x ++ "," ++ (listToString xs)
 
 -- removes the first and last element of a string (used to remove the square chambers)
 removeBrackets :: String -> String 
-removeBrackets (_:xs) = reverse (removeHead (reverse xs))
-    where
-    -- remove the first element of a string
-    removeHead :: String -> String
-    removeHead (_:xs) = xs
+removeBrackets xs = init (tail xs)
 
 -- returns true if a string has the form: "[]"
 isEmpty :: String -> Bool 
@@ -44,7 +40,8 @@ alphabet = ['A'..'Z']
 numbers :: [Int]
 numbers = [1..]
 
--- a list of variable names given to the variables from 0 - X, infinite
+-- a list of variable names given to the variables from 0 - ?, infinite
+-- A-Z + A1-B1 + A? - Z?
 prettyVarNames :: [String]
 prettyVarNames = (charListToStringList alphabet) ++ (concat (map (helper alphabet) (map show numbers)))
     where 
