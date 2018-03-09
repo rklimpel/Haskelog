@@ -1,5 +1,7 @@
 module Utils.StringUtils where
 
+import Data.List
+
 -- converts a single char into a single-element list of chars (-> String)
 charToString :: Char -> String
 charToString c = [c]
@@ -13,7 +15,7 @@ charListToStringList (x:xs) = charToString x:charListToStringList xs
 listToString :: [String] -> String
 listToString []     = []
 listToString [x]    = x
-listToString (x:xs) = x ++ "," ++ (listToString xs)
+listToString xs     = concat (intersperse "," xs)
 
 -- removes the first and last element of a string (used to remove the square chambers)
 removeBrackets :: String -> String 
@@ -29,8 +31,8 @@ isEmpty s
 isList :: String -> Bool
 isList []  = False
 isList [x] = False
-isList (x:xs) 
-    | x == '[' = True
+isList xs
+    | head xs == '[' && last xs == ']' = True
     | otherwise = False
  
 -- the entire alphabet of A-Z as a list of chars
@@ -44,10 +46,13 @@ numbers = [1..]
 -- a list of variable names given to the variables from 0 - ?, infinite
 -- A-Z + A1-B1 + A? - Z?
 prettyVarNames :: [String]
-prettyVarNames = (charListToStringList alphabet) ++ (concat (map (helper alphabet) (map show numbers)))
+prettyVarNames = (charListToStringList alphabet) 
+                ++ (concat (map (helper alphabet) (map show numbers)))
     where 
-    helper :: [Char] -> [Char] -> [String]
+    -- takes the whole alphabet and write number behind every letter
+    helper :: [Char] -> String -> [String]
     helper letters number = map (helper' number) letters
+        -- write a number behind a letter
         where
         helper' :: [Char] -> Char -> String
         helper' number letter = letter:number
