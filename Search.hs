@@ -36,66 +36,31 @@ dfs sld = dfs' sld Sub.empty
         dfs'' :: Subst -> (Subst,SLDTree) -> [Subst]
         dfs'' sub2 (sub,tree) = dfs' tree (compose sub sub2)
 
--- DEPRECATED, why?
--- searches for All Solution Substituations in a SLD Tree bfs
-{-
-bfs :: Strategy
-bfs tree = bfs' [(Sub.empty,tree)] []
-    where 
-    bfs' :: Queue -> [Subst] -> [Subst]
-    bfs' q subs = case getElement q of
-        -- Tree is leaf, queue is not empty, goal is a result
-        Just (que,(sub,SLDTree (Goal []) [])) -> bfs' que (subs ++ [sub])
-        -- tree is leaf, queue is not empty, goal is no result
-        Just (que,(sub,SLDTree _ []))         -> bfs' que subs
-        -- Tree is not a leaf -> Add all further branches to the queue
-        Just (que,(sub,SLDTree _ ts))         -> bfs' (addKidsToQueue que sub ts) subs
-            where
-            addKidsToQueue :: Queue -> Subst -> [(Subst,SLDTree)] -> Queue
-            addKidsToQueue qu rootSub []                    = qu
-            addKidsToQueue qu rootSub ((newSub,newTree):xs) = let kid = ((compose newSub rootSub),newTree)
-                                                              in addKidsToQueue (addElement qu kid) rootSub xs
-        -- Queue is empty -> List of previous written substitutions is the result
-        Nothing -> subs  
--}
-
-
-
-{-
-bfs :: Strategy
-bfs tree@(SLDTree (Goal g) cs) = bfs' tree Sub.empty [(tree,Sub.empty)]
-    where
-    bfs' :: SLDTree -> Subst -> [(SLDTree,Subst)] -> [Subst]
-    bfs' (SLDTree (Goal []) []) rootSub ((t,s):[]) = [s]
-    bfs' (SLDTree (Goal _) []) rootSub ((t,s):[])  = []
-    bfs' (SLDTree (Goal []) []) rootSub ((t,s):(t2,s2):xs) = [s] ++ (bfs' t2 s2 ((t2,s2):xs))
-    bfs' (SLDTree (Goal _) []) rootSub ((t,s):(t2,s2):xs)  = [] ++ (bfs' t2 s2 ((t2,s2):xs))
-    bfs' (SLDTree (Goal _) subTrees) rootSub queue              = let newQueue = (fillQueue subTrees (tail queue) rootSub)
-                                                             in bfs' (fst (head newQueue)) (snd (head newQueue)) newQueue
-        where
-        fillQueue :: [(Subst,SLDTree)] -> [(SLDTree,Subst)] -> Subst -> [(SLDTree,Subst)]
-        fillQueue [] tree _ = tree
-        fillQueue ((sub,t@(SLDTree (Goal _) xs)):ts) tree rootSub 
-            = fillQueue ts (tree ++ [(t,compose sub rootSub)]) rootSub
--}
-
+-- Datatype for Queue of Subs & SLDTrees for BFS
 type Queue = [(Subst,SLDTree)]
 
+-- searches for All Solution Substituations in a SLD Tree bfs
 bfs :: Strategy
 bfs tree@(SLDTree (Goal g) cs) = bfs' [(Sub.empty,tree)]
     where
     bfs' :: Queue -> [Subst]
+    -- tree hast no subtrees, first element of the queue is a result, queue has NO further elements
     bfs' ((sub,t@(SLDTree (Goal []) [])):[])      = [sub]
+    -- tree hast no subtrees, first element of the queue is NO result, queue has NO further elements
     bfs' ((sub,t@(SLDTree (Goal _)  [])):[])      = []
+    -- tree hast no subtrees, first element of the queue is a result, queue contains further elements
     bfs' ((sub,t@(SLDTree (Goal []) [])):xs)      = [sub] ++ (bfs' xs)
+    -- tree hast no subtrees, first element of the queue is NO result, queue contains further elements
     bfs' ((sub,t@(SLDTree (Goal _)  [])):xs)      = [] ++ (bfs' xs)
+    -- tree hast no subtrees, can not be a result -> add subtrees in queue
     bfs' ((sub,t@(SLDTree (Goal _) subTrees)):xs) = let newQueue = (addToQueue subTrees xs sub)
                                                     in bfs' newQueue
         where
+        -- adds a List of Subtrees to the Queue
         addToQueue :: [(Subst,SLDTree)] -> Queue -> Subst -> Queue
         addToQueue [] que _ = que
         addToQueue ((sub,t@(SLDTree (Goal _) xs)):ts) que rootSub 
-            = fillQueue ts (que ++ [(compose sub rootSub,t)]) rootSub
+            = addToQueue ts (que ++ [(compose sub rootSub,t)]) rootSub
             
 
 -- Solves a request + program. Returns found results as [noun]. Get the result list from a search strategy

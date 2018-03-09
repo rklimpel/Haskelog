@@ -8,6 +8,7 @@ import Utils.TermUtils
 -- PUBLIC FUNTIONS
 
 -- calculates the disagreement set of to terms
+-- (algorithm from script)
 ds :: Term -> Term -> Maybe (Term, Term)
 ds (Var x) (Var y)
     | x == y                                       = Nothing
@@ -31,6 +32,7 @@ ds (Comb s1 t1s) (Comb s2 t2s)
 
 -- calculates the most general unifier of two terms
 -- returns Nothing if the terms are not unifiable
+-- (algorithm from script)
 unify :: Term -> Term -> Maybe Subst
 unify t1 t2 = unify' t1 t2 (Subst [])
     where
