@@ -6,7 +6,6 @@ import Sub
 
 import Utils.TermUtils
 import Utils.SubUtils
-import Utils.Queue
 
 import Data.Maybe
 import Data.List
@@ -37,7 +36,9 @@ dfs sld = dfs' sld Sub.empty
         dfs'' :: Subst -> (Subst,SLDTree) -> [Subst]
         dfs'' sub2 (sub,tree) = dfs' tree (compose sub sub2)
 
--- searches for All Solution Substituations in a SLD Tree mit Breitensuche
+-- DEPRECATED, why?
+-- searches for All Solution Substituations in a SLD Tree bfs
+{-
 bfs :: Strategy
 bfs tree = bfs' [(Sub.empty,tree)] []
     where 
@@ -56,8 +57,49 @@ bfs tree = bfs' [(Sub.empty,tree)] []
                                                               in addKidsToQueue (addElement qu kid) rootSub xs
         -- Queue is empty -> List of previous written substitutions is the result
         Nothing -> subs  
+-}
+
+
+
+{-
+bfs :: Strategy
+bfs tree@(SLDTree (Goal g) cs) = bfs' tree Sub.empty [(tree,Sub.empty)]
+    where
+    bfs' :: SLDTree -> Subst -> [(SLDTree,Subst)] -> [Subst]
+    bfs' (SLDTree (Goal []) []) rootSub ((t,s):[]) = [s]
+    bfs' (SLDTree (Goal _) []) rootSub ((t,s):[])  = []
+    bfs' (SLDTree (Goal []) []) rootSub ((t,s):(t2,s2):xs) = [s] ++ (bfs' t2 s2 ((t2,s2):xs))
+    bfs' (SLDTree (Goal _) []) rootSub ((t,s):(t2,s2):xs)  = [] ++ (bfs' t2 s2 ((t2,s2):xs))
+    bfs' (SLDTree (Goal _) subTrees) rootSub queue              = let newQueue = (fillQueue subTrees (tail queue) rootSub)
+                                                             in bfs' (fst (head newQueue)) (snd (head newQueue)) newQueue
+        where
+        fillQueue :: [(Subst,SLDTree)] -> [(SLDTree,Subst)] -> Subst -> [(SLDTree,Subst)]
+        fillQueue [] tree _ = tree
+        fillQueue ((sub,t@(SLDTree (Goal _) xs)):ts) tree rootSub 
+            = fillQueue ts (tree ++ [(t,compose sub rootSub)]) rootSub
+-}
+
+type Queue = [(Subst,SLDTree)]
+
+bfs :: Strategy
+bfs tree@(SLDTree (Goal g) cs) = bfs' [(Sub.empty,tree)]
+    where
+    bfs' :: Queue -> [Subst]
+    bfs' ((sub,t@(SLDTree (Goal []) [])):[])      = [sub]
+    bfs' ((sub,t@(SLDTree (Goal _)  [])):[])      = []
+    bfs' ((sub,t@(SLDTree (Goal []) [])):xs)      = [sub] ++ (bfs' xs)
+    bfs' ((sub,t@(SLDTree (Goal _)  [])):xs)      = [] ++ (bfs' xs)
+    bfs' ((sub,t@(SLDTree (Goal _) subTrees)):xs) = let newQueue = (addToQueue subTrees xs sub)
+                                                    in bfs' newQueue
+        where
+        addToQueue :: [(Subst,SLDTree)] -> Queue -> Subst -> Queue
+        addToQueue [] que _ = que
+        addToQueue ((sub,t@(SLDTree (Goal _) xs)):ts) que rootSub 
+            = fillQueue ts (que ++ [(compose sub rootSub,t)]) rootSub
+            
 
 -- Solves a request + program. Returns found results as [noun]. Get the result list from a search strategy
+-- handles result 'filtering'
 solve :: Strategy -> Prog -> Goal -> [Subst]
 solve searchStrategy p g = let result     = searchStrategy (sld p g)                 -- Result from Search Strategy, List of Subst
                                result'    = map (filterForGoalVars g) result         -- Result without replaces whose variable does not occur in the goal
