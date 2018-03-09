@@ -13,6 +13,12 @@ Welcome to Haskelog - Simple Prolog Interpreter written in Haskell.
 
 Rico & Gianmarco @2018
 
+start with -Wall option:
+- unused matches
+- name shadowing
+- unused top bindings
+- incomplete patterns (bfs'',getDiffTermList,buildReplaceH)
+
 -}
 
 main :: IO()

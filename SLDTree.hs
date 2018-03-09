@@ -23,7 +23,7 @@ sld p (Goal ts) = sld' (incVarsProg ((maxVarInTermlist ts)+1) p) (Goal ts) Sub.e
     -- Goal not Empty -> returns SLD Tree with leaves that have been processed
     -- empty leaves will be removed through the filter
     sld' (Prog rs) g s = SLDTree g (catMaybes (map (buildLeaf (Prog rs) g s) rs))
-        -- look up for every rule to see if the current goal can be unified -> build leafs
+        -- look up for every rule to see if the current goal can be unified -> build leaf
         where
         buildLeaf :: Prog -> Goal -> Subst -> Rule -> Maybe (Subst, SLDTree)
         buildLeaf p (Goal ts) s (rh :- rt) = 

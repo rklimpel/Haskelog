@@ -27,11 +27,12 @@ isEmpty s
 
 -- returns true if a string starts with "["
 isList :: String -> Bool
+isList []  = False
 isList [x] = False
 isList (x:xs) 
     | x == '[' = True
     | otherwise = False
-
+ 
 -- the entire alphabet of A-Z as a list of chars
 alphabet :: String
 alphabet = ['A'..'Z']
